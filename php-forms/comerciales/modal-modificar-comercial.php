@@ -2,10 +2,13 @@
 
 $url2 = $_SERVER['SERVER_NAME'];
 
-$url_root = $_SERVER['DOCUMENT_ROOT'];
-define("APP_ROOT", $url_root); 
+$rootDirectory = $_SERVER['DOCUMENT_ROOT'];
+$substring = "/public_html/gestion";
+$result = str_replace($substring, "", $rootDirectory);
+$path = $result . "/pass/connection.php";
+require_once($path);
 
-require_once(APP_ROOT . '/inc/connection.php');
+require_once($rootDirectory . '/inc/variables.php');
 
 if (isset($_POST['idComercial'])) {
     $idComercial = $_POST['idComercial'];

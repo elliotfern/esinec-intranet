@@ -5,12 +5,16 @@
  * TABLA: pagos_programados
  */
 
- ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ $url2 = $_SERVER['SERVER_NAME'];
 
-$url_root = $_SERVER['DOCUMENT_ROOT'];
-require_once($url_root. '/inc/connection.php');
+$rootDirectory = $_SERVER['DOCUMENT_ROOT'];
+$substring = "/public_html/gestion";
+$result = str_replace($substring, "", $rootDirectory);
+$path = $result . "/pass/connection.php";
+require_once($path);
+
+require_once($rootDirectory . '/inc/variables.php');
+
 
 function data_input($data) {
     $data = trim($data);

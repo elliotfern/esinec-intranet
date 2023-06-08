@@ -19,13 +19,32 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'facturas') ) {
     max( CASE WHEN pm.meta_key = '_order_tax' and p.ID = pm.post_id THEN pm.meta_value END ) as order_tax,
     max( CASE WHEN pm.meta_key = '_payment_method_title' and p.ID = pm.post_id THEN pm.meta_value END ) as payment_type,
     ( select group_concat( order_item_name separator '|' ) from wp_woocommerce_order_items where order_id = p.ID ) as order_items
-    from
-        wp_posts p 
-        join wp_postmeta pm on p.ID = pm.post_id
-        join wp_woocommerce_order_items oi on p.ID = oi.order_id
-    where post_type = 'shop_order'
+    from txsxekgr_esinec.wp_posts AS p 
+        join txsxekgr_esinec.wp_postmeta AS pm on p.ID = pm.post_id
+        join txsxekgr_esinec.wp_woocommerce_order_items AS oi on p.ID = oi.order_id
+    where p.post_type = 'shop_order'
     group by p.ID
-    ORDER BY invoice_number DESC");
+
+    UNION
+(SELECT
+    p2.id as order_id,
+    p2.date AS post_date,
+    p2.status AS post_status,
+    p2.invoiceNumber AS invoice_number,
+    umf.meta_value AS first_name,
+    uml.meta_value AS last_name,
+    p2.orderTotal AS order_total,
+    p2.orderTax AS order_tax,
+    p2.paymentType AS paymentType,
+    p2.items AS items
+FROM txsxekgr_intranet.facturas AS p2
+LEFT JOIN
+    txsxekgr_esinec.wp_usermeta AS umf ON p2.clienteId = umf.user_id AND umf.meta_key = 'first_name'
+LEFT JOIN
+    txsxekgr_esinec.wp_usermeta AS uml ON p2.clienteId = uml.user_id AND uml.meta_key = 'last_name'
+GROUP BY
+    p2.id)
+ORDER BY post_date DESC");
         $stmt->execute();
         if($stmt->rowCount() === 0) echo ('No rows');
         while($users = $stmt->fetch(PDO::FETCH_ASSOC) ){
