@@ -69,7 +69,7 @@ echo '<h4>Histórico de facturas:</h4>';
 
 echo '<h6>Facturas generadas en la web:</h6>';
 
-echo '<a href="https://esinec.com/wp-admin/post-new.php?post_type=shop_order" class="btn btn-primary btn-sm" role="button" aria-pressed="true" target="_blank">Crear factura &rarr;</a>';
+echo '<a href="https://esinec.com/wp-admin/post-new.php?post_type=shop_order" class="btn btn-primary btn-sm" role="button" aria-pressed="true" target="_blank">Crear factura web &rarr;</a>';
 
 if (!empty($orders)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
@@ -145,7 +145,7 @@ if (!empty($orders)) {
         echo '<td>'.$order->status.'</td>';
         echo '<td>'.$numero_pago.'</td>';
         echo '<td><a href="https://esinec.com/wp-admin/post.php?post='.$order->id.'&action=edit" class="btn btn-success btn-sm" role="button" aria-pressed="true" target="_blank">Modificar</a></td>';
-        echo '<td><button type="button" id="btnModificaPagos'.$order->id.'" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#btnModificaPagos" onclick="updateModalPagos('.$order->id.')" value="'.$order->id.'" data-title="'.$order->id.'" data-slug="'.$order->id.'" data-text="'.$order->id.'">PDF</button></td>';
+        echo '<td><button type="button" id="btnFacturasGenerarPDF'.$order->id.'" class="btn btn-sm btn-warning" onclick="facturasWebGenerarPDF('.$order->id.')" value="'.$order->id.'">PDF</button></td>';
         echo '</tr>';
     }
 
@@ -157,6 +157,8 @@ if (!empty($orders)) {
 }
 
 echo '<h6>Facturas generadas en la intranet:</h6>';
+
+echo '<a href="https://esinec.com/wp-admin/post-new.php?post_type=shop_order" class="btn btn-primary btn-sm" role="button" aria-pressed="true" target="_blank">Crear factura intranet &rarr;</a>';
 
 $rootDirectory = $_SERVER['DOCUMENT_ROOT'];
 $substring = "/public_html/gestion";
