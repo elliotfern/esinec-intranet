@@ -1,0 +1,30 @@
+.separador {
+    margin-bottom:25px;
+}
+
+.alert-secondary {
+    background-color: black;
+}
+
+
+.menuHeader{
+    padding-top:15px;
+    padding-bottom:15px;
+}
+
+.menuHeader a:link, .menuHeader a:hover, .menuHeader a:visited {
+    text-decoration: underline;
+}
+
+.nav-item, ::after {
+    box-sizing: border-box;
+    border-left: 1px solid rgb(172, 172, 172);
+}
+  
+.nav-item:last-child:after { /* ADDED */
+    display: none; /* Hide the divider for the last block */
+}
+
+input.pass {
+    width : 150px;
+}
