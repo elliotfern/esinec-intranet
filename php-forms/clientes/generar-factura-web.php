@@ -65,6 +65,14 @@ $any = $createDate->format('Y');
 $payment_method = $order->payment_method_title;
 $items = $order->line_items;
 
+$string = $wcpdf_invoice_number;
+$parts = explode(".", $string);
+
+if (count($parts) === 3) {
+    $invoice_number = $parts[0] . "." . $parts[2] . "." . $parts[1];
+} else {
+}
+
 // Extend the TCPDF class to create custom Header and Footer
 class MYPDF extends TCPDF {
 
@@ -223,26 +231,23 @@ $html .= '<div class="container">
     </table>
 </div>';
 
-if ($idPayment == 6) {
+if ($payment_method == "Transferencia bancaria") {
     $html .= '
   <div class="container">
-  <h2 style="text-align: center;">PAGADO POR TRANSFERENCIA</h2>
-  <span style="text-align: center;"><strong>BANK: AIB Bank (Ireland)</strong><br>
-  IBAN: IE80AIBK93356246103042<br>
-  BIC-SWIFT: AIBKIE2D</span>
+  <h5 style="text-align: center;">PAGO POR TRANSFERENCIA BANCARIA
+  <span style="text-align: center;">CAIXABANK<br>
+  IBAN: ES0221000725930200215943<br>
+  BIC-SWIFT: CAIXESBBXXX</h5></span>
   </div>';
-} elseif ($idPayment == 5) {
+} elseif ($payment_method == "Tarjeta (terminal)") {
     $html .= '
   <div class="container">
-  <h2 style="text-align: center;">PAGADO POR TARJETA</h2>
+  <h5 style="text-align: center;">PAGADO POR TARJETA</h5>
   </div>';
-} elseif ($idPayment == 2) {
+} elseif ($payment_method == "Paypal") {
     $html .= '
   <div class="container">
-  <h2 style="text-align: center;">PAGADO POR PAYPAL</h2>
-  <span style="text-align: center;"><strong>BANK: N26 (Germany)</strong><br>
-  IBAN: DE56100110012620403754<br>
-  BIC-SWIFT: NTSBDEB1XXX</span>
+  <h5 style="text-align: center;">PAGADO POR PAYPAL</h5>
   </div>';
 }
 
