@@ -1,8 +1,9 @@
 <?php
-$url_root = $_SERVER['DOCUMENT_ROOT'];
-$url_server = "https://" . $_SERVER['HTTP_HOST'] . "/";
-
-require_once($url_root . '/inc/connection.php');
+$rootDirectory = $_SERVER['DOCUMENT_ROOT'];
+$substring = "/public_html/gestion";
+$result = str_replace($substring, "", $rootDirectory);
+$path = $result . "/pass/connection.php";
+require_once($path);
 
 // JSON
 if ( (isset($_GET['type']) && $_GET['type'] == 'facturas') ) {

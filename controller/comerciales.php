@@ -1,12 +1,9 @@
 <?php
-$url_root = $_SERVER['DOCUMENT_ROOT'];
-$url_server = "https://" . $_SERVER['HTTP_HOST'] . "/";
-
-ini_set('display_startup_errors', 1);
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-require_once($url_root . '/inc/connection.php');
+$rootDirectory = $_SERVER['DOCUMENT_ROOT'];
+$substring = "/public_html/gestion";
+$result = str_replace($substring, "", $rootDirectory);
+$path = $result . "/pass/connection.php";
+require_once($path);
 
 // JSON
 if ( (isset($_GET['type']) && $_GET['type'] == 'comerciales') ) {

@@ -1,6 +1,11 @@
 <?php
 
-require_once('./inc/connection.php');
+$rootDirectory = $_SERVER['DOCUMENT_ROOT'];
+$substring = "/public_html/gestion";
+$result = str_replace($substring, "", $rootDirectory);
+$path = $result . "/pass/connection.php";
+
+require_once($path);
 
 if (isset($_POST['username'])) {
     $username = $_POST['username'];

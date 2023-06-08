@@ -126,7 +126,13 @@ if(!isset($_SESSION['user'])){
     $route = new Route();
             
     if (strpos($url,'update') OR (strpos($url,'delete')) OR (strpos($url,'new')) OR (strpos($url,'info')) !== false ) {
-        require_once('./inc/connection.php');
+
+        $rootDirectory = $_SERVER['DOCUMENT_ROOT'];
+        $substring = "/public_html/gestion";
+        $result = str_replace($substring, "", $rootDirectory);
+        $path = $result . "/pass/connection.php";
+        require_once($path);
+
         //links
         $route->add("/links/update","php-forms/links/links-update-link.php");
         $route->add("/links/process/update","php-process/links/update-link.php");
