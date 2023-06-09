@@ -352,3 +352,24 @@
     </div>
   </div>
 </div>
+
+<!-- Modal CREAR FACTURA INTRANET -->
+<div class="modal fade fade modal-fullscreen-sm-down" data-bs-backdrop="static" id="modalCrearFacturaIntranet" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Crear factura en Intranet</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="bodyModalCrearFactura">
+
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" id="btnCrearFacturaIntranet" class="btn btn-primary">Crear factura</button>
+       </form>
+      </div>
+    </div>
+  </div>
+</div>

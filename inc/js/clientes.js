@@ -435,3 +435,132 @@ function facturasWebGenerarPDF(id) {
   // Send the request to the server
   xhr.send();
 }
+
+function facturasIntranetGenerarPDF(id) {
+  // Get the hostname of the current URL
+  var server = window.location.hostname;
+
+  // Create a new XMLHttpRequest object
+  var xhr = new XMLHttpRequest();
+
+  // Set the request URL to the server-side script that retrieves the PDF
+  xhr.open(
+    "GET",
+    "https://" +
+      server +
+      "/php-forms/clientes/generar-factura-intranet.php?id=" +
+      id,
+    true
+  );
+
+  // Set the expected response type to a blob
+  xhr.responseType = "blob";
+
+  // Define what should happen when the request finishes loading
+  xhr.onload = function (e) {
+    if (this.status === 200) {
+      // Create a blob URL from the received blob data
+      var blob = new Blob([this.response], { type: "application/pdf" });
+      var url = URL.createObjectURL(blob);
+
+      // Open the PDF in a new tab or window
+      window.open(url);
+    }
+  };
+
+  // Send the request to the server
+  xhr.send();
+}
+
+// AJAX FACTURAS INTRANET
+/**
+ * Sends an AJAX request to the server-side script with the invoice ID and opens the resulting PDF in a new tab or window.
+ * @param {string} id - The ID of the invoice to retrieve as a PDF.
+ */
+function generarFacturaIntranet(
+  idFactura,
+  status,
+  producto,
+  importe,
+  fecha,
+  cliente,
+  tipoPago,
+  numPago
+) {
+  var idFactura = idFactura;
+  var status = status;
+  var producto = producto;
+  var importe = importe;
+  var fecha = fecha;
+  var cliente = cliente;
+  var tipoPago = tipoPago;
+  var numPago = numPago;
+  var server = window.location.hostname;
+  var urlAjax =
+    "https://" + server + "/php-forms/facturacion/crear-factura.php";
+  $.ajax({
+    url: urlAjax, //the page containing php script
+    type: "post", //request type,
+    data: {
+      idFactura2: idFactura,
+      status2: status,
+      producto2: producto,
+      importe2: importe,
+      fecha2: fecha,
+      cliente2: cliente,
+      tipoPago2: tipoPago,
+      numPago2: numPago,
+      registration: "yes",
+    },
+    success: function (response) {
+      // Add response in Modal body
+      $("#bodyModalCrearFactura").html(response);
+      $("#bodyModalCrearFactura").show();
+    },
+  });
+}
+
+// AJAX PROCESS PHP
+// CREAR FACTURA INTRANET
+$(function () {
+  $("#btnCrearFacturaIntranet").click(function () {
+    // check values
+    $("#crearFacturaIntranetMessageOk").hide();
+    $("#crearFacturaIntranetMessageErr").hide();
+
+    // Stop form from submitting normally
+    event.preventDefault();
+    var server = window.location.hostname;
+    var urlAjax =
+      "https://" +
+      server +
+      "/php-process/facturacion/php-crear-factura-intranet.php";
+    $.ajax({
+      type: "POST",
+      url: urlAjax,
+      data: {
+        date: $("#date").val(),
+        status: $("#status").val(),
+        invoiceNumber: $("#invoiceNumber").val(),
+        clienteId: $("#clienteId").val(),
+        orderTotal: $("#orderTotal").val(),
+        orderTax: $("#orderTax").val(),
+        paymentType: $("#paymentType").val(),
+        items: $("#items").val(),
+        numPago2: $("#numPago2").val(),
+      },
+      success: function (response) {
+        if (response.status == "success") {
+          // Add response in Modal body
+          $("#crearFacturaIntranetMessageOk").show();
+          $("#crearFacturaIntranetMessageErr").hide();
+        } else {
+          $("#crearFacturaIntranetMessageErr").show();
+          $("#crearFacturaIntranetMessageOk").hide();
+        }
+      },
+    });
+  });
+});
+
+function modificarFacturaIntranet(id) {}

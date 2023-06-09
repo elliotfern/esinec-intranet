@@ -51,7 +51,7 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'clientes') ) {
     global $conn;
     $id = $_GET['id'];
     $data = array();
-    $stmt = $conn->prepare("SELECT p.importe,p.tipoPago, p.fecha, p.estado, wp.post_title, p.numPago, p.id
+    $stmt = $conn->prepare("SELECT p.importe,p.tipoPago, p.fecha, p.estado, wp.post_title, p.numPago, p.id, wp.ID as IDproducto
     FROM txsxekgr_intranet.pagos_programados AS p
     LEFT JOIN txsxekgr_esinec.wp_posts AS wp ON p.producto = wp.ID
     WHERE p.cliente = $id");

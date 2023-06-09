@@ -252,8 +252,8 @@ if (count($resultSet) > 0) {
         echo '<td>' . $paymentMethod . '</td>';
         echo '<td>' . $statusName . '</td>';
         echo '<td>Pago ' . $row['numPago'] . '</td>';
-        echo '<td><a href="https://esinec.com/wp-admin/post.php?post='.$orderId.'&action=edit" class="btn btn-success btn-sm" role="button" aria-pressed="true" target="_blank">Modificar</a></td>';
-        echo '<td><button type="button" id="btnModificaPagos'.$orderId.'" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#btnModificaPagos" onclick="updateModalPagos('.$orderId.')" value="'.$orderId.'" data-title="'.$orderId.'" data-slug="'.$orderId.'" data-text="'.$orderId.'">PDF</button></td>';
+        echo '<td><button type="button" onclick="modificarFacturaIntranet('.$orderId.')" id="btnModificarFactura" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalModificarFactura" data-id="'.$orderId. '" value="'.$orderId. '" data-title="'.$orderId. '" data-slug="'.$orderId. '" data-text="'.$orderId. '">Modificar factura</button></td>';
+        echo '<td><button type="button" id="btnCrearFacturaIntranet'.$orderId.'" class="btn btn-sm btn-warning" onclick="facturasIntranetGenerarPDF('.$orderId.')">PDF</button></td>';
         echo '</tr>';
     }
 
@@ -261,7 +261,7 @@ if (count($resultSet) > 0) {
     echo '</table>';
     echo '</div>';
 } else {
-    echo 'No se encontraron facturas adicionales.';
+    echo '<p>No se encontraron facturas adicionales.</p>';
 }
 
 
@@ -337,7 +337,8 @@ Añadir nuevo cobro &rarr;
                                 if (data[i].fecha == null) {
                                     html += '<td>Sin determinar</td>';
                                 } else  {
-                                    html += '<td>'+new Date(data[i].fecha).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) + '</td>';
+                                    fecha2 = new Date(data[i].fecha).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) ;
+                                    html += '<td>'+fecha2 + '</td>';
                                 }
 
                                 html += '<td>';
@@ -366,7 +367,7 @@ Añadir nuevo cobro &rarr;
                                 
                                 html += '</td>';
                                 html += '<td><button type="button" id="btnModificaPagos' + data[i].id +'" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#btnModificaPagos" onclick="updateModalPagos(' + data[i].id +')" value="'+data[i].id+ '" data-title="'+data[i].id+ '" data-slug="'+data[i].id+ '" data-text="'+data[i].id+ '">Modificar datos</button></td>';
-                                html += '<td><button type="button" onclick="btnUpdateBook('+data[i].id+')" id="btnUpdateBook" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalUpdateBook" data-id="'+data[i].id+ '" value="'+data[i].id+ '" data-title="'+data[i].id+ '" data-slug="'+data[i].id+ '" data-text="'+data[i].id+ '">Generar factura</button>';
+                                html += '<td><button type="button" onclick="generarFacturaIntranet('+data[i].id+', '+data[i].estado+', '+data[i].IDproducto+', '+data[i].importe+', \'' + data[i].fecha + '\', '+idCustomer+', '+data[i].tipoPago+', '+data[i].numPago+')" id="btnCrearFacturaIntranet" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalCrearFacturaIntranet" data-id="'+data[i].id+ '" value="'+data[i].id+ '" data-title="'+data[i].id+ '" data-slug="'+data[i].id+ '" data-text="'+data[i].id+ '">Generar factura</button>';
                                 html += '</tr>';
                         }
                         $('#cobrosPendientes tbody').html(html);
@@ -383,7 +384,6 @@ Añadir nuevo cobro &rarr;
                 }, 5000);
             });
        </script>
-
 <hr>
 <h4>Inscripción curso:</h4>
 
