@@ -215,32 +215,35 @@ echo '<a href="https://esinec.com/wp-admin/post-new.php?post_type=shop_order" cl
                             var precio_neto_net = parseFloat(precio_neto);
                             var iva_net = parseInt(iva);
 
-                            var iva2 = precio_neto_net * (iva_net / 100);
-                            var precio_total = precio_neto_net + iva2;
+                            var importeIva = precio_neto_net * (iva_net / 100);
+                            var totalConIva = precio_neto_net + importeIva;
 
-                            var iva3 = new Intl.NumberFormat('es-ES', {
-                                        style: 'currency',
-                                        currency: 'EUR',
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                        useGrouping: true
-                                 }).format(iva2);
+                            var totalConIva_net = Math.ceil(totalConIva * 100) / 100;
+                            var importeIva_net = Math.ceil(importeIva * 100) / 100;
 
-                            var precio_total3 = new Intl.NumberFormat('es-ES', {
-                                        style: 'currency',
-                                        currency: 'EUR',
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                        useGrouping: true
-                                 }).format(precio_total);
-                            
-                            var precio_neto_net3 = new Intl.NumberFormat('es-ES', {
+                            var precio_neto_net2 = new Intl.NumberFormat('es-ES', {
                                         style: 'currency',
                                         currency: 'EUR',
                                         minimumFractionDigits: 2,
                                         maximumFractionDigits: 2,
                                         useGrouping: true
                                  }).format(precio_neto_net);
+                        
+                            var importeIva_net2 = new Intl.NumberFormat('es-ES', {
+                                        style: 'currency',
+                                        currency: 'EUR',
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                        useGrouping: true
+                                 }).format(importeIva_net);
+
+                            var totalConIva_net2 = new Intl.NumberFormat('es-ES', {
+                                        style: 'currency',
+                                        currency: 'EUR',
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                        useGrouping: true
+                                 }).format(totalConIva_net);
 
                             var payment = data[i].payment_method;
                             var invoice_number = data[i].invoice_number;
@@ -273,9 +276,9 @@ echo '<a href="https://esinec.com/wp-admin/post-new.php?post_type=shop_order" cl
                             html += '<td>ESINEC.' + year + '.' + invoice_number + '</td>';
                             html += '<td>' + formattedDate + '</td>';
                             html += '<td>' + productName + '</td>';
-                            html += '<td>' + precio_neto_net3 + '</td>';
-                            html += '<td>' + iva3 + '</td>';
-                            html += '<td>' + precio_total3 + '</td>';
+                            html += '<td>' + precio_neto_net2 + '</td>';
+                            html += '<td>' + importeIva_net2 + '</td>';
+                            html += '<td>' + totalConIva_net2 + '</td>';
                             html += '<td>' + paymentMethod + '</td>';
                             html += '<td>' + statusName + '</td>';
                             html += '<td>Pago ' + numPago + '</td>';

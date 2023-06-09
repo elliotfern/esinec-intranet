@@ -94,7 +94,7 @@ function data_input($data) {
       $stmt->bindParam(":status", $status, PDO::PARAM_INT);
       $stmt->bindParam(":invoiceNumber", $invoiceNumber, PDO::PARAM_INT);
       $stmt->bindParam(":clienteId", $clienteId, PDO::PARAM_INT);
-      $stmt->bindParam(":orderTotal", $orderTotal, PDO::PARAM_INT);
+      $stmt->bindParam(":orderTotal", $orderTotal, PDO::PARAM_STR);
       $stmt->bindParam(":orderTax", $orderTax, PDO::PARAM_INT);
       $stmt->bindParam(":paymentType", $paymentType, PDO::PARAM_INT);
       $stmt->bindParam(":items", $items, PDO::PARAM_INT);

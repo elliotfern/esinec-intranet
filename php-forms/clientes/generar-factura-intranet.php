@@ -17,7 +17,7 @@ if (isset($_GET['id'])) {
 
 function wc_price($price)
 {
-    $currency_symbol = '€'; // replace with your currency symbol
+    $currency_symbol = ' €'; // replace with your currency symbol
     $decimal_separator = ','; // replace with your decimal separator
     $thousands_separator = '.'; // replace with your thousands separator
 
@@ -58,12 +58,16 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $orderId = $row['order_id'];
         $producto = $row['product_name'];
         $precio_neto = $row['total'];
+        $precio_neto2 = floatval($precio_neto);
         $iva = $row['tax'];
+        $iva2 = intval($iva); // Resultado: 456
 
-        $ivaPorcentaje = 21; // Porcentaje del IVA
+        // calculo del IVA
+        $vatAmount = $precio_neto2 * ($iva2 / 100);
+        $vat_redondeado = ceil($vatAmount * 100) / 100;
 
-        $iva2 = $precio_neto * ($iva / 100);
-        $precio_total = $precio_neto + $iva2;
+        $precio_total = $precio_neto2 + $vat_redondeado;
+
 
         $payment = $row['payment_method'];
         $invoice_number = $row['invoice_number'];
@@ -207,7 +211,7 @@ $html .= '
         $html .= '(' . $notas . ')';
     }
     $html .= '</td>
-                    <td style="padding: 5px; border: 1px solid black;">€' . $precio_neto . '</td>
+                    <td style="padding: 5px; border: 1px solid black;">'.wc_price($precio_neto).' </td>
                </tr>';
 $html .= '</tbody>                       
         </table>
@@ -219,17 +223,17 @@ $html .= '<div class="container">
         <thead>
             <tr>
                 <th scope="col">SubTotal (sin IVA)</th>
-                <th scope="col">€' . wc_price($precio_neto) . '</th>
+                <th scope="col">'. wc_price($precio_neto).' </th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th scope="row">IVA</th>
-                <td>€' . wc_price($iva2) . '</td>
+                <th scope="row">IVA '.$iva.'%</th>
+                <td>'. wc_price($vat_redondeado).' </td>
             </tr>
             <tr>
                 <th scope="row">Total</th>
-                <td><strong>€' . wc_price($precio_total) . '</strong></td>
+                <td><strong>'. wc_price($precio_total).' </strong></td>
             </tr>
         </tbody>
     </table>

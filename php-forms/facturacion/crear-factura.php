@@ -162,12 +162,16 @@ numPago
                 echo '<input class="form-control" type="text" name="invoiceNumber" id="invoiceNumber"  value="'.$idInvoice.'">';
                 echo '</div>';
 
-                $vatRate = 21; // VAT rate percentage
-                $vatAmount = $importe2 * ($vatRate / 100);
-                $totalAmount = $importe2 - $vatAmount;
+                $vatRate = 21;
+                $vatAmount = ($importe2 / (100+$vatRate)) * $vatRate;
+
+                $vat_redondeado = ceil($vatAmount * 100) / 100;
+
+                $precio_neto = $importe2 - $vat_redondeado;
+
                 echo '<div class="col-md-4">';
                 echo '<label>Importe total (sin IVA)</label>';
-                echo '<input class="form-control" type="text" name="orderTotal" id="orderTotal" value="'.$totalAmount.'">';
+                echo '<input class="form-control" type="text" name="orderTotal" id="orderTotal" value="'.$precio_neto.'">';
                 echo '<label style="color:#dc3545;display:none" id="AutNomCheck">* Invalid data</label>';
                 echo '</div>';
                 
