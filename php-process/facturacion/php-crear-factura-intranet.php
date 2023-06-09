@@ -100,7 +100,22 @@ function data_input($data) {
       $stmt->bindParam(":items", $items, PDO::PARAM_INT);
       $stmt->bindParam(":numPago", $numPago, PDO::PARAM_INT);
       $stmt->execute();
-      
+
+      // incrementar el numero de la factura invoice en tabla wordpress wp_wcpdf_invoice_number
+      $order_id = 0;
+      $fecha_actual = date("Y-m-d H:i:s");
+      $date = $fecha_actual;
+      $calculated_number = NULL;
+
+      $sql = "INSERT INTO txsxekgr_esinec.wp_wcpdf_invoice_number SET order_id=:order_id, date=:date, calculated_number=:calculated_number";
+
+      global $conn;
+      $stmt = $conn->prepare($sql);
+      $stmt->bindParam(":order_id", $order_id, PDO::PARAM_INT);
+      $stmt->bindParam(":date", $date, PDO::PARAM_STR);
+      $stmt->bindParam(":calculated_number", $calculated_number, PDO::PARAM_STR);
+      $stmt->execute();
+
       // response output
       $response = array(
           'status' => 'success', 

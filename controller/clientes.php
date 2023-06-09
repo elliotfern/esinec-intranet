@@ -127,4 +127,32 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'clientes') ) {
             }
             echo json_encode($data);
         }
-} 
+}  elseif ( (isset($_GET['type']) && $_GET['type'] == 'facturas-intranet') && (isset($_GET['id']) ) ) {
+    global $conn;
+    $id = $_GET['id'];
+    $data = array();
+    $stmt = $conn->prepare("SELECT
+    p2.id as order_id,
+    p2.date AS date,
+    p2.status AS status,
+    p2.invoiceNumber AS invoice_number,
+    p2.orderTotal AS total,
+    p2.orderTax AS tax,
+    p2.paymentType AS payment_method,
+    p1.post_title AS product_name,
+    p2.numPago
+    FROM txsxekgr_intranet.facturas AS p2
+    LEFT JOIN txsxekgr_esinec.wp_posts AS p1 ON p2.items = p1.ID
+    WHERE p2.clienteId = $id
+    GROUP BY p2.id
+    ORDER BY p2.date DESC");
+        $stmt->execute();
+        if($stmt->rowCount() === 0) {
+            echo json_encode(array("message" => "No rows to show"));
+        } else {
+            while($users = $stmt->fetch(PDO::FETCH_ASSOC) ){
+                $data[] = $users;
+            }
+            echo json_encode($data);
+        }
+}

@@ -160,110 +160,147 @@ echo '<h6>Facturas generadas en la intranet:</h6>';
 
 echo '<a href="https://esinec.com/wp-admin/post-new.php?post_type=shop_order" class="btn btn-primary btn-sm" role="button" aria-pressed="true" target="_blank">Crear factura intranet &rarr;</a>';
 
-$rootDirectory = $_SERVER['DOCUMENT_ROOT'];
-$substring = "/public_html/gestion";
-$result = str_replace($substring, "", $rootDirectory);
-$path = $result . "/pass/connection.php";
-require_once($path);
+?>
+<input type="hidden" id="customerId" name="customerId" value="<?php echo $customer_id?>">
+<input type='hidden' id='url' value='<?php echo APP_SERVER;?>'/>
 
-global $conn2; // Declarar la variable como global
-$stmt = $conn2->prepare("SELECT
-p2.id as order_id,
-p2.date AS date,
-p2.status AS status,
-p2.invoiceNumber AS invoice_number,
-p2.orderTotal AS total,
-p2.orderTax AS tax,
-p2.paymentType AS payment_method,
-p1.post_title AS product_name,
-p2.numPago
-FROM txsxekgr_intranet.facturas AS p2
-LEFT JOIN txsxekgr_esinec.wp_posts AS p1 ON p2.items = p1.ID
-WHERE p2.clienteId = :customer_id
-GROUP BY p2.id");
+        <div class="table-responsive" style='margin-top:20px;margin-bottom:25px'>
+            <table class="table table-striped" id="facturasIntranet">
+                <thead class="table-primary">
+                <tr>
+                <th>Número factura</th>
+                <th>Fecha</th>
+                <th>Producto</th>
+                <th>Neto</th>
+                <th>IVA</th>
+                <th>Total</th>
+                <th>Método de pago</th>
+                <th>Estado</th>
+                <th>Num pago</th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        </div>
 
+        <script>
+            $(document).ready(function(){
+                function fetch_data(){
+                    var urlRoot = $("#url").val();
+                    var idCustomer = $("#customerId").val();
+                    var urlAjax = urlRoot + "/controller/clientes.php?type=facturas-intranet&id="+idCustomer;
+                    $.ajax({
+                        url:urlAjax,
+                        method:"POST",
+                        dataType:"json",
+                        success: function(data) {
+                    if (data.length > 0) {
+                        var html = '';
+                        for (var i = 0; i < data.length; i++) {
 
-$stmt->bindParam(':customer_id', $customer_id);
-$stmt->execute();
+                            var date = data[i].date;
+                            var year = new Date(date).getFullYear();
+                            var formattedDate = new Date(date).toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric'
+                                });
+                            var orderId = data[i].order_id;
+                            var precio_neto = data[i].total;
+                            var iva = data[i].tax;
+                            var productName = data[i].product_name;
 
-$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            var precio_neto_net = parseFloat(precio_neto);
+                            var iva_net = parseInt(iva);
 
-if (count($resultSet) > 0) {
-    echo '<div class="table-responsive" style="margin-top:20px;margin-bottom:25px">';
-    echo '<table class="table table-striped">';
-    echo '<thead class="'.TABLE_THREAD.'">';
-    echo '<tr>
-    <th>Número factura</th>
-    <th>Fecha</th>
-    <th>Producto</th>
-    <th>Neto</th>
-    <th>IVA</th>
-    <th>Total</th>
-    <th>Método de pago</th>
-    <th>Estado</th>
-    <th>Num pago</th>
-    <th></th>
-    <th></th>';
-    echo '</tr>';
-    echo '</thead>';
-    echo '<tbody>';
+                            var iva2 = precio_neto_net * (iva_net / 100);
+                            var precio_total = precio_neto_net + iva2;
 
-    foreach ($resultSet as $row) {
-        $date = new DateTime($row['date']);
-        $year = $date->format('Y');
-        $formattedDate = $date->format('d-m-Y');
-        $orderId = $row['order_id'];
-        $precio_neto = $row['total'];
-        $iva = $row['tax'];
+                            var iva3 = new Intl.NumberFormat('es-ES', {
+                                        style: 'currency',
+                                        currency: 'EUR',
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                        useGrouping: true
+                                 }).format(iva2);
 
-        $ivaPorcentaje = 21; // Porcentaje del IVA
+                            var precio_total3 = new Intl.NumberFormat('es-ES', {
+                                        style: 'currency',
+                                        currency: 'EUR',
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                        useGrouping: true
+                                 }).format(precio_total);
+                            
+                            var precio_neto_net3 = new Intl.NumberFormat('es-ES', {
+                                        style: 'currency',
+                                        currency: 'EUR',
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                        useGrouping: true
+                                 }).format(precio_neto_net);
 
-        $iva2 = $precio_neto * ($iva / 100);
-        $precio_total = $precio_neto + $iva2;
+                            var payment = data[i].payment_method;
+                            var invoice_number = data[i].invoice_number;
+                            var numPago = data[i].numPago;
 
-        $payment = $row['payment_method'];
+                            if (data[i].payment_method == 1) {
+                                var paymentMethod = "Transferencia bancaria";
+                            } else if (data[i].payment_method == 2) {
+                                var paymentMethod = "Tarjeta";
+                            } else if (data[i].payment_method == 3) {
+                                var paymentMethod = "PayPal";
+                            } else if (data[i].payment_method == 4) {
+                                var paymentMethod = "Cash";
+                            } else {
+                                var paymentMethod = "";
+                            }
 
-        if ($payment == 1) {
-            $paymentMethod = "Transferencia bancaria";
-        } elseif ($payment == 2) {
-            $paymentMethod = "Tarjeta";
-        } elseif ($payment == 3) {
-            $paymentMethod = "PayPal";
+                            var status = data[i].status;
+                            if (status == 1) {
+                                var statusName = "Pendiente de pago";
+                            } else if (status == 2) {
+                                var statusName = "Pagado";
+                            } else if (status == 3) {
+                                var statusName = "Cancelado";
+                            } else {
+                                var statusName = "";
+                            }
+                            
+                            html += '<tr>';
+                            html += '<td>ESINEC.' + year + '.' + invoice_number + '</td>';
+                            html += '<td>' + formattedDate + '</td>';
+                            html += '<td>' + productName + '</td>';
+                            html += '<td>' + precio_neto_net3 + '</td>';
+                            html += '<td>' + iva3 + '</td>';
+                            html += '<td>' + precio_total3 + '</td>';
+                            html += '<td>' + paymentMethod + '</td>';
+                            html += '<td>' + statusName + '</td>';
+                            html += '<td>Pago ' + numPago + '</td>';
+
+                            html += '<td><button type="button" onclick="modificarFacturaIntranet('+orderId+')" id="btnModificarFactura" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalModificarFactura" data-id="'+orderId+'" value="'+orderId+'" data-title="'+ orderId+ '" data-slug="'+ orderId+'" data-text="'+orderId+'">Modificar factura</button></td>';
+
+                            html += '<td><button type="button" id="btnCrearFacturaIntranet'+orderId+'" class="btn btn-sm btn-warning" onclick="facturasIntranetGenerarPDF('+orderId+')">PDF</button></td>';
+
+                            html += '</tr>';
+                        }
+                        $('#facturasIntranet tbody').html(html);
+                        $('#facturasIntranet').show(); // Show the table if data is available
+                    } else {
+                        $('#facturasIntranet').hide(); // Hide the table if data is empty
+                    }
+                }
+            });
         }
-
-        $status = $row['status'];
-        if ($status == 1) {
-            $statusName = "Pendiente de pago";
-        } elseif ($status == 2) {
-            $statusName = "Pagado";
-        } elseif ($status == 3) {
-            $statusName = "Cancelado";
-        } else {
-            $statusName = "";
-        }
-
-        echo '<tr>';
-        echo '<td>ESINEC.'.$year.'.' . $row['invoice_number'] . '</td>';
-        echo '<td>' . $formattedDate. '</td>';
-        echo '<td>' . $row['product_name'] . '</td>';
-        echo '<td>' . wc_price($precio_neto) . '</td>';
-        echo '<td>' . wc_price($iva2) . '</td>';
-        echo '<td>' . wc_price($precio_total) . '</td>';
-        echo '<td>' . $paymentMethod . '</td>';
-        echo '<td>' . $statusName . '</td>';
-        echo '<td>Pago ' . $row['numPago'] . '</td>';
-        echo '<td><button type="button" onclick="modificarFacturaIntranet('.$orderId.')" id="btnModificarFactura" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalModificarFactura" data-id="'.$orderId. '" value="'.$orderId. '" data-title="'.$orderId. '" data-slug="'.$orderId. '" data-text="'.$orderId. '">Modificar factura</button></td>';
-        echo '<td><button type="button" id="btnCrearFacturaIntranet'.$orderId.'" class="btn btn-sm btn-warning" onclick="facturasIntranetGenerarPDF('.$orderId.')">PDF</button></td>';
-        echo '</tr>';
-    }
-
-    echo '</tbody>';
-    echo '</table>';
-    echo '</div>';
-} else {
-    echo '<p>No se encontraron facturas adicionales.</p>';
-}
-
+                fetch_data();
+                setInterval(function(){
+                    fetch_data();
+                }, 5000);
+            });
+       </script>
+<?php       
 
 echo "<hr>";
 echo '<h4>Cobros programados:</h4>';
