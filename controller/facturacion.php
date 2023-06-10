@@ -75,6 +75,7 @@ ORDER BY post_date DESC");
     $data = array();
     $stmt = $conn->prepare("SELECT
     p2.date AS fecha,
+    p2.clienteId AS clienteId,
     p2.status AS status,
     p2.invoiceNumber AS invoice_number,
     p2.orderTotal AS total,
@@ -87,8 +88,14 @@ ORDER BY post_date DESC");
     p2.comision1 AS comision1,
     p2.comision2 AS comision2,
     p2.comisionista1 AS comisionista1,
-    p2.comisionista2 AS comisionista2
+    p2.comisionista2 AS comisionista2,
+    umf.meta_value AS nombre,
+    uml.meta_value AS apellidos,
+    p1.post_title AS productoNombre
     FROM txsxekgr_intranet.facturas AS p2
+    LEFT JOIN txsxekgr_esinec.wp_posts AS p1 ON p2.items = p1.ID
+    LEFT JOIN txsxekgr_esinec.wp_usermeta AS umf ON p2.clienteId = umf.user_id AND umf.meta_key = 'first_name'
+    LEFT JOIN txsxekgr_esinec.wp_usermeta AS uml ON p2.clienteId = uml.user_id AND uml.meta_key = 'last_name'
     WHERE p2.id = $id");
         $stmt->execute();
         if($stmt->rowCount() === 0) {

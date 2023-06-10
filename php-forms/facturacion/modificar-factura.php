@@ -229,27 +229,27 @@ if (isset($_POST['idFactura2'])) {
 
                 echo '<div class="col-md-4">';
                 echo '<label>Notas factura (opcional)</label>';
-                echo '<input class="form-control" type="text" name="notas" id="notas" value='.$notas_old.'>';
+                echo '<input class="form-control" type="text" name="notas2" id="notas2" value="'.$notas_old.'">';
                 echo '</div>';
 
                 echo '<div class="col-md-4">';
                 echo '<label>Comisión 1 - Formato: 00,00 (opcional)</label>';
-                echo '<input class="form-control" type="text" name="comision1" id="comision1" value='.$comision1_old.'>';
+                echo '<input class="form-control" type="text" name="comision1" id="comision1" value="'.$comision1_old.'">';
                 echo '</div>';
 
                 echo '<div class="col-md-4">';
                 echo '<label>Comisionista 1 (opcional)</label>';
-                echo '<input class="form-control" type="text" name="comisionista1" id="comisionista1" value='.$comisionista1_old.'>';
+                echo '<input class="form-control" type="text" name="comisionista1" id="comisionista1" value="'.$comisionista1_old.'">';
                 echo '</div>';
 
                 echo '<div class="col-md-4">';
                 echo '<label>Comisión 2 - Formato: 00,00 (opcional)</label>';
-                echo '<input class="form-control" type="text" name="comision2" id="comision2" value='.$comision2_old.'>';
+                echo '<input class="form-control" type="text" name="comision2" id="comision2" value="'.$comision2_old.'">';
                 echo '</div>';
 
                 echo '<div class="col-md-4">';
                 echo '<label>Comisionista 2 (opcional)</label>';
-                echo '<input class="form-control" type="text" name="comisionista2" id="comisionista2" value='.$comisionista2_old.'>';
+                echo '<input class="form-control" type="text" name="comisionista2" id="comisionista2" value="'.$comisionista2_old.'">';
                 echo '</div>';
                 
             echo "</form>";

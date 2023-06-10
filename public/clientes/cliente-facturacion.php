@@ -274,7 +274,7 @@ echo '<a href="https://esinec.com/wp-admin/post-new.php?post_type=shop_order" cl
                             }
                             
                             html += '<tr>';
-                            html += '<td>ESINEC.' + year + '.' + invoice_number + '</td>';
+                            html += '<td><a href="/../facturacion/intranet/'+orderId+'">ESINEC.' + year + '.' + invoice_number + '</a></td>';
                             html += '<td>' + formattedDate + '</td>';
                             html += '<td>' + productName + '';
                             if (productoVariante !== "") {

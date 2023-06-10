@@ -619,7 +619,7 @@ $(function () {
         items: $("#items").val(),
         numPago2: $("#numPago2").val(),
         productoVariante: $("#productoVariante").val(),
-        notas: $("#notas").val(),
+        notas: $("#notas2").val(),
         comision1: $("#comision1").val(),
         comisionista1: $("#comisionista1").val(),
         comision2: $("#comision2").val(),
