@@ -84,9 +84,45 @@ function data_input($data) {
         $items = data_input($_POST['items']);
       }
 
+    if (empty($_POST["productoVariante"])) {
+        $productoVariante = NULL;
+      } else {
+        $productoVariante = data_input($_POST['productoVariante']);
+      }
+
+      if (empty($_POST["notas"])) {
+        $notas = NULL;
+      } else {
+        $notas = data_input($_POST['notas']);
+      }
+
+      if (empty($_POST["comision1"])) {
+        $comision1 = NULL;
+      } else {
+        $comision1 = data_input($_POST['comision1']);
+      }
+
+      if (empty($_POST["comisionista1"])) {
+        $comisionista1 = NULL;
+      } else {
+        $comisionista1 = data_input($_POST['comisionista1']);
+      }
+
+      if (empty($_POST["comision2"])) {
+        $comision2 = NULL;
+      } else {
+        $comision2 = data_input($_POST['comision2']);
+      }
+
+      if (empty($_POST["comisionista2"])) {
+        $comisionista2 = NULL;
+      } else {
+        $comisionista2 = data_input($_POST['comisionista2']);
+      }
+
     
     if (!isset($hasError)) {
-      $sql = "INSERT INTO txsxekgr_intranet.facturas SET date=:date, status=:status, invoiceNumber=:invoiceNumber, clienteId=:clienteId, orderTotal=:orderTotal, orderTax=:orderTax, paymentType=:paymentType, items=:items, numPago=:numPago";
+      $sql = "INSERT INTO txsxekgr_intranet.facturas SET date=:date, status=:status, invoiceNumber=:invoiceNumber, clienteId=:clienteId, orderTotal=:orderTotal, orderTax=:orderTax, paymentType=:paymentType, items=:items, numPago=:numPago, productoVariante=:productoVariante, notas=:notas, comision1=:comision1, comisionista1=:comisionista1, comision2=:comision2, comisionista2=:comisionista2";
       
       global $conn;
       $stmt = $conn->prepare($sql);
@@ -99,6 +135,12 @@ function data_input($data) {
       $stmt->bindParam(":paymentType", $paymentType, PDO::PARAM_INT);
       $stmt->bindParam(":items", $items, PDO::PARAM_INT);
       $stmt->bindParam(":numPago", $numPago, PDO::PARAM_INT);
+      $stmt->bindParam(":productoVariante", $productoVariante, PDO::PARAM_STR);
+      $stmt->bindParam(":notas", $notas, PDO::PARAM_STR);
+      $stmt->bindParam(":comision1", $comision1, PDO::PARAM_STR);
+      $stmt->bindParam(":comisionista1", $comisionista1, PDO::PARAM_STR);
+      $stmt->bindParam(":comision2", $comision2, PDO::PARAM_STR);
+      $stmt->bindParam(":comisionista2", $comisionista2, PDO::PARAM_STR);
       $stmt->execute();
 
       // incrementar el numero de la factura invoice en tabla wordpress wp_wcpdf_invoice_number

@@ -548,6 +548,12 @@ $(function () {
         paymentType: $("#paymentType").val(),
         items: $("#items").val(),
         numPago2: $("#numPago2").val(),
+        productoVariante: $("#productoVariante").val(),
+        notas: $("#notas").val(),
+        comision1: $("#comision1").val(),
+        comisionista1: $("#comisionista1").val(),
+        comision2: $("#comision2").val(),
+        comisionista2: $("#comisionista2").val(),
       },
       success: function (response) {
         if (response.status == "success") {
@@ -563,4 +569,71 @@ $(function () {
   });
 });
 
-function modificarFacturaIntranet(id) {}
+// ABRIR MODAL PARA MODIFICAR FACTURA INTRANET
+function modificarFacturaIntranet(idFactura) {
+  var idFactura = idFactura;
+  var server = window.location.hostname;
+  var urlAjax =
+    "https://" + server + "/php-forms/facturacion/modificar-factura.php";
+  $.ajax({
+    url: urlAjax, //the page containing php script
+    type: "post", //request type,
+    data: {
+      idFactura2: idFactura,
+      registration: "yes",
+    },
+    success: function (response) {
+      // Add response in Modal body
+      $("#bodyModalModificarFactura").html(response);
+      $("#bodyModalModificarFactura").show();
+    },
+  });
+}
+
+// MODIFICAR FACTURA INTRANET
+$(function () {
+  $("#btnModificarFacturaIntranet").click(function () {
+    // check values
+    $("#modificarFacturaIntranetMessageOk").hide();
+    $("#modificarFacturaIntranetMessageErr").hide();
+
+    // Stop form from submitting normally
+    event.preventDefault();
+    var server = window.location.hostname;
+    var urlAjax =
+      "https://" +
+      server +
+      "/php-process/facturacion/php-modificar-factura-intranet.php";
+    $.ajax({
+      type: "POST",
+      url: urlAjax,
+      data: {
+        date: $("#date").val(),
+        status: $("#status").val(),
+        invoiceNumber: $("#invoiceNumber").val(),
+        clienteId: $("#clienteId").val(),
+        orderTotal: $("#orderTotal").val(),
+        orderTax: $("#orderTax").val(),
+        paymentType: $("#paymentType").val(),
+        items: $("#items").val(),
+        numPago2: $("#numPago2").val(),
+        productoVariante: $("#productoVariante").val(),
+        notas: $("#notas").val(),
+        comision1: $("#comision1").val(),
+        comisionista1: $("#comisionista1").val(),
+        comision2: $("#comision2").val(),
+        comisionista2: $("#comisionista2").val(),
+      },
+      success: function (response) {
+        if (response.status == "success") {
+          // Add response in Modal body
+          $("#modificarFacturaIntranetMessageOk").show();
+          $("#modificarFacturaIntranetMessageErr").hide();
+        } else {
+          $("#modificarFacturaIntranetMessageErr").show();
+          $("#modificarFacturaIntranetMessageOk").hide();
+        }
+      },
+    });
+  });
+});

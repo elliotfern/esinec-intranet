@@ -139,6 +139,7 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'clientes') ) {
     p2.orderTotal AS total,
     p2.orderTax AS tax,
     p2.paymentType AS payment_method,
+    p2.productoVariante AS productoVariante,
     p1.post_title AS product_name,
     p2.numPago
     FROM txsxekgr_intranet.facturas AS p2

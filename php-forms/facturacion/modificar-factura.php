@@ -77,12 +77,12 @@ numPago
         global $conn;
     
             // some action goes here under php              
-                        echo '<div class="alert alert-success" id="crearFacturaIntranetMessageOk" style="display:none;role="alert">
+                        echo '<div class="alert alert-success" id="modificarFacturaIntranetMessageOk" style="display:none;role="alert">
                         <h4 class="alert-heading"><strong>'.ADD_OK_MESSAGE_SHORT.'</h4></strong>
                         <h6>'.ADD_OK_MESSAGE.'</h6>
                         </div>';
                 
-                        echo '<div class="alert alert-danger" id="crearFacturaIntranetMessageErr" style="display:none;role="alert">
+                        echo '<div class="alert alert-danger" id="modificarFacturaIntranetMessageErr" style="display:none;role="alert">
                         <h4 class="alert-heading"><strong>'.ERROR_TYPE_MESSAGE_SHORT.'</h4></strong>
                         <h6>'.ERROR_TYPE_MESSAGE.'</h6>
                         </div>
@@ -150,7 +150,7 @@ numPago
 
                 echo '<div class="col-md-4">';
                 echo '<label>Variante del producto (opcional)</label>';
-                echo '<input class="form-control" type="text" name="productoVariante" id="productoVariante">';
+                echo '<input class="form-control" type="text" name="productoVariante" id="productoVariante" value="'.$idInvoice.'">';
                 echo '</div>';
 
                 $stmt = $conn2->prepare("SELECT MAX(id) AS last_id
@@ -164,7 +164,7 @@ numPago
 
                 echo '<div class="col-md-4">';
                 echo '<label>Número de factura (sin escribir ESINEC Y AÑO)</label>';
-                echo '<input class="form-control" type="text" name="invoiceNumber" id="invoiceNumber"  value="'.$idInvoice.'">';
+                echo '<input class="form-control" type="text" name="invoiceNumber" id="invoiceNumber" value="'.$idInvoice.'">';
                 echo '</div>';
 
                 $vatRate = 21;
@@ -245,7 +245,7 @@ numPago
                 <select class="form-select" name="status" id="status">';
                     echo '<option value="">Selecciona una opción</option>';
                     echo "<option value='1'>Pendiente de pago</option>";
-                    echo "<option value='2' selected>Pagado</option>";
+                    echo "<option value='2'>Pagado</option>";
                     echo "<option value='3'>Factura cancelada</option>";
                     echo '</select>';
                 echo '</div>';
@@ -257,7 +257,7 @@ numPago
 
                 echo '<div class="col-md-4">';
                 echo '<label>Comisión 1 - Formato: 00,00 (opcional)</label>';
-                echo '<input class="form-control" type="text" name="comision1" id="comision1">';
+                echo '<input class="form-control" type="text" name="comision1" id="comisio1">';
                 echo '</div>';
 
                 echo '<div class="col-md-4">';
@@ -267,14 +267,12 @@ numPago
 
                 echo '<div class="col-md-4">';
                 echo '<label>Comisión 2 - Formato: 00,00 (opcional)</label>';
-                echo '<input class="form-control" type="text" name="comision2" id="comision2">';
+                echo '<input class="form-control" type="text" name="comision2" id="comisio2">';
                 echo '</div>';
 
                 echo '<div class="col-md-4">';
                 echo '<label>Comisionista 2 (opcional)</label>';
                 echo '<input class="form-control" type="text" name="comisionista2" id="comisionista2">';
-                echo '</div>';
-
                 echo '</div>';
                 
             echo "</form>";

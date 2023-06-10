@@ -37,6 +37,7 @@ p2.orderTax AS tax,
 p2.paymentType AS payment_method,
 p1.post_title AS product_name,
 p2.numPago,
+p2.productoVariante AS productoVariante,
 p2.items,
 umf.meta_value AS nombre,
 uml.meta_value AS apellidos,
@@ -57,6 +58,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $formattedDate = $date->format('d-m-Y');
         $orderId = $row['order_id'];
         $producto = $row['product_name'];
+        $productoVariante = $row['productoVariante'];
         $precio_neto = $row['total'];
         $precio_neto2 = floatval($precio_neto);
         $iva = $row['tax'];
@@ -207,8 +209,8 @@ $html .= '
             </thead>
             <tbody>';
     $html .= '<tr><td style="padding: 5px; border: 1px solid black;">' . $producto . ' ';
-    if (!empty($item->notes)) {
-        $html .= '(' . $notas . ')';
+    if (!empty($productoVariante)) {
+        $html .= ' - ' . $productoVariante . '';
     }
     $html .= '</td>
                     <td style="padding: 5px; border: 1px solid black;">'.wc_price($precio_neto).' </td>
