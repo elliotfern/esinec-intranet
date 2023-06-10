@@ -69,4 +69,34 @@ ORDER BY post_date DESC");
         }
     echo json_encode($data);
 
+}  elseif ( (isset($_GET['type']) && $_GET['type'] == 'factura-intranet-cliente') && (isset($_GET['id']) ) ) {
+    global $conn;
+    $id = $_GET['id'];
+    $data = array();
+    $stmt = $conn->prepare("SELECT
+    p2.date AS fecha,
+    p2.status AS status,
+    p2.invoiceNumber AS invoice_number,
+    p2.orderTotal AS total,
+    p2.orderTax AS tax,
+    p2.paymentType AS payment_method,
+    p2.numPago,
+    p2.productoVariante AS productoVariante,
+    p2.items AS producto,
+    p2.notas AS notas,
+    p2.comision1 AS comision1,
+    p2.comision2 AS comision2,
+    p2.comisionista1 AS comisionista1,
+    p2.comisionista2 AS comisionista2
+    FROM txsxekgr_intranet.facturas AS p2
+    WHERE p2.id = $id");
+        $stmt->execute();
+        if($stmt->rowCount() === 0) {
+            echo json_encode(array("message" => "No rows to show"));
+        } else {
+            while($users = $stmt->fetch(PDO::FETCH_ASSOC) ){
+                $data[] = $users;
+            }
+            echo json_encode($data);
+        }
 }

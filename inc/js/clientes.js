@@ -608,6 +608,7 @@ $(function () {
       type: "POST",
       url: urlAjax,
       data: {
+        id: $("#id2").val(),
         date: $("#date").val(),
         status: $("#status").val(),
         invoiceNumber: $("#invoiceNumber").val(),
