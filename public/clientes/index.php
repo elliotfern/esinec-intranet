@@ -1,8 +1,4 @@
 <?php
-# conectar la base de datos
-$activePage = "clientes";
-global $conn;
-
 echo '<div class="container">';
 echo '<h1>Gestión de Clientes</h1>';
 echo '<h2>Clientes de ESINEC</h2>';

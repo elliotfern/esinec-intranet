@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 echo '<div class="container">';
 echo '<h1>Facturación</h1>';
 echo '<h2>Mostrando todas las facturase emitidas</h2>';

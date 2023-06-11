@@ -40,11 +40,21 @@ p2.productoVariante AS productoVariante,
 p2.items,
 umf.meta_value AS nombre,
 uml.meta_value AS apellidos,
-p1.post_title AS product_name
+p1.post_title AS product_name,
+um3.meta_value AS direccion,
+um4.meta_value AS provincia,
+um5.meta_value AS pais,
+um6.meta_value AS codigopostal,
+um7.meta_value AS ciudad
 FROM txsxekgr_intranet.facturas AS p2
 LEFT JOIN txsxekgr_esinec.wp_posts AS p1 ON p2.items = p1.ID
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS umf ON p2.clienteId = umf.user_id AND umf.meta_key = 'first_name'
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS uml ON p2.clienteId = uml.user_id AND uml.meta_key = 'last_name'
+LEFT JOIN txsxekgr_esinec.wp_usermeta AS um3 ON p2.clienteId = um3.user_id AND um3.meta_key = 'billing_address_1'
+LEFT JOIN txsxekgr_esinec.wp_usermeta AS um4 ON p2.clienteId = um4.user_id AND um4.meta_key = 'billing_state'
+LEFT JOIN txsxekgr_esinec.wp_usermeta AS um5 ON p2.clienteId = um5.user_id AND um5.meta_key = 'billing_country'
+LEFT JOIN txsxekgr_esinec.wp_usermeta AS um6 ON p2.clienteId = um6.user_id AND um6.meta_key = 'billing_postcode'
+LEFT JOIN txsxekgr_esinec.wp_usermeta AS um7 ON p2.clienteId = um7.user_id AND um7.meta_key = 'billing_city'
 WHERE p2.id = :orderId
 GROUP BY p2.id");
 
@@ -59,6 +69,12 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $producto = $row['product_name'];
         $productoVariante = $row['productoVariante'];
         $precio_neto = $row['total'];
+        $direccion = $row['direccion'];
+        $provincia = $row['provincia'];
+        $pais = $row['pais'];
+        $codigopostal = $row['codigopostal'];
+        $ciudad = $row['ciudad'];
+
         $precio_neto2 = floatval($precio_neto);
         $iva = $row['tax'];
         $iva2 = intval($iva); // Resultado: 456
@@ -171,16 +187,16 @@ $html .= '<div class="container">
             <th>
                 <strong>Facturado a:</strong><br>
                ' . $nombre . ' ' . $apellidos . '<br>';
-if (!empty($nif)) {
-    $html .= 'CIF: ' . $nif . '<br>';
-}
+                if (!empty($nif)) {
+                    $html .= 'CIF: ' . $nif . '<br>';
+                }
 
-if (!empty($order->billing->address)) {
-    $html .= 'Dirección: ' . $order->billing->address . '<br>
-                  ' . $order->billing->city . ', (' . $order->billing->state . '), ' . $order->billing->postcode . '<br>
-                ' . $order->billing->country . '';
-}
-$html .= '' . $order->billing->email . '
+                if ($direccion !== "") {
+                    $html .= '&nbsp;&nbsp;Dirección: '.$direccion. '<br>
+                    '.$ciudad.', ('.$provincia.'), '.$codigopostal.'<br>
+                    '.$pais.' ';
+                }
+$html .= '' .$email . '
             </th>
             <th>
             <strong>ESINEC S.L</strong><br>

@@ -1,15 +1,15 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // woocommerce restful api get customer all orders with meta key wcpdf_invoice_number
 
+$rootDirectory = $_SERVER['DOCUMENT_ROOT'];
+$substring = "/public_html/gestion";
+$result = str_replace($substring, "", $rootDirectory);
+$path = $result . "/pass/connection.php";
+
+require_once($path);
 require_once(APP_ROOT. '/vendor/autoload.php');
 
 use Automattic\WooCommerce\Client;
-
-$activePage = "clientes";
 
 if(isset($params['id'])) {
     $id = $params['id'];
@@ -34,8 +34,8 @@ echo "<hr>";
 // Authenticate with the API
 $woocommerce = new Client(
     'https://esinec.com/',
-    'ck_abc55b466d19218f2c24bf114c098d799a966f4b',
-    'cs_2e386b874b0dc0feff1b6af2cfeb11b77b7dd1d0',
+     WC_API_KEY, 
+     WC_API_SECRET,
     [
         'version' => 'wc/v3',
     ]
@@ -51,8 +51,22 @@ $customer = $woocommerce->get("customers/$customer_id");
 echo '<div class="customer-info">';
 echo '<h4>Cliente:</h4>';
 echo '<p><strong>Nombre y apellidos</strong> : <a href="https://gestion.esinec.com/clientes/'.$customer_id.'/">' . $customer->first_name . ' '  . $customer->last_name .'</a><p>';
+echo '<p><strong>Dirección:</strong> ' . $customer->billing->address_1 . '</p>';
+echo '<p><strong>Ciudad:</strong> ' . $customer->billing->city . '</p>';
+echo '<p><strong>Provincia:</strong> ' . $customer->billing->state . '</p>';
+echo '<p><strong>País:</strong> ' . $customer->billing->country . '</p>';
+echo '<p><strong>Código Postal:</strong> ' . $customer->billing->postcode . '</p>';
 echo '<p><strong>Email</strong> : ' . $customer->email . '<p>';
 echo '<p><strong>Teléfono:</strong> ' . $customer->billing->phone . '</p>';
+// Verificar si existe el meta value "_nif" (DNI) y mostrarlo
+if (isset($customer->meta_data)) {
+    foreach ($customer->meta_data as $meta) {
+        if ($meta->key === '_billing_nif') {
+            echo '<p><strong>DNI:</strong> ' . $meta->value . '</p>';
+            break;
+        }
+    }
+}
 echo '</div>';
 
 // Retrieve all orders of the customer

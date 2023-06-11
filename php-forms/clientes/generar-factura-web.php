@@ -4,6 +4,11 @@
 $rootDirectory = $_SERVER['DOCUMENT_ROOT'];
 $url_server = "https://" . $_SERVER['HTTP_HOST'];
 
+$substring = "/public_html/gestion";
+$result = str_replace($substring, "", $rootDirectory);
+$path = $result . "/pass/connection.php";
+require_once($path);
+
 require_once($rootDirectory . '/vendor/autoload.php');
 
 use Automattic\WooCommerce\Client;
@@ -27,8 +32,8 @@ function wc_price( $price ) {
 // Authenticate with the API
 $woocommerce = new Client(
   'https://esinec.com/',
-  'ck_abc55b466d19218f2c24bf114c098d799a966f4b',
-  'cs_2e386b874b0dc0feff1b6af2cfeb11b77b7dd1d0',
+    WC_API_KEY, 
+    WC_API_SECRET,
   [
       'version' => 'wc/v3',
   ]

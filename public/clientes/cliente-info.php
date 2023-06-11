@@ -1,7 +1,8 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+$rootDirectory = $_SERVER['DOCUMENT_ROOT'];
+$substring = "/public_html/gestion";
+$result = str_replace($substring, "", $rootDirectory);
+$path = $result . "/pass/connection.php";
 
 // woocommerce restful api get customer all orders with meta key wcpdf_invoice_number
 
@@ -20,12 +21,11 @@ echo '<h1>Gestión de Clientes</h1>';
 echo '<h2>Información sobre el cliente</h2>';
 
 echo "<hr>";
-
 // Authenticate with the API
 $woocommerce = new Client(
     'https://esinec.com/',
-    'ck_abc55b466d19218f2c24bf114c098d799a966f4b',
-    'cs_2e386b874b0dc0feff1b6af2cfeb11b77b7dd1d0',
+    WC_API_KEY,
+    WC_API_SECRET,
     [
         'version' => 'wc/v3',
     ]
