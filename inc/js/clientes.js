@@ -638,3 +638,24 @@ $(function () {
     });
   });
 });
+
+// ABRIR MODAL PARA MODIFICAR DATOS CLIENTE
+function modificarDatosCliente(idCliente) {
+  var idCliente = idCliente;
+  var server = window.location.hostname;
+  var urlAjax =
+    "https://" + server + "/php-forms/clientes/modal-modificar-cliente.php";
+  $.ajax({
+    url: urlAjax, //the page containing php script
+    type: "post", //request type,
+    data: {
+      idCliente: idCliente,
+      registration: "yes",
+    },
+    success: function (response) {
+      // Add response in Modal body
+      $("#bodyModalModificarCliente").html(response);
+      $("#bodyModalModificarCliente").show();
+    },
+  });
+}

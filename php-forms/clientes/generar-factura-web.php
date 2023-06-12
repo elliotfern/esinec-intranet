@@ -69,6 +69,7 @@ $createDate_format = $createDate->format('d-m-Y');
 $any = $createDate->format('Y');
 $payment_method = $order->payment_method_title;
 $items = $order->line_items;
+$customer_id = $order->customer_id;
 
 $string = $wcpdf_invoice_number;
 $parts = explode(".", $string);
@@ -77,6 +78,54 @@ if (count($parts) === 3) {
     $invoice_number = $parts[0] . "." . $parts[2] . "." . $parts[1];
 } else {
 }
+
+
+// SACAR DATOS DEL CLIENTE
+$url = 'https://esinec.com/wp-json/wc/v3/customers/' . $customer_id;
+
+// Configurar la autenticación
+$auth = base64_encode(WC_API_KEY. ':' . WC_API_SECRET);
+
+// Configurar la solicitud cURL
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Authorization: Basic ' . $auth
+));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Realizar la solicitud GET
+$response = curl_exec($ch);
+
+// Verificar si hubo errores en la solicitud
+if (curl_errno($ch)) {
+    $error_message = curl_error($ch);
+    echo "Error: " . $error_message;
+} else {
+    // Solicitud exitosa
+    $customer_data = json_decode($response);
+
+    // Obtener los datos del cliente
+    $billing_address = $customer_data->billing->address_1;
+    $billing_city = $customer_data->billing->city;
+    $billing_state = $customer_data->billing->state;
+    $billing_postcode = $customer_data->billing->postcode;
+    $billing_country = $customer_data->billing->country;
+    $phone = $customer_data->billing->phone;
+
+     // Obtener los metadatos del cliente
+     $metadata = $customer_data->meta_data;
+
+     // Buscar el metadato "_billing_nif"
+     foreach ($metadata as $meta) {
+         if ($meta->key === '_billing_nif') {
+             $billing_nif = $meta->value;
+             break;
+         }
+     }
+}
+
+// Cerrar la conexión cURL
+curl_close($ch);
 
 // Extend the TCPDF class to create custom Header and Footer
 class MYPDF extends TCPDF {
@@ -151,14 +200,18 @@ $html .= '<div class="container">
             <th>
                 <strong>Facturado a:</strong><br>
                '.$order->billing->first_name . ' '  . $order->billing->last_name .'<br>';
-               if (!empty($nif)) {
-                $html .= 'CIF: '.$nif.'<br>';
+               if (!empty($billing_nif)) {
+                $html .= 'DNI/NIF/CIF: '.$billing_nif.'<br>';
                 }
 
-                if (!empty($order->billing->address )) {
-                  $html .= 'Dirección: '.$order->billing->address .'<br>
-                  '.$order->billing->city .', ('.$order->billing->state .'), '.$order->billing->postcode .'<br>
-                '.$order->billing->country.'';
+                if (!empty($billing_address)) {
+                  $html .= 'Dirección: '.$billing_address .'<br>
+                  '.$billing_city .', ('.$billing_state .'), '.$billing_postcode .'<br>';
+                  if ($billing_country == "ES") {
+                    $html .= 'España<br>';
+                  } else {
+                    $html .= ''.$billing_country.'<br>';
+                  }
                 }           
                 $html .= '' . $order->billing->email . '
             </th>

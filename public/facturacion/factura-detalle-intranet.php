@@ -45,6 +45,15 @@ echo '<h1>Gestión de facturación</h1>';
             $apellidos = $vault['apellidos'];
             $productoNombre = $vault['productoNombre'];
 
+            $direccion = $vault['direccion'];
+            $provincia = $vault['provincia'];
+            $pais = $vault['pais'];
+            $codigopostal = $vault['codigopostal'];
+            $ciudad = $vault['ciudad'];
+            $dni = $vault['dni'];
+            $telefono = $vault['telefono'];
+            $email = $vault['email'];
+
             $comision1_net = intval($comision1);
             $comision2_net = intval($comision2);
 
@@ -68,8 +77,13 @@ echo '<h3>Número de factura: ESINEC.'.$year.'.'.$invoiceNumber.'</h3>';
 echo '<h4>Cliente</h4>';
 echo '<ul>';
 echo '<li><strong>Nombre y apellidos:</strong> <a href="https://gestion.esinec.com/clientes/'.$clienteId.'/">' . $nombre . ' '  . $apellidos .'</a></li>';
-//echo '<li><strong>Email:</strong> ' . $email. '</li>';
-//echo '<li><strong>Teléfono:</strong> ' . $telefono . '</li>';
+echo '<li><strong>DNI/NIF/CIF:</strong> '. $dni .'</li>';
+echo '<li><strong>Email:</strong> ' . $email. '</li>';
+echo '<li><strong>Teléfono:</strong> ' . $telefono . '</li>';
+echo '<li><strong>Dirección:</strong> ' . $direccion . ' ('.$provincia .') '.$codigopostal .'</li>';
+echo '<li><strong>País:</strong> ' . $pais . '</li>';
+echo '<li><strong>Ciudad:</strong> ' . $ciudad . '</li>';
+echo '<li><strong>Teléfono:</strong> ' . $telefono . '</li>';
 echo '</ul>';
 
 echo "<hr>";

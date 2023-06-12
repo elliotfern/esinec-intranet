@@ -1,6 +1,7 @@
 <?php
 
 // woocommerce restful api get customer all orders with meta key wcpdf_invoice_number
+$rootDirectory = $_SERVER['DOCUMENT_ROOT'];
 $substring = "/public_html/gestion";
 $result = str_replace($substring, "", $rootDirectory);
 $path = $result . "/pass/connection.php";
@@ -46,6 +47,8 @@ $order = $woocommerce->get('orders/' . $order_id);
 
 // Get the meta data for the order
 $meta_data = $order->meta_data;
+$customer_id = $order->customer_id;
+
 
 // Loop through the meta data and output the values
 foreach ($meta_data as $meta) {
@@ -86,13 +89,53 @@ if (isset($invoiceNumber)) {
 } else {
     echo ''.$order->id.'';
 }
+
+// SACAR DATOS DEL CLIENTE
+$url = 'https://esinec.com/wp-json/wc/v3/customers/' . $customer_id;
+
+// Configurar la autenticación
+$auth = base64_encode(WC_API_KEY. ':' . WC_API_SECRET);
+
+// Configurar la solicitud cURL
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Authorization: Basic ' . $auth
+));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Realizar la solicitud GET
+$response = curl_exec($ch);
+
+// Verificar si hubo errores en la solicitud
+if (curl_errno($ch)) {
+    $error_message = curl_error($ch);
+    echo "Error: " . $error_message;
+} else {
+    // Solicitud exitosa
+    $customer_data = json_decode($response);
+
+    // Obtener los datos del cliente
+    $billing_address = $customer_data->billing->address_1;
+    $billing_city = $customer_data->billing->city;
+    $billing_state = $customer_data->billing->state;
+    $billing_postcode = $customer_data->billing->postcode;
+    $billing_country = $customer_data->billing->country;
+    $phone = $customer_data->billing->phone;
+}
+
+// Cerrar la conexión cURL
+curl_close($ch);
+
 echo '</h3>';
 
 echo '<h4>Cliente</h4>';
 echo '<ul>';
 echo '<li><strong>Nombre y apellidos:</strong> <a href="https://gestion.esinec.com/clientes/'.$order->customer_id.'/">' . $order->billing->first_name . ' '  . $order->billing->last_name .'</a></li>';
 echo '<li><strong>Email:</strong> ' . $order->billing->email . '</li>';
-echo '<li><strong>Teléfono:</strong> ' . $order->billing->phone . '</li>';
+echo '<li><strong>Teléfono:</strong> ' . $phone . '</li>';
+echo '<li>Dirección: ' . $billing_address . '</li>';
+echo '<li>'.$billing_city . ', (' . $billing_state . '), ' . $billing_postcode . '</li>';
+echo '<li>'.$billing_country.'</li>';
 echo '</ul>';
 
 echo "<hr>";

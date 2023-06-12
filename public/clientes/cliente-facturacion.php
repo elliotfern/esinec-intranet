@@ -50,23 +50,32 @@ $customer = $woocommerce->get("customers/$customer_id");
 // Display the customer information
 echo '<div class="customer-info">';
 echo '<h4>Cliente:</h4>';
-echo '<p><strong>Nombre y apellidos</strong> : <a href="https://gestion.esinec.com/clientes/'.$customer_id.'/">' . $customer->first_name . ' '  . $customer->last_name .'</a><p>';
-echo '<p><strong>Dirección:</strong> ' . $customer->billing->address_1 . '</p>';
-echo '<p><strong>Ciudad:</strong> ' . $customer->billing->city . '</p>';
-echo '<p><strong>Provincia:</strong> ' . $customer->billing->state . '</p>';
-echo '<p><strong>País:</strong> ' . $customer->billing->country . '</p>';
-echo '<p><strong>Código Postal:</strong> ' . $customer->billing->postcode . '</p>';
-echo '<p><strong>Email</strong> : ' . $customer->email . '<p>';
-echo '<p><strong>Teléfono:</strong> ' . $customer->billing->phone . '</p>';
+
+echo '<p><button type="button" class="btn btn-primary btn-sm" onclick="modificarDatosCliente('.$customer_id.')" data-bs-toggle="modal" data-bs-target="#modalModificarDatosCliente" data-variable="'.$customer_id.'">
+Modificar datos del cliente &rarr;
+</button></p>';
+
+echo '<ul>
+<li><strong>Nombre y apellidos</strong> : <a href="https://gestion.esinec.com/clientes/'.$customer_id.'/">' . $customer->first_name . ' '  . $customer->last_name .'</a></li>';
+echo '<li><strong>Dirección:</strong> ' . $customer->billing->address_1 . '</li>';
+echo '<li><strong>Ciudad:</strong> ' . $customer->billing->city . '</li>';
+echo '<li><strong>Provincia:</strong> ' . $customer->billing->state . '</li>';
+echo '<li><strong>País:</strong> ' . $customer->billing->country . '</li>';
+echo '<li><strong>Código Postal:</strong> ' . $customer->billing->postcode . '</li>';
+echo '<li><strong>Email</strong> : ' . $customer->email . '</li>';
+echo '<li><strong>Teléfono:</strong> ' . $customer->billing->phone . '</li>';
+
+
 // Verificar si existe el meta value "_nif" (DNI) y mostrarlo
 if (isset($customer->meta_data)) {
     foreach ($customer->meta_data as $meta) {
         if ($meta->key === '_billing_nif') {
-            echo '<p><strong>DNI:</strong> ' . $meta->value . '</p>';
+            echo '<li><strong>DNI:</strong> ' . $meta->value . '</li>';
             break;
         }
     }
 }
+echo '</ul>';
 echo '</div>';
 
 // Retrieve all orders of the customer
@@ -172,8 +181,7 @@ if (!empty($orders)) {
 
 echo '<h6>Facturas generadas en la intranet:</h6>';
 
-echo '<a href="https://esinec.com/wp-admin/post-new.php?post_type=shop_order" class="btn btn-primary btn-sm" role="button" aria-pressed="true" target="_blank">Crear factura intranet &rarr;</a>';
-
+echo '<p><button type="button" id="btnModificaPagos" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearFacturaIntranet" onclick="generarFacturaIntranet()">Crear factura &rarr;</button></p>';
 ?>
 <input type="hidden" id="customerId" name="customerId" value="<?php echo $customer_id?>">
 <input type='hidden' id='url' value='<?php echo APP_SERVER;?>'/>

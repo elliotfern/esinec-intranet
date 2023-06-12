@@ -45,7 +45,8 @@ um3.meta_value AS direccion,
 um4.meta_value AS provincia,
 um5.meta_value AS pais,
 um6.meta_value AS codigopostal,
-um7.meta_value AS ciudad
+um7.meta_value AS ciudad,
+um8.meta_value AS dni
 FROM txsxekgr_intranet.facturas AS p2
 LEFT JOIN txsxekgr_esinec.wp_posts AS p1 ON p2.items = p1.ID
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS umf ON p2.clienteId = umf.user_id AND umf.meta_key = 'first_name'
@@ -55,8 +56,9 @@ LEFT JOIN txsxekgr_esinec.wp_usermeta AS um4 ON p2.clienteId = um4.user_id AND u
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS um5 ON p2.clienteId = um5.user_id AND um5.meta_key = 'billing_country'
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS um6 ON p2.clienteId = um6.user_id AND um6.meta_key = 'billing_postcode'
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS um7 ON p2.clienteId = um7.user_id AND um7.meta_key = 'billing_city'
+LEFT JOIN txsxekgr_esinec.wp_usermeta AS um8 ON p2.clienteId = um8.user_id AND um8.meta_key = '_billing_nif'
 WHERE p2.id = :orderId
-GROUP BY p2.id");
+GROUP BY p2.id"); 
 
 $stmt->bindParam(':orderId', $orderId); // Change :id to :orderId
 $stmt->execute();
@@ -74,6 +76,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $pais = $row['pais'];
         $codigopostal = $row['codigopostal'];
         $ciudad = $row['ciudad'];
+        $dni = $row['dni'];
 
         $precio_neto2 = floatval($precio_neto);
         $iva = $row['tax'];
@@ -187,14 +190,18 @@ $html .= '<div class="container">
             <th>
                 <strong>Facturado a:</strong><br>
                ' . $nombre . ' ' . $apellidos . '<br>';
-                if (!empty($nif)) {
-                    $html .= 'CIF: ' . $nif . '<br>';
+                if (!empty($dni)) {
+                    $html .= 'DNI/NIF/CIF: ' . $dni . '<br>';
                 }
 
                 if ($direccion !== "") {
                     $html .= '&nbsp;&nbsp;Dirección: '.$direccion. '<br>
-                    '.$ciudad.', ('.$provincia.'), '.$codigopostal.'<br>
-                    '.$pais.' ';
+                    '.$ciudad.', ('.$provincia.'), '.$codigopostal.'<br>';
+                    if ($pais == "ES") {
+                        $html .= 'España<br>';
+                      } else {
+                        $html .= ''.$pais.'<br>';
+                      }
                 }
 $html .= '' .$email . '
             </th>

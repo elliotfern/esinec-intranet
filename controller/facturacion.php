@@ -91,11 +91,27 @@ ORDER BY post_date DESC");
     p2.comisionista2 AS comisionista2,
     umf.meta_value AS nombre,
     uml.meta_value AS apellidos,
-    p1.post_title AS productoNombre
+    p1.post_title AS productoNombre,
+    um3.meta_value AS direccion,
+    um4.meta_value AS provincia,
+    um5.meta_value AS pais,
+    um6.meta_value AS codigopostal,
+    um7.meta_value AS ciudad,
+    um8.meta_value AS dni,
+    um9.meta_value AS telefono,
+    um10.meta_value AS email
     FROM txsxekgr_intranet.facturas AS p2
     LEFT JOIN txsxekgr_esinec.wp_posts AS p1 ON p2.items = p1.ID
     LEFT JOIN txsxekgr_esinec.wp_usermeta AS umf ON p2.clienteId = umf.user_id AND umf.meta_key = 'first_name'
     LEFT JOIN txsxekgr_esinec.wp_usermeta AS uml ON p2.clienteId = uml.user_id AND uml.meta_key = 'last_name'
+    LEFT JOIN txsxekgr_esinec.wp_usermeta AS um3 ON p2.clienteId = um3.user_id AND um3.meta_key = 'billing_address_1'
+    LEFT JOIN txsxekgr_esinec.wp_usermeta AS um4 ON p2.clienteId = um4.user_id AND um4.meta_key = 'billing_state'
+    LEFT JOIN txsxekgr_esinec.wp_usermeta AS um5 ON p2.clienteId = um5.user_id AND um5.meta_key = 'billing_country'
+    LEFT JOIN txsxekgr_esinec.wp_usermeta AS um6 ON p2.clienteId = um6.user_id AND um6.meta_key = 'billing_postcode'
+    LEFT JOIN txsxekgr_esinec.wp_usermeta AS um7 ON p2.clienteId = um7.user_id AND um7.meta_key = 'billing_city'
+    LEFT JOIN txsxekgr_esinec.wp_usermeta AS um8 ON p2.clienteId = um8.user_id AND um8.meta_key = '_billing_nif'
+    LEFT JOIN txsxekgr_esinec.wp_usermeta AS um9 ON p2.clienteId = um9.user_id AND um9.meta_key = 'billing_phone'
+    LEFT JOIN txsxekgr_esinec.wp_usermeta AS um10 ON p2.clienteId = um10.user_id AND um10.meta_key = 'billing_email'
     WHERE p2.id = $id");
         $stmt->execute();
         if($stmt->rowCount() === 0) {
