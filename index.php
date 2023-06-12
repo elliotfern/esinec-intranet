@@ -151,6 +151,7 @@ if(!isset($_SESSION['user'])){
         $route->add("/logout","logout.php");
 
         // clientes
+        $route->add("/clientes/alta","public/clientes/cliente-alta-woocommerce.php");
         $route->add("/clientes/{id}","public/clientes/cliente-info.php");
         $route->add("/clientes/{id}/facturacion","public/clientes/cliente-facturacion.php");
         $route->add("/clientes","public/clientes/index.php");

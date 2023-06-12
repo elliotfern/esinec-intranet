@@ -1,0 +1,169 @@
+<?php
+
+$rootDirectory = $_SERVER['DOCUMENT_ROOT'];
+$substring = "/public_html/gestion";
+$result = str_replace($substring, "", $rootDirectory);
+$path = $result . "/pass/connection.php";
+require_once($path);
+
+function data_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  }
+
+
+  // insert data to db
+    if (empty($_POST["idCliente"])) {
+        $hasError = true;
+    } else {
+        $idCliente = $_POST['idCliente'];
+    }
+   
+    if (empty($_POST["first_name"])) {
+        $hasError = true;
+      } else {
+        $first_name = data_input($_POST['first_name']);
+    }
+
+    if (empty($_POST["last_name"])) {
+        $hasError = true;
+      } else {
+        $last_name = data_input($_POST['last_name']);
+    }
+
+    if (empty($_POST["address_1"])) {
+        $hasError = true;
+      } else {
+        $address = data_input($_POST['address_1']);
+    }
+
+    if (empty($_POST["city"])) {
+        $hasError = true;
+      } else {
+        $city = data_input($_POST['city']);
+    }
+
+    if (empty($_POST["state"])) {
+        $hasError = true;
+      } else {
+        $state = data_input($_POST['state']);
+    }
+
+    if (empty($_POST["country"])) {
+        $hasError = true;
+      } else {
+        $country = data_input($_POST['country']);
+    }
+
+    if (empty($_POST["postcode"])) {
+        $postcode = "";
+      } else {
+        $postcode = data_input($_POST['postcode']);
+    }
+
+    if (empty($_POST["phone"])) {
+        $phone = "";
+      } else {
+        $phone = data_input($_POST['phone']);
+    }
+
+    if (empty($_POST["email"])) {
+        $hasError = true;
+      } else {
+        $email = data_input($_POST['email']);
+    }
+
+    if (empty($_POST["_billing_nif"])) {
+        $billing_nif = "";
+      } else {
+        $billing_nif = data_input($_POST['_billing_nif']);
+    }
+
+
+// Definir la URL de la API de WooCommerce y las credenciales de autenticación
+$url = 'https://esinec.com/wp-json/wc/v3/customers/' . $idCliente;
+
+// ID del usuario que deseas editar
+$customer_id = $idCliente;
+
+// Datos actualizados del usuario
+$usuario = array(
+    'first_name' => $first_name,
+    'last_name' => $last_name,
+    'billing' => array(
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+        'address_1' => $address,
+        'city' => $city,
+        'state' => $state,
+        'country' => $country,
+        'postcode' => $postcode,
+        'phone' => $phone,
+        'email' => $email,          
+    ),
+    'meta_data' => array(
+        array(
+            'key' => 'billing_nif',
+            'value' => $billing_nif
+        )
+    )
+);
+
+if (!isset($hasError)) {
+    // Convertir el arreglo en formato JSON
+    $data = json_encode($usuario);
+
+    // Claves de API de WooCommerce
+    $consumer_key = WC_API_KEY;
+    $consumer_secret = WC_API_SECRET;
+
+    // Configurar la solicitud cURL
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
+    ));
+
+    // Realizar la solicitud cURL
+    $response = curl_exec($ch);
+
+    if ($response === false) {
+        $response = array(
+            'status' => 'error',
+            'message' => curl_error($ch)
+        );
+    } else {
+        // Obtener el código de respuesta HTTP
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($httpCode === 200 || $httpCode === 201) {
+            $response = array(
+                'status' => 'success',
+                'message' => 'Cliente modificado exitosamente'
+            );
+        } else {
+            $response = array(
+                'status' => 'error',
+                'message' => 'Error al modificar el cliente: ' . $httpCode
+            );
+        }
+    }
+
+    // Cerrar la sesión cURL
+    curl_close($ch);
+} else {
+    // response output - data error
+    $response = array(
+        'status' => 'error',
+        'message' => 'Datos incompletos o inválidos'
+    );
+}
+
+header("Content-Type: application/json");
+echo json_encode($response);
+?>

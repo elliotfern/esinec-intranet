@@ -410,7 +410,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" id="btnModificarFacturaIntranet" class="btn btn-primary">Modificar cliente</button>
+        <button type="submit" id="btnModificarDatosCliente" class="btn btn-primary">Modificar cliente</button>
        </form>
       </div>
     </div>

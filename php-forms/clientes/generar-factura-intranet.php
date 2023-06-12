@@ -56,7 +56,7 @@ LEFT JOIN txsxekgr_esinec.wp_usermeta AS um4 ON p2.clienteId = um4.user_id AND u
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS um5 ON p2.clienteId = um5.user_id AND um5.meta_key = 'billing_country'
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS um6 ON p2.clienteId = um6.user_id AND um6.meta_key = 'billing_postcode'
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS um7 ON p2.clienteId = um7.user_id AND um7.meta_key = 'billing_city'
-LEFT JOIN txsxekgr_esinec.wp_usermeta AS um8 ON p2.clienteId = um8.user_id AND um8.meta_key = '_billing_nif'
+LEFT JOIN txsxekgr_esinec.wp_usermeta AS um8 ON p2.clienteId = um8.user_id AND um8.meta_key = 'billing_nif'
 WHERE p2.id = :orderId
 GROUP BY p2.id"); 
 
@@ -72,11 +72,115 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $productoVariante = $row['productoVariante'];
         $precio_neto = $row['total'];
         $direccion = $row['direccion'];
-        $provincia = $row['provincia'];
+        $state = $row['provincia'];
         $pais = $row['pais'];
         $codigopostal = $row['codigopostal'];
         $ciudad = $row['ciudad'];
         $dni = $row['dni'];
+
+        if ($state == 'A') {
+            $stateNom = 'Álava';
+        } elseif ($state == 'AB') {
+            $stateNom = 'Albacete';
+        } elseif ($state == 'AL') {
+            $stateNom = 'Alicante';
+        } elseif ($state == 'AM') {
+            $stateNom = 'Almería';
+        } elseif ($state == 'O') {
+            $stateNom = 'Asturias';
+        } elseif ($state == 'AV') {
+            $stateNom = 'Ávila';
+        } elseif ($state == 'BA') {
+            $stateNom = 'Badajoz';
+        } elseif ($state == 'PM') {
+            $stateNom = 'Baleares';
+        } elseif ($state == 'B') {
+            $stateNom = 'Barcelona';
+        } elseif ($state == 'BU') {
+            $stateNom = 'Burgos';
+        } elseif ($state == 'CC') {
+            $stateNom = 'Cáceres';
+        } elseif ($state == 'CA') {
+            $stateNom = 'Cádiz';
+        } elseif ($state == 'S') {
+            $stateNom = 'Cantabria';
+        } elseif ($state == 'CS') {
+            $stateNom = 'Castellón';
+        } elseif ($state == 'CE') {
+            $stateNom = 'Ceuta';
+        } elseif ($state == 'CR') {
+            $stateNom = 'Ciudad Real';
+        } elseif ($state == 'CO') {
+            $stateNom = 'Córdoba';
+        } elseif ($state == 'CU') {
+            $stateNom = 'Cuenca';
+        } elseif ($state == 'GI') {
+            $stateNom = 'Girona';
+        } elseif ($state == 'GR') {
+            $stateNom = 'Granada';
+        } elseif ($state == 'GU') {
+            $stateNom = 'Guadalajara';
+        } elseif ($state == 'SS') {
+            $stateNom = 'Guipúzcoa';
+        } elseif ($state == 'H') {
+            $stateNom = 'Huelva';
+        } elseif ($state == 'HU') {
+            $stateNom = 'Huesca';
+        } elseif ($state == 'J') {
+            $stateNom = 'Jaén';
+        } elseif ($state == 'LO') {
+            $stateNom = 'La Rioja';
+        } elseif ($state == 'GC') {
+            $stateNom = 'Las Palmas';
+        } elseif ($state == 'LE') {
+            $stateNom = 'León';
+        } elseif ($state == 'L') {
+            $stateNom = 'Lleida';
+        } elseif ($state == 'LU') {
+            $stateNom = 'Lugo';
+        } elseif ($state == 'M') {
+            $stateNom = 'Madrid';
+        } elseif ($state == 'MA') {
+            $stateNom = 'Málaga';
+        } elseif ($state == 'ML') {
+            $stateNom = 'Melilla';
+        } elseif ($state == 'MU') {
+            $stateNom = 'Murcia';
+        } elseif ($state == 'NA') {
+            $stateNom = 'Navarra';
+        } elseif ($state == 'OR') {
+            $stateNom = 'Ourense';
+        } elseif ($state == 'P') {
+            $stateNom = 'Palencia';
+        } elseif ($state == 'PO') {
+            $stateNom = 'Pontevedra';
+        } elseif ($state == 'SA') {
+            $stateNom = 'Salamanca';
+        } elseif ($state == 'TF') {
+            $stateNom = 'Santa Cruz de Tenerife';
+        } elseif ($state == 'SG') {
+            $stateNom = 'Segovia';
+        } elseif ($state == 'SE') {
+            $stateNom = 'Sevilla';
+        } elseif ($state == 'SO') {
+            $stateNom = 'Soria';
+        } elseif ($state == 'T') {
+            $stateNom = 'Tarragona';
+        } elseif ($state == 'TE') {
+            $stateNom = 'Teruel';
+        } elseif ($state == 'TO') {
+            $stateNom = 'Toledo';
+        } elseif ($state == 'V') {
+            $stateNom = 'Valencia';
+        } elseif ($state == 'VA') {
+            $stateNom = 'Valladolid';
+        } elseif ($state == 'BI') {
+            $stateNom = 'Vizcaya';
+        } elseif ($state == 'ZA') {
+            $stateNom = 'Zamora';
+        } elseif ($state == 'Z') {
+            $stateNom = 'Zaragoza';
+        }
 
         $precio_neto2 = floatval($precio_neto);
         $iva = $row['tax'];
@@ -196,7 +300,11 @@ $html .= '<div class="container">
 
                 if ($direccion !== "") {
                     $html .= '&nbsp;&nbsp;Dirección: '.$direccion. '<br>
-                    '.$ciudad.', ('.$provincia.'), '.$codigopostal.'<br>';
+                    '.$ciudad.'';
+                    if ($pais == "ES") {
+                        $html .= ' ('.$stateNom.') ';
+                    }
+                        $html .= ''.$codigopostal.'<br>';
                     if ($pais == "ES") {
                         $html .= 'España<br>';
                       } else {

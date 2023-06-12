@@ -659,3 +659,90 @@ function modificarDatosCliente(idCliente) {
     },
   });
 }
+
+// MODIFICAR DATOS CLIENTE API WOOCOMMERCE
+$(function () {
+  $("#btnModificarDatosCliente").click(function () {
+    // check values
+    $("#modificarDatosClienteMessageOk").hide();
+    $("#modificarDatosClienteMessageErr").hide();
+
+    // Stop form from submitting normally
+    event.preventDefault();
+    var server = window.location.hostname;
+    var urlAjax =
+      "https://" +
+      server +
+      "/php-process/clientes/php-api-woocommerce-cliente-modificar.php";
+    $.ajax({
+      type: "POST",
+      url: urlAjax,
+      data: {
+        idCliente: $("#idCliente").val(),
+        first_name: $("#first_name").val(),
+        last_name: $("#last_name").val(),
+        address_1: $("#address_1").val(),
+        city: $("#city").val(),
+        state: $("#state").val(),
+        country: $("#country").val(),
+        postcode: $("#postcode").val(),
+        phone: $("#phone").val(),
+        email: $("#email").val(),
+        _billing_nif: $("#_billing_nif").val(),
+      },
+      success: function (response) {
+        if (response.status == "success") {
+          // Add response in Modal body
+          $("#modificarDatosClienteMessageOk").show();
+          $("#modificarDatosClienteMessageErr").hide();
+        } else {
+          $("#modificarDatosClienteMessageErr").show();
+          $("#modificarDatosClienteMessageOk").hide();
+        }
+      },
+    });
+  });
+});
+
+// CREAR CLIENTE API WOOCOMMERCE
+$(function () {
+  $("#btnCrearCliente").click(function () {
+    // check values
+    $("#crearClienteMessageOk").hide();
+    $("#crearClienteMessageErr").hide();
+
+    // Stop form from submitting normally
+    event.preventDefault();
+    var server = window.location.hostname;
+    var urlAjax =
+      "https://" +
+      server +
+      "/php-process/clientes/php-api-woocommerce-cliente-crear.php";
+    $.ajax({
+      type: "POST",
+      url: urlAjax,
+      data: {
+        first_name: $("#first_name").val(),
+        last_name: $("#last_name").val(),
+        address_1: $("#address_1").val(),
+        city: $("#city").val(),
+        state: $("#state").val(),
+        country: $("#country").val(),
+        postcode: $("#postcode").val(),
+        phone: $("#phone").val(),
+        email: $("#email").val(),
+        _billing_nif: $("#_billing_nif").val(),
+      },
+      success: function (response) {
+        if (response.status == "success") {
+          // Add response in Modal body
+          $("#crearClienteMessageOk").show();
+          $("#crearClienteMessageErr").hide();
+        } else {
+          $("#crearClienteMessageErr").show();
+          $("#crearClienteMessageOk").hide();
+        }
+      },
+    });
+  });
+});

@@ -107,17 +107,122 @@ if (curl_errno($ch)) {
     // Obtener los datos del cliente
     $billing_address = $customer_data->billing->address_1;
     $billing_city = $customer_data->billing->city;
-    $billing_state = $customer_data->billing->state;
+    $state = $customer_data->billing->state;
     $billing_postcode = $customer_data->billing->postcode;
     $billing_country = $customer_data->billing->country;
     $phone = $customer_data->billing->phone;
+
+    if ($state == 'A') {
+      $stateNom = 'Álava';
+  } elseif ($state == 'AB') {
+      $stateNom = 'Albacete';
+  } elseif ($state == 'AL') {
+      $stateNom = 'Alicante';
+  } elseif ($state == 'AM') {
+      $stateNom = 'Almería';
+  } elseif ($state == 'O') {
+      $stateNom = 'Asturias';
+  } elseif ($state == 'AV') {
+      $stateNom = 'Ávila';
+  } elseif ($state == 'BA') {
+      $stateNom = 'Badajoz';
+  } elseif ($state == 'PM') {
+      $stateNom = 'Baleares';
+  } elseif ($state == 'B') {
+      $stateNom = 'Barcelona';
+  } elseif ($state == 'BU') {
+      $stateNom = 'Burgos';
+  } elseif ($state == 'CC') {
+      $stateNom = 'Cáceres';
+  } elseif ($state == 'CA') {
+      $stateNom = 'Cádiz';
+  } elseif ($state == 'S') {
+      $stateNom = 'Cantabria';
+  } elseif ($state == 'CS') {
+      $stateNom = 'Castellón';
+  } elseif ($state == 'CE') {
+      $stateNom = 'Ceuta';
+  } elseif ($state == 'CR') {
+      $stateNom = 'Ciudad Real';
+  } elseif ($state == 'CO') {
+      $stateNom = 'Córdoba';
+  } elseif ($state == 'CU') {
+      $stateNom = 'Cuenca';
+  } elseif ($state == 'GI') {
+      $stateNom = 'Girona';
+  } elseif ($state == 'GR') {
+      $stateNom = 'Granada';
+  } elseif ($state == 'GU') {
+      $stateNom = 'Guadalajara';
+  } elseif ($state == 'SS') {
+      $stateNom = 'Guipúzcoa';
+  } elseif ($state == 'H') {
+      $stateNom = 'Huelva';
+  } elseif ($state == 'HU') {
+      $stateNom = 'Huesca';
+  } elseif ($state == 'J') {
+      $stateNom = 'Jaén';
+  } elseif ($state == 'LO') {
+      $stateNom = 'La Rioja';
+  } elseif ($state == 'GC') {
+      $stateNom = 'Las Palmas';
+  } elseif ($state == 'LE') {
+      $stateNom = 'León';
+  } elseif ($state == 'L') {
+      $stateNom = 'Lleida';
+  } elseif ($state == 'LU') {
+      $stateNom = 'Lugo';
+  } elseif ($state == 'M') {
+      $stateNom = 'Madrid';
+  } elseif ($state == 'MA') {
+      $stateNom = 'Málaga';
+  } elseif ($state == 'ML') {
+      $stateNom = 'Melilla';
+  } elseif ($state == 'MU') {
+      $stateNom = 'Murcia';
+  } elseif ($state == 'NA') {
+      $stateNom = 'Navarra';
+  } elseif ($state == 'OR') {
+      $stateNom = 'Ourense';
+  } elseif ($state == 'P') {
+      $stateNom = 'Palencia';
+  } elseif ($state == 'PO') {
+      $stateNom = 'Pontevedra';
+  } elseif ($state == 'SA') {
+      $stateNom = 'Salamanca';
+  } elseif ($state == 'TF') {
+      $stateNom = 'Santa Cruz de Tenerife';
+  } elseif ($state == 'SG') {
+      $stateNom = 'Segovia';
+  } elseif ($state == 'SE') {
+      $stateNom = 'Sevilla';
+  } elseif ($state == 'SO') {
+      $stateNom = 'Soria';
+  } elseif ($state == 'T') {
+      $stateNom = 'Tarragona';
+  } elseif ($state == 'TE') {
+      $stateNom = 'Teruel';
+  } elseif ($state == 'TO') {
+      $stateNom = 'Toledo';
+  } elseif ($state == 'V') {
+      $stateNom = 'Valencia';
+  } elseif ($state == 'VA') {
+      $stateNom = 'Valladolid';
+  } elseif ($state == 'BI') {
+      $stateNom = 'Vizcaya';
+  } elseif ($state == 'ZA') {
+      $stateNom = 'Zamora';
+  } elseif ($state == 'Z') {
+      $stateNom = 'Zaragoza';
+  }
+
 
      // Obtener los metadatos del cliente
      $metadata = $customer_data->meta_data;
 
      // Buscar el metadato "_billing_nif"
      foreach ($metadata as $meta) {
-         if ($meta->key === '_billing_nif') {
+         if ($meta->key === 'billing_nif') {
              $billing_nif = $meta->value;
              break;
          }
@@ -206,7 +311,11 @@ $html .= '<div class="container">
 
                 if (!empty($billing_address)) {
                   $html .= 'Dirección: '.$billing_address .'<br>
-                  '.$billing_city .', ('.$billing_state .'), '.$billing_postcode .'<br>';
+                  '.$billing_city .'';
+                  if ($billing_country == "ES") {
+                      $html .= ' ('.$stateNom.') ';
+                  }
+                      $html .= ''.$billing_postcode .'<br>';
                   if ($billing_country == "ES") {
                     $html .= 'España<br>';
                   } else {

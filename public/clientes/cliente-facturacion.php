@@ -47,6 +47,111 @@ $customer_id = $id;
 // Retrieve the customer information
 $customer = $woocommerce->get("customers/$customer_id");
 
+$state = $customer->billing->state;
+ if ($state == 'A') {
+    $stateNom = 'Álava';
+} elseif ($state == 'AB') {
+    $stateNom = 'Albacete';
+} elseif ($state == 'AL') {
+    $stateNom = 'Alicante';
+} elseif ($state == 'AM') {
+    $stateNom = 'Almería';
+} elseif ($state == 'O') {
+    $stateNom = 'Asturias';
+} elseif ($state == 'AV') {
+    $stateNom = 'Ávila';
+} elseif ($state == 'BA') {
+    $stateNom = 'Badajoz';
+} elseif ($state == 'PM') {
+    $stateNom = 'Baleares';
+} elseif ($state == 'B') {
+    $stateNom = 'Barcelona';
+} elseif ($state == 'BU') {
+    $stateNom = 'Burgos';
+} elseif ($state == 'CC') {
+    $stateNom = 'Cáceres';
+} elseif ($state == 'CA') {
+    $stateNom = 'Cádiz';
+} elseif ($state == 'S') {
+    $stateNom = 'Cantabria';
+} elseif ($state == 'CS') {
+    $stateNom = 'Castellón';
+} elseif ($state == 'CE') {
+    $stateNom = 'Ceuta';
+} elseif ($state == 'CR') {
+    $stateNom = 'Ciudad Real';
+} elseif ($state == 'CO') {
+    $stateNom = 'Córdoba';
+} elseif ($state == 'CU') {
+    $stateNom = 'Cuenca';
+} elseif ($state == 'GI') {
+    $stateNom = 'Girona';
+} elseif ($state == 'GR') {
+    $stateNom = 'Granada';
+} elseif ($state == 'GU') {
+    $stateNom = 'Guadalajara';
+} elseif ($state == 'SS') {
+    $stateNom = 'Guipúzcoa';
+} elseif ($state == 'H') {
+    $stateNom = 'Huelva';
+} elseif ($state == 'HU') {
+    $stateNom = 'Huesca';
+} elseif ($state == 'J') {
+    $stateNom = 'Jaén';
+} elseif ($state == 'LO') {
+    $stateNom = 'La Rioja';
+} elseif ($state == 'GC') {
+    $stateNom = 'Las Palmas';
+} elseif ($state == 'LE') {
+    $stateNom = 'León';
+} elseif ($state == 'L') {
+    $stateNom = 'Lleida';
+} elseif ($state == 'LU') {
+    $stateNom = 'Lugo';
+} elseif ($state == 'M') {
+    $stateNom = 'Madrid';
+} elseif ($state == 'MA') {
+    $stateNom = 'Málaga';
+} elseif ($state == 'ML') {
+    $stateNom = 'Melilla';
+} elseif ($state == 'MU') {
+    $stateNom = 'Murcia';
+} elseif ($state == 'NA') {
+    $stateNom = 'Navarra';
+} elseif ($state == 'OR') {
+    $stateNom = 'Ourense';
+} elseif ($state == 'P') {
+    $stateNom = 'Palencia';
+} elseif ($state == 'PO') {
+    $stateNom = 'Pontevedra';
+} elseif ($state == 'SA') {
+    $stateNom = 'Salamanca';
+} elseif ($state == 'TF') {
+    $stateNom = 'Santa Cruz de Tenerife';
+} elseif ($state == 'SG') {
+    $stateNom = 'Segovia';
+} elseif ($state == 'SE') {
+    $stateNom = 'Sevilla';
+} elseif ($state == 'SO') {
+    $stateNom = 'Soria';
+} elseif ($state == 'T') {
+    $stateNom = 'Tarragona';
+} elseif ($state == 'TE') {
+    $stateNom = 'Teruel';
+} elseif ($state == 'TO') {
+    $stateNom = 'Toledo';
+} elseif ($state == 'V') {
+    $stateNom = 'Valencia';
+} elseif ($state == 'VA') {
+    $stateNom = 'Valladolid';
+} elseif ($state == 'BI') {
+    $stateNom = 'Vizcaya';
+} elseif ($state == 'ZA') {
+    $stateNom = 'Zamora';
+} elseif ($state == 'Z') {
+    $stateNom = 'Zaragoza';
+}
+
 // Display the customer information
 echo '<div class="customer-info">';
 echo '<h4>Cliente:</h4>';
@@ -59,8 +164,15 @@ echo '<ul>
 <li><strong>Nombre y apellidos</strong> : <a href="https://gestion.esinec.com/clientes/'.$customer_id.'/">' . $customer->first_name . ' '  . $customer->last_name .'</a></li>';
 echo '<li><strong>Dirección:</strong> ' . $customer->billing->address_1 . '</li>';
 echo '<li><strong>Ciudad:</strong> ' . $customer->billing->city . '</li>';
-echo '<li><strong>Provincia:</strong> ' . $customer->billing->state . '</li>';
-echo '<li><strong>País:</strong> ' . $customer->billing->country . '</li>';
+if ($customer->billing->country == "ES") {
+    echo "<li><strong>Provincia: </strong>".$stateNom."</li>";
+}
+echo '<li><strong>País:</strong>';
+if ($customer->billing->country == "ES") {
+    echo " España</li>";
+} else {
+    echo  '' .$customer->billing->country . '</li>';
+}
 echo '<li><strong>Código Postal:</strong> ' . $customer->billing->postcode . '</li>';
 echo '<li><strong>Email</strong> : ' . $customer->email . '</li>';
 echo '<li><strong>Teléfono:</strong> ' . $customer->billing->phone . '</li>';
@@ -69,7 +181,7 @@ echo '<li><strong>Teléfono:</strong> ' . $customer->billing->phone . '</li>';
 // Verificar si existe el meta value "_nif" (DNI) y mostrarlo
 if (isset($customer->meta_data)) {
     foreach ($customer->meta_data as $meta) {
-        if ($meta->key === '_billing_nif') {
+        if ($meta->key === 'billing_nif') {
             echo '<li><strong>DNI:</strong> ' . $meta->value . '</li>';
             break;
         }
