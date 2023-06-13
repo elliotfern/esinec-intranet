@@ -90,22 +90,22 @@ if (curl_errno($ch)) {
 
             echo '<div class="col-md-4">';
             echo '<label>Nombre</label>';
-            echo '<input class="form-control" type="text" name="first_name" id="first_name" value="'.$first_name.'">';
+            echo '<input class="form-control" required type="text" name="first_name" id="first_name" value="'.$first_name.'">';
             echo '</div>';
 
             echo '<div class="col-md-4">';
             echo '<label>Apellidos</label>';
-            echo '<input class="form-control" type="text" name="last_name" id="last_name" value="'.$last_name.'">';
+            echo '<input class="form-control" required type="text" name="last_name" id="last_name" value="'.$last_name.'">';
             echo '</div>';
 
             echo '<div class="col-md-4">';
             echo '<label>Dirección postal</label>';
-            echo '<input class="form-control" type="text" name="address_1" id="address_1" value="'.$address.'">';
+            echo '<input class="form-control" required type="text" name="address_1" id="address_1" value="'.$address.'">';
             echo '</div>';
 
             echo '<div class="col-md-4">';
             echo '<label>Ciudad</label>';
-            echo '<input class="form-control" type="text" name="city" id="city" value="'.$city.'">';
+            echo '<input class="form-control" required type="text" name="city" id="city" value="'.$city.'">';
             echo '</div>';
             
             echo '<div class="col-md-4">';
@@ -713,12 +713,12 @@ $(document).ready(function() {
             echo '</div>';
 
             echo '<div class="col-md-4">';
-            echo '<label>Email</label>';
-            echo '<input class="form-control" type="text" name="email" id="email" value="'.$email.'">';
+            echo '<label>Email:</label>';
+            echo '<input class="form-control" type="text" required name="email" id="email" value="'.$email.'">';
             echo '</div>';
 
             echo '<div class="col-md-4">';
-            echo '<label>DNI/NIF/CIF</label>';
+            echo '<label>DNI/NIF/CIF (opcional):</label>';
             echo '<input class="form-control" type="text" name="_billing_nif" id="_billing_nif" value="'.$billing_nif.'">';
             echo '</div>';
                 
