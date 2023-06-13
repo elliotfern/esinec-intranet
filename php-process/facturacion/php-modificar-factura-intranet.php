@@ -119,15 +119,125 @@ function data_input($data) {
       } else {
         $comisionista2 = data_input($_POST['comisionista2']);
       }
+      
+      if ($_POST["datosfiscales"] == 2) {
+        $datosfiscales_factura = data_input($_POST['datosfiscales']);
+      }
 
       $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
     
       if ($id === false) {
         $hasError = true;
       }
+
+      // DATOS FISCALES
+      if ($_POST["datosfiscales"] == 2) {
+        if ($_POST["datosfiscales_update"] == "actualizar") {
+
+              $datosFiscalesActualizar = 1;
+
+              if (empty($_POST["nombre"])) {
+                $nombre = NULL;
+              } else {
+                $nombre = data_input($_POST['nombre']);
+              }
+
+              if (empty($_POST["apellidos"])) {
+                $apellidos = NULL;
+              } else {
+                $apellidos = data_input($_POST['apellidos']);
+              }
+        
+              if (empty($_POST["empresa"])) {
+                $empresa = NULL;
+              } else {
+                $empresa = data_input($_POST['empresa']);
+              }
+        
+              if (empty($_POST["dni"])) {
+                $dni = NULL;
+              } else {
+                $dni = data_input($_POST['dni']);
+              }
+        
+              if (empty($_POST["ciudad"])) {
+                $ciudad = NULL;
+              } else {
+                $ciudad = data_input($_POST['ciudad']);
+              }
+        
+              if (empty($_POST["direccion"])) {
+                $direccion = NULL;
+              } else {
+                $direccion = data_input($_POST['direccion']);
+              }
+        
+              if (empty($_POST["pais"])) {
+                $pais = NULL;
+              } else {
+                $pais = data_input($_POST['pais']);
+              }
+        
+              if (empty($_POST["provincia"])) {
+                $provincia = NULL;
+              } else {
+                $provincia = data_input($_POST['provincia']);
+              }
+        } elseif ($_POST["datosfiscales_update"] == "insert") {
+          $datosFiscalesActualizar = 2;
+
+              if (empty($_POST["nombre"])) {
+                $nombre = NULL;
+              } else {
+                $nombre = data_input($_POST['nombre']);
+              }
+
+              if (empty($_POST["apellidos"])) {
+                $apellidos = NULL;
+              } else {
+                $apellidos = data_input($_POST['apellidos']);
+              }
+        
+              if (empty($_POST["empresa"])) {
+                $empresa = NULL;
+              } else {
+                $empresa = data_input($_POST['empresa']);
+              }
+        
+              if (empty($_POST["dni"])) {
+                $dni = NULL;
+              } else {
+                $dni = data_input($_POST['dni']);
+              }
+        
+              if (empty($_POST["ciudad"])) {
+                $ciudad = NULL;
+              } else {
+                $ciudad = data_input($_POST['ciudad']);
+              }
+        
+              if (empty($_POST["direccion"])) {
+                $direccion = NULL;
+              } else {
+                $direccion = data_input($_POST['direccion']);
+              }
+        
+              if (empty($_POST["pais"])) {
+                $pais = NULL;
+              } else {
+                $pais = data_input($_POST['pais']);
+              }
+        
+              if (empty($_POST["provincia"])) {
+                $provincia = NULL;
+              } else {
+                $provincia = data_input($_POST['provincia']);
+              }
+      }
+   } 
     
     if (!isset($hasError)) {
-      $sql = "UPDATE txsxekgr_intranet.facturas SET date=:date, status=:status, invoiceNumber=:invoiceNumber, clienteId=:clienteId, orderTotal=:orderTotal, orderTax=:orderTax, paymentType=:paymentType, items=:items, numPago=:numPago, productoVariante=:productoVariante, notas=:notas, comision1=:comision1, comisionista1=:comisionista1, comision2=:comision2, comisionista2=:comisionista2 WHERE id=:id";
+      $sql = "UPDATE txsxekgr_intranet.facturas SET date=:date, status=:status, invoiceNumber=:invoiceNumber, clienteId=:clienteId, orderTotal=:orderTotal, orderTax=:orderTax, paymentType=:paymentType, items=:items, numPago=:numPago, productoVariante=:productoVariante, notas=:notas, comision1=:comision1, comisionista1=:comisionista1, comision2=:comision2, comisionista2=:comisionista2, datosFiscales=:datosFiscales WHERE id=:id";
       
       global $conn;
       $stmt = $conn->prepare($sql);
@@ -146,8 +256,64 @@ function data_input($data) {
       $stmt->bindParam(":comisionista1", $comisionista1, PDO::PARAM_STR);
       $stmt->bindParam(":comision2", $comision2, PDO::PARAM_STR);
       $stmt->bindParam(":comisionista2", $comisionista2, PDO::PARAM_STR);
+      $stmt->bindParam(":datosFiscales", $datosfiscales_factura, PDO::PARAM_INT);
       $stmt->bindParam(":id", $id, PDO::PARAM_INT);
       $stmt->execute();
+
+      if ($datosFiscalesActualizar == "1") {
+        $sql = "UPDATE txsxekgr_intranet.datosFiscalesCliente SET nombre=:nombre, apellidos=:apellidos, empresa=:empresa, dni=:dni, direccion=:direccion, ciudad=:ciudad, pais=:pais, provincia=:provincia WHERE idCliente=:idCliente";
+      
+        global $conn;
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+        $stmt->bindParam(":apellidos", $apellidos, PDO::PARAM_STR);
+        $stmt->bindParam(":empresa", $empresa, PDO::PARAM_STR);
+        $stmt->bindParam(":dni", $dni, PDO::PARAM_STR);
+        $stmt->bindParam(":direccion", $direccion, PDO::PARAM_STR);
+        $stmt->bindParam(":ciudad", $ciudad, PDO::PARAM_STR);
+        $stmt->bindParam(":pais", $pais, PDO::PARAM_STR);
+        $stmt->bindParam(":provincia", $provincia, PDO::PARAM_STR);
+        $stmt->bindParam(":idCliente", $clienteId, PDO::PARAM_INT);
+        
+        if ($stmt->execute()) {
+          // La ejecución fue exitosa
+          $response = array('status2' => 'success');
+          header( "Content-Type: application/json" );
+          echo json_encode($response);
+        } else {
+          // Hubo un error en la ejecución
+          $response = array('status2' => 'error');
+          header( "Content-Type: application/json" );
+          echo json_encode($response);
+        }
+      } elseif ($datosFiscalesActualizar == 2) {
+        $sql = "INSERT INTO txsxekgr_intranet.datosFiscalesCliente SET nombre=:nombre, apellidos=:apellidos, empresa=:empresa, dni=:dni, direccion=:direccion, ciudad=:ciudad, pais=:pais, provincia=:provincia, idCliente=:idCliente";
+      
+        global $conn;
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+        $stmt->bindParam(":apellidos", $apellidos, PDO::PARAM_STR);
+        $stmt->bindParam(":empresa", $empresa, PDO::PARAM_STR);
+        $stmt->bindParam(":dni", $dni, PDO::PARAM_STR);
+        $stmt->bindParam(":direccion", $direccion, PDO::PARAM_STR);
+        $stmt->bindParam(":ciudad", $ciudad, PDO::PARAM_STR);
+        $stmt->bindParam(":pais", $pais, PDO::PARAM_STR);
+        $stmt->bindParam(":provincia", $provincia, PDO::PARAM_STR);
+        $stmt->bindParam(":idCliente", $clienteId, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+          // La ejecución fue exitosa
+          $response = array('status_insert_datosfiscales' => 'success');
+          header( "Content-Type: application/json" );
+          echo json_encode($response);
+        } else {
+          // Hubo un error en la ejecución
+          $response = array('status_insert_datosfiscales' => 'error');
+          header( "Content-Type: application/json" );
+          echo json_encode($response);
+        }
+      }
+
 
       // response output
       $response = array(

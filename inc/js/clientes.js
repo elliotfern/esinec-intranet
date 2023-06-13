@@ -624,6 +624,16 @@ $(function () {
         comisionista1: $("#comisionista1").val(),
         comision2: $("#comision2").val(),
         comisionista2: $("#comisionista2").val(),
+        datosfiscales: $("#datosFiscales").val(),
+        datosfiscales_update: $("#datosfiscales_update").val(),
+        nombre: $("#nombre").val(),
+        apellidos: $("#apellidos").val(),
+        empresa: $("#empresa").val(),
+        dni: $("#dni").val(),
+        direccion: $("#direccion").val(),
+        ciudad: $("#ciudad").val(),
+        pais: $("#pais").val(),
+        provincia: $("#provincia").val(),
       },
       success: function (response) {
         if (response.status == "success") {

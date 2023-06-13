@@ -293,7 +293,7 @@ if (!empty($orders)) {
 
 echo '<h6>Facturas generadas en la intranet:</h6>';
 
-echo '<p><button type="button" id="btnModificaPagos" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearFacturaIntranet" onclick="generarFacturaIntranet()">Crear factura &rarr;</button></p>';
+echo '<p><button type="button" id="btnGenerarFactura" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearFacturaIntranet" onclick="generarFacturaIntranet()">Crear factura &rarr;</button></p>';
 ?>
 <input type="hidden" id="customerId" name="customerId" value="<?php echo $customer_id?>">
 <input type='hidden' id='url' value='<?php echo APP_SERVER;?>'/>
@@ -547,7 +547,8 @@ Añadir nuevo cobro &rarr;
                                     }
                                 
                                 html += '</td>';
-                                html += '<td><button type="button" id="btnModificaPagos' + data[i].id +'" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#btnModificaPagos" onclick="updateModalPagos(' + data[i].id +')" value="'+data[i].id+ '" data-title="'+data[i].id+ '" data-slug="'+data[i].id+ '" data-text="'+data[i].id+ '">Modificar datos</button></td>';
+                                html += '<td><button type="button" id="btnModificaPagos' + data[i].id +'" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#btnModificaPagos" onclick="updateModalPagos(' + data[i].id +')">Modificar datos</button></td>';
+                                
                                 html += '<td><button type="button" onclick="generarFacturaIntranet('+data[i].id+', '+data[i].estado+', '+data[i].IDproducto+', '+data[i].importe+', \'' + data[i].fecha + '\', '+idCustomer+', '+data[i].tipoPago+', '+data[i].numPago+')" id="btnCrearFacturaIntranet" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalCrearFacturaIntranet" data-id="'+data[i].id+ '" value="'+data[i].id+ '" data-title="'+data[i].id+ '" data-slug="'+data[i].id+ '" data-text="'+data[i].id+ '">Generar factura</button>';
                                 html += '</tr>';
                         }
@@ -638,7 +639,7 @@ Añadir nueva inscripción &rarr;
                                 } else {
                                         html += '<td>'+data[i].notas+'</td>';
                                 }
-                                html += '<td> <button type="button" id="btnModificaInscripcion' + data[i].id +'" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalModificaInscripcion" onclick="updateInscripcion(' + data[i].id +')" value="'+data[i].id+ '" data-title="'+data[i].id+ '" data-slug="'+data[i].id+ '" data-text="'+data[i].id+ '">Modificar datos</button></td>';
+                                html += '<td> <button type="button" id="btnModificaInscripcion' + data[i].id +'" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalModificaInscripcion" onclick="updateInscripcion(' + data[i].id +')">Modificar datos</button></td>';
                                 html += '</tr>';
                         }
                         $('#inscripcionCurso tbody').html(html);

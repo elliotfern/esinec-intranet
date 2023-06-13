@@ -62,11 +62,10 @@ if (isset($_POST['idFactura2'])) {
             echo '<form method="POST" action="" id="modalFormAddSupplyCompanny" class="row g-3">';
 
             echo '<input type="hidden" name="id2" id="id2" value="'.$idFactura.'">';
-
-
-                echo '<div class="col-md-4">
-                      <label>Cliente:</label>
-                      <select class="form-select" name="clienteId" id="clienteId">';
+            echo '<h6>Cliente asociado a la factura: </h6>';
+            
+            echo '<div class="col-md-4">
+                <select class="form-select" name="clienteId" id="clienteId">';
                 echo '<option value="">Selecciona un cliente</option>';
                   $stmt = $conn2->prepare("SELECT u.ID, m1.meta_value as first_name, m2.meta_value as last_name
                   FROM wp_users u
@@ -92,9 +91,138 @@ if (isset($_POST['idFactura2'])) {
                   }
                 echo '</select>';
                 echo '</div>';
-    
+                
                 echo '<div class="col-md-4">
-                      <label>Producto:</label>
+                ¿Deseas añadir unos datos fiscales diferentes?
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="datosFiscales" name="datosFiscales">
+                    <label class="form-check-label" for="flexCheckDefault">
+                      Sí
+                    </label>
+                    </div> </div>';
+
+                ?>
+                <script>
+                    $(document).ready(function() {
+                    $('#datosFiscales').change(function() {
+                        if ($(this).is(':checked')) {
+                        $('#formularioSecundario').show();
+                        $(this).val('2');
+                        } else {
+                        $('#formularioSecundario').hide();
+                        $(this).val('');
+                        }
+                    });
+                
+                    obtenerDatosExistentes();
+                    });
+
+                        function obtenerDatosExistentes() {
+                            var idCliente = $("#idCliente").val();
+                        // Realiza la solicitud AJAX para verificar si los datos existen
+                        var server = window.location.hostname;
+                        var urlAjax =
+                        "https://" +
+                        server +
+                        "/php-process/clientes/php-verificar-datos-fiscales.php";
+                        $.ajax({
+                            url: urlAjax,
+                            type: 'GET',
+                            data: {
+                                idCliente: idCliente,
+                            },
+                            success: function(response) {
+                                var parsedResponse = JSON.parse(response);
+                                var datos = parsedResponse.datos;
+                                console.log('Datos:', datos);
+                                if (Object.keys(datos).length > 0) {
+                                    // Si los datos existen, rellena los campos del formulario
+                                    rellenarCampos(datos);
+                                    //console.log('Exito');
+                                    $('#datosfiscales_update').val('actualizar');
+                                } else {
+                                    // Si los datos no existen, realiza alguna otra acción
+                                    $('#datosfiscales_update').val('insert');
+                                    //console.log('NO hay JSON');
+                                }
+                               
+                            },
+                            error: function(xhr, status, error) {
+                                alert('Error: ' + error);
+                            }
+                            });
+                        }
+                        function rellenarCampos(datos) {
+                            $('#nombre').val(datos.nombre);
+                            $('#apellidos').val(datos.apellidos);
+                            $('#empresa').val(datos.empresa);
+                            $('#dni').val(datos.dni);
+                            $('#direccion').val(datos.direccion);
+                            $('#ciudad').val(datos.ciudad);
+                            $('#pais').val(datos.pais);
+                            $('#provincia').val(datos.provincia);
+                            }
+                    </script>
+
+                    <div id="formularioSecundario" class="container row g-3" style="display: none;">
+
+                    <input type="hidden" name="idCliente" id="idCliente" value="<?php echo $clienteId_old; ?>">
+
+                    <input type="hidden" name="datosfiscales_update" id="datosfiscales_update">
+
+                    <hr>
+                    <h6>Datos fiscales: </h6>
+                    <!-- Agrega los campos adicionales que deseas mostrar -->
+                    <div class="col-md-4">
+                    <label>Nombre:</label>
+                    <input class="form-control" type="text" name="nombre" id="nombre">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>Apellidos:</label>
+                    <input class="form-control" type="text" name="apellidos" id="apellidos">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>Empresa:</label>
+                    <input class="form-control" type="text" name="empresa" id="empresa">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>CIF/DNI/NIF:</label>
+                    <input class="form-control" type="text" name="dni" id="dni">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>Dirección:</label>
+                    <input class="form-control" type="text" name="direccion" id="direccion">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>Ciudad:</label>
+                    <input class="form-control" type="text" name="ciudad" id="ciudad">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>País:</label>
+                    <input class="form-control" type="text" name="pais" id="pais">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>Provincia:</label>
+                    <input class="form-control" type="text" name="provincia" id="provincia" >
+                    </div>
+
+                </div>
+
+               
+                <?php
+                
+                echo '<hr>';
+                echo '<h6>Producto: </h6>';
+
+                echo '<div class="col-md-4">';
+                echo '<label>Producto (vinculado a los productos de la web):</label>
                       <select class="form-select" name="items" id="items">';
                 echo '<option selected value="">Selecciona un producto</option>';
                   $stmt = $conn2->prepare("SELECT ID, post_title
@@ -122,15 +250,10 @@ if (isset($_POST['idFactura2'])) {
                 echo '</div>';
 
                 echo '<div class="col-md-4">';
-                echo '<label>Número de factura (sin escribir ESINEC Y AÑO)</label>';
-                echo '<input class="form-control" type="text" name="invoiceNumber" id="invoiceNumber" value="'.$invoiceNumber_old.'">';
-                echo '</div>';
-
-                echo '<div class="col-md-4">';
                 echo '<label>Importe total (sin IVA)</label>';
                 echo '<input class="form-control" type="text" name="orderTotal" id="orderTotal" value="'.$orderTotal_old.'">';
                 echo '</div>';
-                
+
                 echo '<div class="col-md-4">
                 <label>Tipo de IVA:</label>
                 <select class="form-select" name="orderTax" id="orderTax">';
@@ -151,7 +274,20 @@ if (isset($_POST['idFactura2'])) {
                     echo '</select>';
                 }
                 echo '</div>';
-                
+
+                echo '<hr>';
+                echo '<h6>Datos factura:</h6>';
+
+                echo '<div class="col-md-4">';
+                echo '<label>Número de factura (sin escribir ESINEC Y AÑO)</label>';
+                echo '<input class="form-control" type="text" name="invoiceNumber" id="invoiceNumber" value="'.$invoiceNumber_old.'">';
+                echo '</div>';
+
+                echo '<div class="col-md-4">';
+                echo '<label>Fecha factura</label>';
+                echo '<input class="form-control" type="date" name="date" id="date" value="'.$date_old.'">';
+                echo '</div>';
+            
                 echo '<div class="col-md-4">
                 <label>Tipo de pago:</label>
                 <select class="form-select" name="paymentType" id="paymentType">';
@@ -192,12 +328,7 @@ if (isset($_POST['idFactura2'])) {
                     echo '</select>';
                 }
                 echo '</div>';
-    
-                echo '<div class="col-md-4">';
-                echo '<label>Fecha del pago</label>';
-                echo '<input class="form-control" type="date" name="date" id="date" value="'.$date_old.'">';
-                echo '</div>';
-    
+
                 echo '<div class="col-md-4">';
                 echo '<label>Número del pago (sólo número entre 1-12)</label>';
                 echo '<input class="form-control" type="text" name="numPago2" id="numPago2" value="'.$numPago_old.'">';
@@ -231,6 +362,9 @@ if (isset($_POST['idFactura2'])) {
                 echo '<label>Notas factura (opcional)</label>';
                 echo '<input class="form-control" type="text" name="notas2" id="notas2" value="'.$notas_old.'">';
                 echo '</div>';
+
+                echo '<hr>';
+                echo '<h5>Comisiones</h5>';
 
                 echo '<div class="col-md-4">';
                 echo '<label>Comisión 1 - Formato: 00,00 (opcional)</label>';
