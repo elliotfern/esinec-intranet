@@ -46,8 +46,19 @@ um4.meta_value AS provincia,
 um5.meta_value AS pais,
 um6.meta_value AS codigopostal,
 um7.meta_value AS ciudad,
-um8.meta_value AS dni
+um8.meta_value AS dni,
+fc.id AS idFiscal,
+fc.idCliente AS idCliente,
+fc.nombre AS nombreFiscal,
+fc.apellidos AS apellidosFiscal,
+fc.empresa AS empresaFiscal,
+fc.dni AS dniFiscal,
+fc.direccion AS direccionFiscal,
+fc.ciudad AS ciudadFiscal,
+fc.pais AS paisFiscal,
+fc.provincia AS provinciaFiscal
 FROM txsxekgr_intranet.facturas AS p2
+LEFT JOIN txsxekgr_intranet.datosFiscalesCliente AS fc ON fc.idCliente = p2.clienteId
 LEFT JOIN txsxekgr_esinec.wp_posts AS p1 ON p2.items = p1.ID
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS umf ON p2.clienteId = umf.user_id AND umf.meta_key = 'first_name'
 LEFT JOIN txsxekgr_esinec.wp_usermeta AS uml ON p2.clienteId = uml.user_id AND uml.meta_key = 'last_name'
@@ -77,109 +88,77 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $codigopostal = $row['codigopostal'];
         $ciudad = $row['ciudad'];
         $dni = $row['dni'];
+        $idFiscal = $row['idFiscal'];
 
-        if ($state == 'A') {
-            $stateNom = 'Álava';
-        } elseif ($state == 'AB') {
-            $stateNom = 'Albacete';
-        } elseif ($state == 'AL') {
-            $stateNom = 'Alicante';
-        } elseif ($state == 'AM') {
-            $stateNom = 'Almería';
-        } elseif ($state == 'O') {
-            $stateNom = 'Asturias';
-        } elseif ($state == 'AV') {
-            $stateNom = 'Ávila';
-        } elseif ($state == 'BA') {
-            $stateNom = 'Badajoz';
-        } elseif ($state == 'PM') {
-            $stateNom = 'Baleares';
-        } elseif ($state == 'B') {
-            $stateNom = 'Barcelona';
-        } elseif ($state == 'BU') {
-            $stateNom = 'Burgos';
-        } elseif ($state == 'CC') {
-            $stateNom = 'Cáceres';
-        } elseif ($state == 'CA') {
-            $stateNom = 'Cádiz';
-        } elseif ($state == 'S') {
-            $stateNom = 'Cantabria';
-        } elseif ($state == 'CS') {
-            $stateNom = 'Castellón';
-        } elseif ($state == 'CE') {
-            $stateNom = 'Ceuta';
-        } elseif ($state == 'CR') {
-            $stateNom = 'Ciudad Real';
-        } elseif ($state == 'CO') {
-            $stateNom = 'Córdoba';
-        } elseif ($state == 'CU') {
-            $stateNom = 'Cuenca';
-        } elseif ($state == 'GI') {
-            $stateNom = 'Girona';
-        } elseif ($state == 'GR') {
-            $stateNom = 'Granada';
-        } elseif ($state == 'GU') {
-            $stateNom = 'Guadalajara';
-        } elseif ($state == 'SS') {
-            $stateNom = 'Guipúzcoa';
-        } elseif ($state == 'H') {
-            $stateNom = 'Huelva';
-        } elseif ($state == 'HU') {
-            $stateNom = 'Huesca';
-        } elseif ($state == 'J') {
-            $stateNom = 'Jaén';
-        } elseif ($state == 'LO') {
-            $stateNom = 'La Rioja';
-        } elseif ($state == 'GC') {
-            $stateNom = 'Las Palmas';
-        } elseif ($state == 'LE') {
-            $stateNom = 'León';
-        } elseif ($state == 'L') {
-            $stateNom = 'Lleida';
-        } elseif ($state == 'LU') {
-            $stateNom = 'Lugo';
-        } elseif ($state == 'M') {
-            $stateNom = 'Madrid';
-        } elseif ($state == 'MA') {
-            $stateNom = 'Málaga';
-        } elseif ($state == 'ML') {
-            $stateNom = 'Melilla';
-        } elseif ($state == 'MU') {
-            $stateNom = 'Murcia';
-        } elseif ($state == 'NA') {
-            $stateNom = 'Navarra';
-        } elseif ($state == 'OR') {
-            $stateNom = 'Ourense';
-        } elseif ($state == 'P') {
-            $stateNom = 'Palencia';
-        } elseif ($state == 'PO') {
-            $stateNom = 'Pontevedra';
-        } elseif ($state == 'SA') {
-            $stateNom = 'Salamanca';
-        } elseif ($state == 'TF') {
-            $stateNom = 'Santa Cruz de Tenerife';
-        } elseif ($state == 'SG') {
-            $stateNom = 'Segovia';
-        } elseif ($state == 'SE') {
-            $stateNom = 'Sevilla';
-        } elseif ($state == 'SO') {
-            $stateNom = 'Soria';
-        } elseif ($state == 'T') {
-            $stateNom = 'Tarragona';
-        } elseif ($state == 'TE') {
-            $stateNom = 'Teruel';
-        } elseif ($state == 'TO') {
-            $stateNom = 'Toledo';
-        } elseif ($state == 'V') {
-            $stateNom = 'Valencia';
-        } elseif ($state == 'VA') {
-            $stateNom = 'Valladolid';
-        } elseif ($state == 'BI') {
-            $stateNom = 'Vizcaya';
-        } elseif ($state == 'ZA') {
-            $stateNom = 'Zamora';
-        } elseif ($state == 'Z') {
-            $stateNom = 'Zaragoza';
+        //datos fiscales
+        if (!empty($idFiscal)) {
+            $idCliente = $row['idCliente'];
+            $nobmbreFiscal = $row['nombreFiscal'];
+            $apellidosFiscal = $row['apellidosFiscal'];
+            $empresaFiscal = $row['empresaFiscal'];
+            $dniFiscal = $row['dniFiscal'];
+            $direccionFiscal = $row['direccionFiscal'];
+            $ciudadFiscal = $row['ciudadFiscal'];
+            $paisFiscal = $row['paisFiscal'];
+            $provinciaFiscal = $row['provinciaFiscal'];
+        }
+
+        $stateNames = array(
+            'A' => 'Álava',
+            'AB' => 'Albacete',
+            'AL' => 'Alicante',
+            'AM' => 'Almería',
+            'O' => 'Asturias',
+            'AV' => 'Ávila',
+            'BA' => 'Badajoz',
+            'PM' => 'Baleares',
+            'B' => 'Barcelona',
+            'BU' => 'Burgos',
+            'CC' => 'Cáceres',
+            'CA' => 'Cádiz',
+            'S' => 'Cantabria',
+            'CS' => 'Castellón',
+            'CE' => 'Ceuta',
+            'CR' => 'Ciudad Real',
+            'CO' => 'Córdoba',
+            'CU' => 'Cuenca',
+            'GI' => 'Girona',
+            'GR' => 'Granada',
+            'GU' => 'Guadalajara',
+            'SS' => 'Guipúzcoa',
+            'H' => 'Huelva',
+            'HU' => 'Huesca',
+            'J' => 'Jaén',
+            'LO' => 'La Rioja',
+            'GC' => 'Las Palmas',
+            'LE' => 'León',
+            'L' => 'Lleida',
+            'LU' => 'Lugo',
+            'M' => 'Madrid',
+            'MA' => 'Málaga',
+            'ML' => 'Melilla',
+            'MU' => 'Murcia',
+            'NA' => 'Navarra',
+            'OR' => 'Ourense',
+            'P' => 'Palencia',
+            'PO' => 'Pontevedra',
+            'SA' => 'Salamanca',
+            'TF' => 'Santa Cruz de Tenerife',
+            'SG' => 'Segovia',
+            'SE' => 'Sevilla',
+            'SO' => 'Soria',
+            'T' => 'Tarragona',
+            'TE' => 'Teruel',
+            'TO' => 'Toledo',
+            'V' => 'Valencia',
+            'VA' => 'Valladolid',
+            'BI' => 'Vizcaya',
+            'ZA' => 'Zamora',
+            'Z' => 'Zaragoza'
+        );
+        
+        if (isset($stateNames[$state]) || isset($stateNames[$provinciaFiscal])) {
+            $stateNom = isset($stateNames[$state]) ? $stateNames[$state] : $stateNames[$provinciaFiscal];
         }
 
         $precio_neto2 = floatval($precio_neto);
@@ -277,6 +256,10 @@ $styles = '<style>
                 padding: 5px;
                 border: 1px solid black;
             }
+
+            ul {
+                list-style: none;
+              }
           </style>';
 
 $html = '
@@ -292,8 +275,32 @@ $html .= '<div class="container">
           <thead>
           <tr>
             <th>
-                <strong>Facturado a:</strong><br>
-               ' . $nombre . ' ' . $apellidos . '<br>';
+                <strong>Facturado a:</strong><br>';
+                if (!empty($idFiscal)) {
+                    $html .= $nobmbreFiscal . ' ' . $apellidosFiscal . '<br>';
+                    $html .= 'Empresa: ' . $empresaFiscal . '<br>';
+                    
+                    if (!empty($dniFiscal)) {
+                        $html .= 'NIF/CIF: ' . $dniFiscal . '<br>';
+                    }
+                
+                    if ($direccionFiscal !== "") {
+                        $html .= 'Dirección: ' . $direccionFiscal . '<br>';
+                        $html .= $ciudadFiscal ;
+                        
+                        if ($paisFiscal == "ES") {
+                            $html .= ' (' . $stateNom . ') <br>';
+                        }
+                        
+                        if ($paisFiscal == "ES") {
+                            $html .= 'España' .'<br>';
+                        } else {
+                            $html .= $paisFiscal . '<br>';
+                        } 
+                    }
+
+                } else {
+                    $html .= ' ' . $nombre . ' ' . $apellidos . '<br>';
                 if (!empty($dni)) {
                     $html .= 'DNI/NIF/CIF: ' . $dni . '<br>';
                 }
@@ -311,8 +318,10 @@ $html .= '<div class="container">
                         $html .= ''.$pais.'<br>';
                       }
                 }
-$html .= '' .$email . '
-            </th>
+                    $html .= '' .$email . '';
+                }
+
+                $html .= ' </th>
             <th>
             <strong>ESINEC S.L</strong><br>
             CIF: B-66821802<br>

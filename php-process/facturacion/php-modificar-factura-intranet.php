@@ -277,14 +277,10 @@ function data_input($data) {
         
         if ($stmt->execute()) {
           // La ejecución fue exitosa
-          $response = array('status2' => 'success');
-          header( "Content-Type: application/json" );
-          echo json_encode($response);
+   
         } else {
           // Hubo un error en la ejecución
-          $response = array('status2' => 'error');
-          header( "Content-Type: application/json" );
-          echo json_encode($response);
+
         }
       } elseif ($datosFiscalesActualizar == 2) {
         $sql = "INSERT INTO txsxekgr_intranet.datosFiscalesCliente SET nombre=:nombre, apellidos=:apellidos, empresa=:empresa, dni=:dni, direccion=:direccion, ciudad=:ciudad, pais=:pais, provincia=:provincia, idCliente=:idCliente";
@@ -302,15 +298,9 @@ function data_input($data) {
         $stmt->bindParam(":idCliente", $clienteId, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-          // La ejecución fue exitosa
-          $response = array('status_insert_datosfiscales' => 'success');
-          header( "Content-Type: application/json" );
-          echo json_encode($response);
+         
         } else {
-          // Hubo un error en la ejecución
-          $response = array('status_insert_datosfiscales' => 'error');
-          header( "Content-Type: application/json" );
-          echo json_encode($response);
+          
         }
       }
 
