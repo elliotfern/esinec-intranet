@@ -794,27 +794,53 @@ numPago
                 echo '<input class="form-control" type="text" name="notas" id="notas">';
                 echo '</div>';
 
-                echo '<div class="col-md-4">';
-                echo '<label>Comisión 1 - Formato: 00,00 (opcional)</label>';
+                echo '<hr>';
+                echo '<h5>Comisiones</h5>';
+                
+                echo '<div class="col-md-6">';
+                echo '<label>Comisión de captación - Formato: 00,00 (opcional)</label>';
                 echo '<input class="form-control" type="text" name="comision1" id="comision1">';
                 echo '</div>';
 
-                echo '<div class="col-md-4">';
-                echo '<label>Comisionista 1 (opcional)</label>';
-                echo '<input class="form-control" type="text" name="comisionista1" id="comisionista1">';
+                echo '<div class="col-md-6">';
+                echo '<label>Comisionista 1 (opcional)</label>
+                <select class="form-select" name="comisionista1" id="comisionista1">';
+                echo '<option selected value="">Selecciona un equipo:</option>';
+                    $stmt = $conn2->prepare("SELECT id, equipo
+                    FROM txsxekgr_intranet.comercialesEquipos
+                    ORDER BY equipo ASC");
+                    $stmt->execute(); 
+                    $data = $stmt->fetchAll();
+                    foreach($data as $row){
+                        $id = $row['id'];
+                        $equipo = $row['equipo'];
+                        echo "<option value='".$id."'>".$equipo."</option>";
+                    }
+                echo '</select>';
                 echo '</div>';
 
-                echo '<div class="col-md-4">';
-                echo '<label>Comisión 2 - Formato: 00,00 (opcional)</label>';
+                
+                echo '<div class="col-md-6">';
+                echo '<label>Comisión de cierre - Formato: 00,00 (opcional)</label>';
                 echo '<input class="form-control" type="text" name="comision2" id="comision2">';
                 echo '</div>';
 
-                echo '<div class="col-md-4">';
+                echo '<div class="col-md-6">';
                 echo '<label>Comisionista 2 (opcional)</label>';
-                echo '<input class="form-control" type="text" name="comisionista2" id="comisionista2">';
-                echo '</div>';
-
-                echo '</div>';
+                echo  '<select class="form-select" name="comisionista2" id="comisionista2">';
+                echo '<option selected value="">Selecciona un equipo:</option>';
+                $stmt = $conn2->prepare("SELECT id, equipo
+                FROM txsxekgr_intranet.comercialesEquipos
+                ORDER BY equipo ASC");
+                $stmt->execute(); 
+                $data = $stmt->fetchAll();
+                foreach($data as $row){
+                    $id = $row['id'];
+                    $equipo = $row['equipo'];
+                    echo "<option value='".$id."'>".$equipo."</option>";
+                }
+            echo '</select>';
+            echo '</div>';
                 
             echo "</form>";
       

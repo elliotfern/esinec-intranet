@@ -47,10 +47,20 @@ echo '<div class="container">';
     </div>
 
     <div class="row" style="margin-top:55px;background-color:#C1C1C1;padding:25px;border:1px solid black;">
-    <h2>04. Comerciales</h2>
-    <div class="col">
-        <a href="<?php echo APP_SERVER;?>/comerciales/"><img src="<?php echo APP_SERVER;?>/inc/img/tasks.png" alt="Clientes" width="64" height="64">
-            <h4>06. Añadir/modificar comerciales</h4></a>
+    <h2>04. Comerciales / reclutadores</h2>
+        <div class="col">
+            <a href="<?php echo APP_SERVER;?>/comerciales/listado"><img src="<?php echo APP_SERVER;?>/inc/img/tasks.png" alt="Clientes" width="64" height="64">
+                <h4>01. Añadir/modificar comerciales</h4></a>
+        </div>
+
+        <div class="col">
+            <a href="<?php echo APP_SERVER;?>/comerciales/pagos/mensuales"><img src="<?php echo APP_SERVER;?>/inc/img/tasks.png" alt="Clientes" width="64" height="64">
+                <h4>02. Pago de comisiones a comerciales</h4></a>
+        </div>
+
+        <div class="col">
+            <a href="<?php echo APP_SERVER;?>/comerciales/reclutadores"><img src="<?php echo APP_SERVER;?>/inc/img/tasks.png" alt="Clientes" width="64" height="64">
+                <h4>03. Añadir/modificar reclutadores</h4></a>
         </div>
         
     </div>

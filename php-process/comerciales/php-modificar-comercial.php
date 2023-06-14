@@ -20,10 +20,10 @@ function data_input($data) {
   }
 
     // insert data to db
-    if (empty($_POST["comercial"])) {
+    if (empty($_POST["equipo"])) {
       $hasError = true;
     } else {
-      $comercial = data_input($_POST['comercial']);
+      $equipo = data_input($_POST['equipo']);
     }
         
     $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
@@ -33,11 +33,11 @@ function data_input($data) {
     }
     
     if (!isset($hasError)) {
-      $sql = "UPDATE txsxekgr_intranet.comercial SET comercial=:comercial WHERE id=:id";
+      $sql = "UPDATE txsxekgr_intranet.comercialesEquipos SET equipo=:equipo WHERE id=:id";
       
       global $conn;
       $stmt = $conn->prepare($sql);
-      $stmt->bindParam(":comercial", $comercial, PDO::PARAM_STR);
+      $stmt->bindParam(":equipo", $equipo, PDO::PARAM_STR);
       $stmt->bindParam(":id", $id, PDO::PARAM_INT);
       $stmt->execute();
       

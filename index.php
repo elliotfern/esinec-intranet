@@ -170,7 +170,10 @@ if(!isset($_SESSION['user'])){
         $route->add("/cursos/{id}","public/cursos/inscritos-curso.php");
 
         // comerciales
-        $route->add("/comerciales","public/comerciales/index.php");
+        $route->add("/comerciales/listado","public/comerciales/listado-comerciales.php");
+        $route->add("/comerciales/pagos/mensuales","public/comerciales/pagos-mensuales-comerciales.php");
+        $route->add("/comerciales/pagos/mensuales/{year}/{month}","public/comerciales/pagos-mensuales-comerciales-mes.php");
+        $route->add("/comerciales/reclutadores","public/comerciales/listado-reclutadores.php");
         $route->add("/comerciales/{id}","public/comerciales/comercial-info.php");
 
         // Ayuda

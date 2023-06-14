@@ -20,13 +20,13 @@ if (isset($_POST['idComercial'])) {
 
         //call api
         //read json file from url in php
-        $url = "https://" . $url2 . "/controller/comerciales.php?type=comercial&id=" .$idComercial;
+        $url = "https://" . $url2 . "/controller/comerciales.php?type=comercial-equipo&id=" .$idComercial;
         $input = file_get_contents($url);
         $arr = json_decode($input, true);
         $vault = $arr[0];
 
             $id_old = $vault['id']; 
-            $comercial_old = $vault['comercial'];
+            $comercial_old = $vault['equipo'];
 
 
         // some action goes here under php                
@@ -47,7 +47,7 @@ if (isset($_POST['idComercial'])) {
 
             echo '<div class="col-md-4">';
             echo '<label>Comercial</label>';
-            echo '<input class="form-control" type="text" name="comercial" id="comercial" value="'.$comercial_old.'">';
+            echo '<input class="form-control" type="text" name="equipo" id="equipo" value="'.$comercial_old.'">';
             echo '<label style="color:#dc3545;display:none" id="AutNomCheck">* Invalid data</label>';
             echo '</div>';
       
