@@ -472,6 +472,8 @@ Añadir nuevo cobro &rarr;
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
+                <th></th>
             </thead>
             <tbody>
             </tbody>
@@ -547,9 +549,14 @@ Añadir nuevo cobro &rarr;
                                     }
                                 
                                 html += '</td>';
-                                html += '<td><button type="button" id="btnModificaPagos' + data[i].id +'" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#btnModificaPagos" onclick="updateModalPagos(' + data[i].id +')">Modificar datos</button></td>';
+                                html += '<td><button type="button" id="btnModificaPagos' + data[i].id +'" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#btnModificaPagos" onclick="updateModalPagos(' + data[i].id +')">Modificar</button></td>';
+
+                                html += '<td><button type="button" id="btnAvisoEmail-'+data[i].id+ '" onclick="AvisoEmailCobroProgramado('+data[i].id+')" class="btn btn-sm btn-primary">Aviso email</button></td>';
                                 
-                                html += '<td><button type="button" onclick="generarFacturaIntranet('+data[i].id+', '+data[i].estado+', '+data[i].IDproducto+', '+data[i].importe+', \'' + data[i].fecha + '\', '+idCustomer+', '+data[i].tipoPago+', '+data[i].numPago+')" id="btnCrearFacturaIntranet" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalCrearFacturaIntranet" data-id="'+data[i].id+ '" value="'+data[i].id+ '" data-title="'+data[i].id+ '" data-slug="'+data[i].id+ '" data-text="'+data[i].id+ '">Generar factura</button>';
+                                html += '<td><button type="button" onclick="generarFacturaIntranet('+data[i].id+', '+data[i].estado+', '+data[i].IDproducto+', '+data[i].importe+', \'' + data[i].fecha + '\', '+idCustomer+', '+data[i].tipoPago+', '+data[i].numPago+')" id="btnCrearFacturaIntranet" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalCrearFacturaIntranet" data-id="'+data[i].id+ '" value="'+data[i].id+ '" data-title="'+data[i].id+ '" data-slug="'+data[i].id+ '" data-text="'+data[i].id+ '">Generar factura</button></td>';
+
+                                html += '<td><button type="button" id="btnDeleteCobroProgramado" onclick="eliminarCobroProgramado('+data[i].id+')" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalEliminarCobroPendiente">Eliminar</button></td>';
+
                                 html += '</tr>';
                         }
                         $('#cobrosPendientes tbody').html(html);

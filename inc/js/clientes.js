@@ -756,3 +756,90 @@ $(function () {
     });
   });
 });
+
+// ABRIR MODAL PARA ELIMINAR COBRO PROGRAMADO
+function eliminarCobroProgramado(idCobro) {
+  var idCobro = idCobro;
+  var server = window.location.hostname;
+  var urlAjax =
+    "https://" +
+    server +
+    "/php-forms/clientes/modal-eliminar-cobro-programado.php";
+  $.ajax({
+    url: urlAjax, //the page containing php script
+    type: "post", //request type,
+    data: {
+      idCobro: idCobro,
+      registration: "yes",
+    },
+    success: function (response) {
+      // Add response in Modal body
+      $("#bodyModalEliminarCobro").html(response);
+      $("#bodyModalEliminarCobro").show();
+    },
+  });
+}
+
+// ELIMINAR COBRO PENDIENTE
+$(function () {
+  $("#btnEliminarCobro").click(function () {
+    // check values
+    $("#EliminarCobroMessageOk").hide();
+    $("#EliminarCobroMessageErr").hide();
+
+    // Stop form from submitting normally
+    event.preventDefault();
+    var server = window.location.hostname;
+    var urlAjax =
+      "https://" +
+      server +
+      "/php-process/clientes/php-eliminar-cobro-programado.php";
+    $.ajax({
+      type: "POST",
+      url: urlAjax,
+      data: {
+        id: $("#id").val(),
+      },
+      success: function (response) {
+        if (response.status == "success") {
+          // Add response in Modal body
+          $("#EliminarCobroMessageOk").show();
+          $("#EliminarCobroMessageErr").hide();
+        } else {
+          $("#EliminarCobroMessageErr").show();
+          $("#EliminarCobroMessageOk").hide();
+        }
+      },
+    });
+  });
+});
+
+// AVISO EMAIL COBRO PENDIENTE
+function AvisoEmailCobroProgramado(idCobro) {
+  var idCobro = idCobro;
+  var server = window.location.hostname;
+  var urlAjax =
+    "https://" +
+    server +
+    "/php-process/clientes/aviso-email-cobro-programado.php";
+  $.ajax({
+    url: urlAjax, //the page containing php script
+    type: "post", //request type,
+    data: {
+      idCobro: idCobro,
+      registration: "yes",
+    },
+    success: function (response) {
+      // Obtener el boton correspondiente utilizando el ID
+      var btnId = "#btnAvisoEmail-" + idCobro;
+      // Add response in Modal body
+      // Cambiar el texto del botón
+      $(btnId).text("Enviado");
+
+      // Cambiar la clase del botón
+      $(btnId)
+        .removeClass("btn btn-sm btn-primary")
+        .addClass("btn btn-sm btn-warning");
+    },
+  });
+}

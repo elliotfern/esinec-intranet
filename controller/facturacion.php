@@ -69,6 +69,22 @@ ORDER BY post_date DESC");
         }
     echo json_encode($data);
 
+}  elseif ( (isset($_GET['type']) && $_GET['type'] == 'pago-programado') && (isset($_GET['id']) ) ) {
+    global $conn2;
+    $id = $_GET['id'];
+    $data = array();
+    $stmt = $conn2->prepare("SELECT p.cliente, p.importe AS importe, u.user_email AS email, pro.post_title AS producto, p.fecha, p.numPago, p.estado, p.tipoPago
+    FROM txsxekgr_intranet.pagos_programados AS p
+    JOIN txsxekgr_esinec.wp_users AS u ON p.cliente = u.ID
+    JOIN txsxekgr_esinec.wp_posts AS pro ON p.producto = pro.ID
+    WHERE p.id = $id");
+        $stmt->execute();
+        if($stmt->rowCount() === 0) echo ('No rows');
+        while($users = $stmt->fetch(PDO::FETCH_ASSOC) ){
+            $data[] = $users;
+        }
+    echo json_encode($data);
+
 }  elseif ( (isset($_GET['type']) && $_GET['type'] == 'factura-intranet-cliente') && (isset($_GET['id']) ) ) {
     global $conn;
     $id = $_GET['id'];
