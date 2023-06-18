@@ -1,9 +1,4 @@
 <?php
-
-# conectare la base de datos
-$activePage = "";
-
-
 echo '<div class="container">';
 ?>
 
@@ -33,6 +28,11 @@ echo '<div class="container">';
         <div class="col">
         <a href="<?php echo APP_SERVER;?>/facturacion/pagos-programados/"><img src="<?php echo APP_SERVER;?>/inc/img/tasks.png" alt="Clientes" width="64" height="64">
             <h4>02. Registro pagos programados</h4></a>
+        </div>
+
+        <div class="col">
+        <a href="<?php echo APP_SERVER;?>/facturacion/pagos-programados/mensuales/"><img src="<?php echo APP_SERVER;?>/inc/img/tasks.png" alt="Clientes" width="64" height="64">
+            <h4>03. Registro pagos programados mensuales</h4></a>
         </div>
 
         </div>

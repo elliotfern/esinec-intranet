@@ -69,6 +69,19 @@ ORDER BY post_date DESC");
         }
     echo json_encode($data);
 
+} elseif ( (isset($_GET['type']) && $_GET['type'] == 'pagos-programados-mensuales') ) {
+    global $conn2;
+    $data = array();
+    $stmt = $conn2->prepare("SELECT DATE_FORMAT(p.fecha, '%Y/%m') AS mes_ano, SUM(p.importe) AS importe,  COUNT(p.ID) AS total_pagos
+    FROM txsxekgr_intranet.pagos_programados AS p
+    GROUP BY mes_ano desc");
+        $stmt->execute();
+        if($stmt->rowCount() === 0) echo ('No rows');
+        while($users = $stmt->fetch(PDO::FETCH_ASSOC) ){
+            $data[] = $users;
+        }
+    echo json_encode($data);
+
 }  elseif ( (isset($_GET['type']) && $_GET['type'] == 'pago-programado') && (isset($_GET['id']) ) ) {
     global $conn2;
     $id = $_GET['id'];
