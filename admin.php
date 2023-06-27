@@ -65,6 +65,14 @@ echo '<div class="container">';
         
     </div>
 
+    <div class="row" style="margin-top:55px;background-color:#C1C1C1;padding:25px;border:1px solid black;">
+    <h2>05. Informes</h2>
+        <div class="col">
+            <a href="<?php echo APP_SERVER;?>/facturacion/pagos-programados/mensuales/"><h5>01. Pagos clientes (pendientes y completados)</h5></a>
+        </div>
+
+    </div>
+
 
 </div>
 

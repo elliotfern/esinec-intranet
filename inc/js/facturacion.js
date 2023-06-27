@@ -163,14 +163,14 @@ function tablaPagosPendientesMensuales() {
       },
 
       {
-        // # TOTAL ENDEUDADO
+        // # TOTAL PAGOS
         //
         targets: [2],
         type: "text",
         visible: true,
         render: function (data, type, row, meta) {
-          if (row.importe === null) {
-            return row.importe;
+          if (row.pagos_totales === null) {
+            return row.pagos_totales;
           } else {
             // Format the value in Spanish Euro format
             var formattedImporte = new Intl.NumberFormat("es-ES", {
@@ -179,7 +179,7 @@ function tablaPagosPendientesMensuales() {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
               useGrouping: true,
-            }).format(row.importe);
+            }).format(row.pagos_totales);
 
             // Wrap the formatted value in a <strong> element
             return "<strong>" + formattedImporte + "</strong>";
@@ -188,17 +188,52 @@ function tablaPagosPendientesMensuales() {
       },
 
       {
-        // # VER DETALLES
-        // https://datatables.net/examples/advanced_init/column_render.html
+        // # TOTAL PAGOS PENDIENTES
         //
         targets: [3],
+        type: "text",
         visible: true,
         render: function (data, type, row, meta) {
-          return (
-            '<a href="https://gestion.esinec.com/clientes/' +
-            row.cliente +
-            '/facturacion"><img src="https://gestion.esinec.com/inc/img/info.png" alt="Cliente" width="25" height="15"></a>'
-          );
+          if (row.pagos_pendientes === null) {
+            return row.pagos_pendientes;
+          } else {
+            // Format the value in Spanish Euro format
+            var formattedPagos_pendientes = new Intl.NumberFormat("es-ES", {
+              style: "currency",
+              currency: "EUR",
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+              useGrouping: true,
+            }).format(row.pagos_pendientes);
+
+            // Wrap the formatted value in a <strong> element
+            return "<strong>" + formattedPagos_pendientes + "</strong>";
+          }
+        },
+      },
+
+      {
+        // # TOTAL PAGOS COBRADOS
+        //
+        targets: [4],
+        type: "text",
+        visible: true,
+        render: function (data, type, row, meta) {
+          if (row.pagos_completados === null) {
+            return row.pagos_completados;
+          } else {
+            // Format the value in Spanish Euro format
+            var formattedPagos_completados = new Intl.NumberFormat("es-ES", {
+              style: "currency",
+              currency: "EUR",
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+              useGrouping: true,
+            }).format(row.pagos_completados);
+
+            // Wrap the formatted value in a <strong> element
+            return "<strong>" + formattedPagos_completados + "</strong>";
+          }
         },
       },
     ],
@@ -211,7 +246,7 @@ function tablaPagosPendientesMensuales() {
         pageSize: "LEGAL",
         titleAttr: "PDF clientes",
         exportOptions: {
-          columns: [1, 2, 3],
+          columns: [1, 2, 3, 4],
         },
       },
       {
@@ -219,7 +254,7 @@ function tablaPagosPendientesMensuales() {
         text: "Excel",
         filename: "table_data",
         exportOptions: {
-          columns: [1, 2, 3],
+          columns: [1, 2, 3, 4],
         },
       },
     ],

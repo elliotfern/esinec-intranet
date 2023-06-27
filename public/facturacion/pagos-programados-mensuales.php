@@ -13,9 +13,10 @@ echo "<hr>";
         <thead class="'.TABLE_THREAD.'">
         <tr>
             <th>Mes</th>
-            <th>Total pagos</th>
-            <th>Total pendiente</th>
-            <th></th>
+            <th>Núm. pagos</th>
+            <th>Total pagos mes</th>
+            <th>Total pagos pendientes</th>
+            <th>Total pagos cobrados</th>
     </tr>
     </thead>
     <tbody>
