@@ -240,7 +240,7 @@ if (!empty($resultados)) {
     
 
 echo "<hr>";
-echo '<h3>Brian:</h3>';
+echo '<h3>Braian:</h3>';
 // 3, 4, 6
 
 // Consulta SELECT
@@ -387,7 +387,7 @@ if (!empty($resultados)) {
         $total_comision_sum = $fila['total_comision_sum'];
 
         $resultado_brian = array(
-            'nombre' => 'Brian',
+            'nombre' => 'Braian',
             'mes' => $mes,
             'total_importe' => $total_comision_sum
         );
@@ -1145,17 +1145,32 @@ echo '<h3 id="tablaTotales">Tabla con los pagos totales a los comisionistas:</h3
 
 // Crea un array que contenga todos los arrays de datos
 $all_arrays = array(
-    $aitor_array,
-    $gemma_array,
-    $lihan_array,
-    $alex_array,
-    $cesc_array,
     $abraham_array,
+    $aitor_array,
+    $alex_array,
     $brian_array,
+    $cesc_array,
+    $gemma_array,
     $juanjo_array,
+    $lihan_array,
     $manu_array,
     $vanesa_array
     // ... Agrega aquí los demás arrays ...
+);
+
+$meses = array(
+    'January' => 'ENERO',
+    'February' => 'FEBRERO',
+    'March' => 'MARZO',
+    'April' => 'ABRIL',
+    'May' => 'MAYO',
+    'June' => 'JUNIO',
+    'July' => 'JULIO',
+    'August' => 'AGOSTO',
+    'September' => 'SEPTIEMBRE',
+    'October' => 'OCTUBRE',
+    'November' => 'NOVIEMBRE',
+    'December' => 'DICIEMBRE'
 );
 
 // Filtra los arrays que tienen datos
@@ -1177,6 +1192,9 @@ if (!empty($non_empty_arrays)) {
         echo "<th>" . $array[0]['nombre'] . "</th>";
     }
 
+    // Agrega la columna "TOTALES"
+    echo "<th>TOTALES</th>";
+
     echo "</tr>";
     echo "</thead>";
     echo "<tbody>";
@@ -1195,14 +1213,21 @@ if (!empty($non_empty_arrays)) {
 
     // Recorre los meses y muestra los datos en la tabla
     foreach ($unique_months as $month) {
+         // Obtiene el nombre del mes en español a partir del mapeo
+         $month_es = $meses[date("F", strtotime($month))];
+
+         $date = $month_es . ' ' . date("Y", strtotime($month)); // Obtiene la fecha con el formato "ENERO 2023"
         echo "<tr>";
-        echo "<td>" . $month . "</td>";
+        echo "<td><strong>" . $date . "</strong></td>";
+
+        $total = 0; // Variable para almacenar el total de cada fila
 
         foreach ($non_empty_arrays as $array) {
             $found = false;
             foreach ($array as $element) {
                 if ($element['mes'] === $month) {
                     echo "<td>" . wc_price($element['total_importe']) . "</td>";
+                    $total += $element['total_importe']; // Suma el importe al total de la fila
                     $found = true;
                     break;
                 }
@@ -1211,6 +1236,9 @@ if (!empty($non_empty_arrays)) {
                 echo "<td>-</td>";
             }
         }
+
+        // Muestra el total de la fila en la columna "TOTALES"
+        echo "<td><strong>" . wc_price($total) . "</strong></td>";
 
         echo "</tr>";
     }
