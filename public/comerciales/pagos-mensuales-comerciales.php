@@ -63,9 +63,11 @@ $sql = "SELECT mes, SUM(total_comision) AS total_comision_sum, SUM(total_factura
     // Obtener los resultados en un arreglo asociativo
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+   $aitor_array = array();
+
 if (!empty($resultados)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
-    echo "<table class='table table-striped'>";
+    echo "<table class='table table-striped' id='tablaAitor'>";
     echo "<thead class='".TABLE_THREAD."'>";
     echo '<tr>
         <th>Fecha</th>
@@ -81,11 +83,22 @@ if (!empty($resultados)) {
         $mes = $fila['mes'];
         $total_facturas_sum = $fila['total_facturas_sum'];
         $total_comision_sum = $fila['total_comision_sum'];
+        $idFila = 'tablAitor-' . $mes;
+        $idFila2 = 'tablAitorFecha-' . $mes;
+
+        
+        $resultado_aitor = array(
+        'nombre' => 'Aitor',
+        'mes' => $mes,
+        'total_importe' => $total_comision_sum
+        );
+    
+        $aitor_array[] = $resultado_aitor;
 
         echo '<tr>';
-        echo '<td>'.$mes.'</td>';
+        echo '<td id="' . $idFila2 . '">'.$mes.'</td>';
         echo '<td>' . $total_facturas_sum . '</td>';
-        echo '<td>' . wc_price($total_comision_sum) . '</td>';
+        echo '<td id="' . $idFila . '">' . wc_price($total_comision_sum) . '</td>';
         echo '<td></td>';
         echo '</tr>';
     }
@@ -179,9 +192,11 @@ $sql = "SELECT mes, SUM(total_comision) AS total_comision_sum, SUM(total_factura
     // Obtener los resultados en un arreglo asociativo
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    $gemma_array = array();
+
 if (!empty($resultados)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
-    echo "<table class='table table-striped'>";
+    echo "<table class='table table-striped' id='tablaGemma'>";
     echo "<thead class='".TABLE_THREAD."'>";
     echo '<tr>
         <th>Fecha</th>
@@ -197,11 +212,21 @@ if (!empty($resultados)) {
         $mes = $fila['mes'];
         $total_facturas_sum = $fila['total_facturas_sum'];
         $total_comision_sum = $fila['total_comision_sum'];
+        $idFila = 'tablaGemma' . $mes;
+        $idFila2 = 'tablaGemmaFecha-' . $mes;
+
+        $resultado_gemma = array(
+            'nombre' => 'Gemma',
+            'mes' => $mes,
+            'total_importe' => $total_comision_sum
+        );
+    
+        $gemma_array[] = $resultado_gemma;
 
         echo '<tr>';
-        echo '<td>'.$mes.'</td>';
+        echo '<td id="'.$idFila2.'">'.$mes.'</td>';
         echo '<td>' . $total_facturas_sum . '</td>';
-        echo '<td>' . wc_price($total_comision_sum) . '</td>';
+        echo '<td  id="'.$idFila.'">' . wc_price($total_comision_sum) . '</td>';
         echo '<td></td>';
         echo '</tr>';
     }
@@ -340,6 +365,8 @@ ORDER BY mes;";
     // Obtener los resultados en un arreglo asociativo
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    $brian_array = array();
+
 if (!empty($resultados)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
     echo "<table class='table table-striped'>";
@@ -358,6 +385,14 @@ if (!empty($resultados)) {
         $mes = $fila['mes'];
         $total_facturas_sum = $fila['total_facturas_sum'];
         $total_comision_sum = $fila['total_comision_sum'];
+
+        $resultado_brian = array(
+            'nombre' => 'Brian',
+            'mes' => $mes,
+            'total_importe' => $total_comision_sum
+        );
+    
+        $brian_array[] = $resultado_brian;
 
         echo '<tr>';
         echo '<td>'.$mes.'</td>';
@@ -420,6 +455,7 @@ $sql = "SELECT mes, SUM(total_comision) AS total_comision_sum, SUM(total_factura
 
     // Obtener los resultados en un arreglo asociativo
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $abraham_array = array();
 
 if (!empty($resultados)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
@@ -439,6 +475,14 @@ if (!empty($resultados)) {
         $mes = $fila['mes'];
         $total_facturas_sum = $fila['total_facturas_sum'];
         $total_comision_sum = $fila['total_comision_sum'];
+
+        $resultado_abraham = array(
+            'nombre' => 'Abraham',
+            'mes' => $mes,
+            'total_importe' => $total_comision_sum
+        );
+    
+        $abraham_array[] = $resultado_abraham;
 
         echo '<tr>';
         echo '<td>'.$mes.'</td>';
@@ -502,6 +546,7 @@ $sql = "SELECT mes, SUM(total_comision) AS total_comision_sum, SUM(total_factura
 
     // Obtener los resultados en un arreglo asociativo
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $vanesa_array = array();
 
 if (!empty($resultados)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
@@ -521,6 +566,15 @@ if (!empty($resultados)) {
         $mes = $fila['mes'];
         $total_facturas_sum = $fila['total_facturas_sum'];
         $total_comision_sum = $fila['total_comision_sum'];
+
+ 
+        $resultado_vanesa = array(
+            'nombre' => 'Vanesa',
+            'mes' => $mes,
+            'total_importe' => $total_comision_sum
+        );
+    
+        $vanesa_array[] = $resultado_vanesa;
 
         echo '<tr>';
         echo '<td>'.$mes.'</td>';
@@ -583,6 +637,7 @@ $sql = "SELECT mes, SUM(total_comision) AS total_comision_sum, SUM(total_factura
 
     // Obtener los resultados en un arreglo asociativo
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $juanjo_array = array();
 
 if (!empty($resultados)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
@@ -602,6 +657,15 @@ if (!empty($resultados)) {
         $mes = $fila['mes'];
         $total_facturas_sum = $fila['total_facturas_sum'];
         $total_comision_sum = $fila['total_comision_sum'];
+
+       
+        $resultado_juanjo = array(
+            'nombre' => 'Juanjo',
+            'mes' => $mes,
+            'total_importe' => $total_comision_sum
+        );
+    
+        $juanjo_array[] = $resultado_juanjo;
 
         echo '<tr>';
         echo '<td>'.$mes.'</td>';
@@ -664,6 +728,7 @@ $sql = "SELECT mes, SUM(total_comision) AS total_comision_sum, SUM(total_factura
 
     // Obtener los resultados en un arreglo asociativo
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $lihan_array = array();
 
 if (!empty($resultados)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
@@ -683,6 +748,17 @@ if (!empty($resultados)) {
         $mes = $fila['mes'];
         $total_facturas_sum = $fila['total_facturas_sum'];
         $total_comision_sum = $fila['total_comision_sum'];
+
+        if (!empty($resultados)) {
+            
+            $resultado_lihan = array(
+                'nombre' => 'Lihan',
+                'mes' => $mes,
+                'total_importe' => $total_comision_sum
+            );
+        
+            $lihan_array[] = $resultado_lihan;
+        }
 
         echo '<tr>';
         echo '<td>'.$mes.'</td>';
@@ -746,6 +822,7 @@ $sql = "SELECT mes, SUM(total_comision) AS total_comision_sum, SUM(total_factura
 
     // Obtener los resultados en un arreglo asociativo
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $manu_array = array();
 
 if (!empty($resultados)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
@@ -765,6 +842,15 @@ if (!empty($resultados)) {
         $mes = $fila['mes'];
         $total_facturas_sum = $fila['total_facturas_sum'];
         $total_comision_sum = $fila['total_comision_sum'];
+
+        
+        $resultado_manu = array(
+            'nombre' => 'Manu',
+            'mes' => $mes,
+            'total_importe' => $total_comision_sum
+        );
+    
+        $manu_array[] = $resultado_manu;
 
         echo '<tr>';
         echo '<td>'.$mes.'</td>';
@@ -917,6 +1003,7 @@ $sql = "SELECT mes, SUM(total_comision) AS total_comision_sum, SUM(total_factura
 
     // Obtener los resultados en un arreglo asociativo
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $cesc_array = array();
 
 if (!empty($resultados)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
@@ -936,6 +1023,15 @@ if (!empty($resultados)) {
         $mes = $fila['mes'];
         $total_facturas_sum = $fila['total_facturas_sum'];
         $total_comision_sum = $fila['total_comision_sum'];
+
+        
+        $resultado_cesc = array(
+            'nombre' => 'Cesc',
+            'mes' => $mes,
+            'total_importe' => $total_comision_sum
+        );
+    
+        $cesc_array[] = $resultado_cesc;
 
         echo '<tr>';
         echo '<td>'.$mes.'</td>';
@@ -998,6 +1094,7 @@ $sql = "SELECT mes, SUM(total_comision) AS total_comision_sum, SUM(total_factura
 
     // Obtener los resultados en un arreglo asociativo
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $alex_array = array();
 
 if (!empty($resultados)) {
     echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
@@ -1018,6 +1115,15 @@ if (!empty($resultados)) {
         $total_facturas_sum = $fila['total_facturas_sum'];
         $total_comision_sum = $fila['total_comision_sum'];
 
+        
+        $resultado_alex = array(
+            'nombre' => 'AlexComunica',
+            'mes' => $mes,
+            'total_importe' => $total_comision_sum
+        );
+    
+        $alex_array[] = $resultado_alex;
+
         echo '<tr>';
         echo '<td>'.$mes.'</td>';
         echo '<td>' . $total_facturas_sum . '</td>';
@@ -1034,9 +1140,89 @@ if (!empty($resultados)) {
 }
 
 
-echo '</div>';
+echo "<hr>";
+echo '<h3 id="tablaTotales">Tabla con los pagos totales a los comisionistas:</h3>';
 
+// Crea un array que contenga todos los arrays de datos
+$all_arrays = array(
+    $aitor_array,
+    $gemma_array,
+    $lihan_array,
+    $alex_array,
+    $cesc_array,
+    $abraham_array,
+    $brian_array,
+    $juanjo_array,
+    $manu_array,
+    $vanesa_array
+    // ... Agrega aquí los demás arrays ...
+);
 
+// Filtra los arrays que tienen datos
+$non_empty_arrays = array_filter($all_arrays, function($array) {
+    return !empty($array);
+});
+
+// Verifica si hay al menos un array con datos
+if (!empty($non_empty_arrays)) {
+    // Genera la tabla de resultados
+    echo "<div class='table-responsive' style='margin-top:20px;margin-bottom:25px'>";
+    echo "<table class='table table-striped' id='tablaTotales'>";
+    echo "<thead class='".TABLE_THREAD."'>";
+    echo "<tr>";
+    echo "<th>Mes</th>";
+
+    // Crea una columna para cada array con datos
+    foreach ($non_empty_arrays as $index => $array) {
+        echo "<th>" . $array[0]['nombre'] . "</th>";
+    }
+
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    // Obtiene todos los meses presentes en los arrays con datos
+    $all_months = array();
+    foreach ($non_empty_arrays as $array) {
+        foreach ($array as $element) {
+            $all_months[] = $element['mes'];
+        }
+    }
+
+    // Elimina duplicados y ordena los meses
+    $unique_months = array_unique($all_months);
+    sort($unique_months);
+
+    // Recorre los meses y muestra los datos en la tabla
+    foreach ($unique_months as $month) {
+        echo "<tr>";
+        echo "<td>" . $month . "</td>";
+
+        foreach ($non_empty_arrays as $array) {
+            $found = false;
+            foreach ($array as $element) {
+                if ($element['mes'] === $month) {
+                    echo "<td>" . wc_price($element['total_importe']) . "</td>";
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                echo "<td>-</td>";
+            }
+        }
+
+        echo "</tr>";
+    }
+
+    echo "</tbody>";
+    echo "</table>";
+    echo "</div>";
+} else {
+    echo "No hay datos disponibles.";
+}
+
+echo "</div>";
 
 
 include_once('modals-comerciales.php');
