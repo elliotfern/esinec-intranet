@@ -711,7 +711,7 @@ numPago
                 $precio_neto = $importe2 - $vat_redondeado;
 
                 echo '<div class="col-md-4">';
-                echo '<label>Importe total (sin IVA)</label>';
+                echo '<label>Importe neto (sin IVA)</label>';
                 echo '<input class="form-control" type="text" name="orderTotal" id="orderTotal" value="'.$precio_neto.'">';
                 echo '<label style="color:#dc3545;display:none" id="AutNomCheck">* Invalid data</label>';
                 echo '</div>';
@@ -724,6 +724,11 @@ numPago
                     echo "<option value='0'>SIN IVA</option>";
                     echo '</select>';
                 echo '</div>';
+            
+                echo '<div class="col-md-4">
+                <label>Importe IVA:</label>
+                <input class="form-control" type="text" name="totalTax" id="totalTax" value="" >
+                </div>';
 
                 echo '<div class="col-md-4">
                 <label>Tipo de pago:</label>
@@ -845,3 +850,35 @@ numPago
             echo "</form>";
       
         ?>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Obtener el valor inicial de orderTotal
+  var orderTotal = parseFloat($("#orderTotal").val());
+  
+  // Función para calcular el impuesto y actualizar totalTax
+  function calculateTax() {
+    // Obtener el valor seleccionado de orderTax
+    var vatRate = parseFloat($("#orderTax option:selected").val());
+    
+    var vatAmount = orderTotal * (vatRate / 100);
+    var vat_redondeado = Math.ceil(vatAmount * 100) / 100;
+    
+    $("#totalTax").val(vat_redondeado.toFixed(2));
+  }
+  
+  // Calcular el impuesto inicialmente
+  calculateTax();
+  
+  // Escuchar el evento de cambio en orderTotal
+  $("#orderTotal").on("change", function() {
+    orderTotal = parseFloat($(this).val());
+    calculateTax();
+  });
+  
+  // Escuchar el evento de cambio en orderTax
+  $("#orderTax").on("change", function() {
+    calculateTax();
+  });
+});
+</script>

@@ -69,11 +69,9 @@ echo '<div class="container">';
     <h2>05. Informes</h2>
         
             <a href="<?php echo APP_SERVER;?>/facturacion/pagos-programados/mensuales/"><h5>01. Pagos clientes (pendientes y completados)</h5></a>
-        
-
-        
             <a href="<?php echo APP_SERVER;?>/comerciales/pagos/mensuales/#tablaTotales"><h5>02. Tabla pagos a comisionistas</h5></a>
-        
+            <a href="<?php echo APP_SERVER;?>/facturacion/todos"><h5>03. Listado completo de facturas clientes</h5></a>
+            <a href="<?php echo APP_SERVER;?>/facturacion/meses"><h5>04. Listado completo de facturas clientes / por meses</h5></a>
 
     </div>
 

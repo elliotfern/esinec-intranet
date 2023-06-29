@@ -69,7 +69,13 @@ function tablaFacturasAll() {
           if (row.invoice_number === null) {
             return row.order_id;
           } else {
-            return row.invoice_number;
+            var invoiceNumber = row.invoice_number;
+            if (!invoiceNumber.includes("ESINEC")) {
+              var postDate = new Date(row.post_date);
+              var year = postDate.getFullYear();
+              invoiceNumber = "ESINEC." + year + "." + invoiceNumber;
+            }
+            return invoiceNumber;
           }
         },
       },
@@ -186,6 +192,14 @@ function tablaFacturasAll() {
         render: function (data, type, row, meta) {
           if (row.payment_type === null) {
             return '';
+          } else if (row.payment_type === "1") {
+            return "Transferencia bancaria"
+          } else if (row.payment_type === "2") {
+            return "Tarjeta";
+          } else if (row.payment_type === "3") {
+            return "PayPal";
+          } else if (row.payment_type === "4") {
+            return "Cash";
           } else {
             return row.payment_type;
           }
@@ -201,6 +215,12 @@ function tablaFacturasAll() {
         render: function (data, type, row, meta) {
           if (row.post_status === "wc-completed") {
             return 'Pago completado';
+          } else if (row.post_status === "1") {
+            return "Pendiente de pago"
+          } else if (row.post_status === "2") {
+            return "Pagado";
+          } else if (row.post_status === "3") {
+            return "Cancelado";
           } else {
             return row.post_status;
           }

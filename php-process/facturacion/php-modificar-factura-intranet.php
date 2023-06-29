@@ -51,6 +51,13 @@ function data_input($data) {
         $orderTax = data_input($_POST['orderTax']);
     }
 
+    if (empty($_POST["totalTax"])) {
+      $hasError = true;
+    } else {
+        $totalTax = data_input($_POST['totalTax']);
+    }
+
+
     if (empty($_POST["invoiceNumber"])) {
       $hasError = true;
     } else {
@@ -237,7 +244,7 @@ function data_input($data) {
    } 
     
     if (!isset($hasError)) {
-      $sql = "UPDATE txsxekgr_intranet.facturas SET date=:date, status=:status, invoiceNumber=:invoiceNumber, clienteId=:clienteId, orderTotal=:orderTotal, orderTax=:orderTax, paymentType=:paymentType, items=:items, numPago=:numPago, productoVariante=:productoVariante, notas=:notas, comision1=:comision1, comisionista1=:comisionista1, comision2=:comision2, comisionista2=:comisionista2, datosFiscales=:datosFiscales WHERE id=:id";
+      $sql = "UPDATE txsxekgr_intranet.facturas SET date=:date, status=:status, invoiceNumber=:invoiceNumber, clienteId=:clienteId, orderTotal=:orderTotal, orderTax=:orderTax, totalTax=:totalTax, paymentType=:paymentType, items=:items, numPago=:numPago, productoVariante=:productoVariante, notas=:notas, comision1=:comision1, comisionista1=:comisionista1, comision2=:comision2, comisionista2=:comisionista2, datosFiscales=:datosFiscales WHERE id=:id";
       
       global $conn;
       $stmt = $conn->prepare($sql);
@@ -247,6 +254,7 @@ function data_input($data) {
       $stmt->bindParam(":clienteId", $clienteId, PDO::PARAM_INT);
       $stmt->bindParam(":orderTotal", $orderTotal, PDO::PARAM_STR);
       $stmt->bindParam(":orderTax", $orderTax, PDO::PARAM_INT);
+      $stmt->bindParam(":totalTax", $totalTax, PDO::PARAM_STR);
       $stmt->bindParam(":paymentType", $paymentType, PDO::PARAM_INT);
       $stmt->bindParam(":items", $items, PDO::PARAM_INT);
       $stmt->bindParam(":numPago", $numPago, PDO::PARAM_INT);

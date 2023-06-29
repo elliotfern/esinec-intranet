@@ -159,6 +159,7 @@ if(!isset($_SESSION['user'])){
 
         // facturacion
         $route->add("/facturacion/todos","public/facturacion/todos.php");
+        $route->add("/facturacion/meses","public/facturacion/todos-mensuales.php");
         $route->add("/facturacion/pagos-programados","public/facturacion/pagos-programados.php");
         $route->add("/facturacion/pagos-programados/mensuales","public/facturacion/pagos-programados-mensuales.php");
         $route->add("/facturacion/{id}","public/facturacion/factura-detalle.php");

@@ -36,8 +36,9 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'facturas') ) {
     p2.orderTotal AS order_total,
     p2.orderTax AS order_tax,
     p2.paymentType AS paymentType,
-    p2.items AS items
+    p.post_title AS items
 FROM txsxekgr_intranet.facturas AS p2
+JOIN txsxekgr_esinec.wp_posts AS p ON p2.items = p.ID
 LEFT JOIN
     txsxekgr_esinec.wp_usermeta AS umf ON p2.clienteId = umf.user_id AND umf.meta_key = 'first_name'
 LEFT JOIN
