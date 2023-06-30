@@ -595,6 +595,7 @@ Añadir nueva inscripción &rarr;
                 <th>Comercial cierre</th>
                 <th>Notas</th>
                 <th></th>
+                <th></th>
         </tr>
             </thead>
             <tbody></tbody>
@@ -647,6 +648,9 @@ Añadir nueva inscripción &rarr;
                                         html += '<td>'+data[i].notas+'</td>';
                                 }
                                 html += '<td> <button type="button" id="btnModificaInscripcion' + data[i].id +'" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalModificaInscripcion" onclick="updateInscripcion(' + data[i].id +')">Modificar datos</button></td>';
+
+                                html += '<td> <button type="button" id="btnEliminarInscripcion-' + data[i].id +'" class="btn btn-sm btn-danger" onclick="eliminarInscripcion(' + data[i].id +')">Eliminar</button></td>';
+
                                 html += '</tr>';
                         }
                         $('#inscripcionCurso tbody').html(html);

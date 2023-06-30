@@ -259,7 +259,7 @@ $(function () {
     event.preventDefault();
     var server = window.location.hostname;
     var urlAjax =
-      "https://" + server + "/php-process/cursos/php-insert-codigo.php";
+      "https://" + server + "/php-process/cursos/php-insert-curso.php";
     $.ajax({
       type: "POST",
       url: urlAjax,
@@ -313,3 +313,29 @@ $(function () {
     });
   });
 });
+
+// ELIMINAR INSCRIPCION CURSO
+function eliminarInscripcion(idInscripcion) {
+  var idInscripcion = idInscripcion;
+  var server = window.location.hostname;
+  var urlAjax =
+    "https://" + server + "/php-process/cursos/eliminar-inscripcion.php";
+  $.ajax({
+    url: urlAjax, //the page containing php script
+    type: "post", //request type,
+    data: {
+      idInscripcion: idInscripcion,
+      registration: "yes",
+    },
+    success: function (response) {
+      // La solicitud AJAX fue exitosa
+      // Cambiar la clase del boton
+      $("#btnEliminarInscripcion-" + idInscripcion)
+        .removeClass("btn btn-sm btn-danger")
+        .addClass("btn btn-sm btn-primary");
+
+      // Cambiar el texto del boton
+      $("#btnEliminarInscripcion-" + idInscripcion).text("Eliminando...");
+    },
+  });
+}

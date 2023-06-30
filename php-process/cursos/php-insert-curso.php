@@ -5,8 +5,6 @@
  * TABLA: pagos_programados
  */
 
- $url2 = $_SERVER['SERVER_NAME'];
-
 $rootDirectory = $_SERVER['DOCUMENT_ROOT'];
 $substring = "/public_html/gestion";
 $result = str_replace($substring, "", $rootDirectory);
