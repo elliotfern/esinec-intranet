@@ -61,7 +61,7 @@ function data_input($data) {
       $hasError = true;
     } else {
       $numPago = data_input($_POST['numPago']);
-      if (!filter_var($numPago, FILTER_VALIDATE_INT, array("options" => array("min_range"=>1, "max_range"=>12)))) {
+      if (!filter_var($numPago, FILTER_VALIDATE_INT, array("options" => array("min_range"=>1, "max_range"=>200)))) {
         $hasError = true;
       }
     }

@@ -147,7 +147,7 @@ if (isset($_POST['idPago2'])) {
                 echo '</div>';
     
                 echo '<div class="col-md-4">';
-                echo '<label>Número del pago (sólo número entre 1-12)</label>';
+                echo '<label>Número del pago (sólo número entre 1-200)</label>';
                 echo '<input class="form-control" type="text" name="numPago2" id="numPago2"  value="'.$numPago_old.'">';
                 echo '<label style="color:#dc3545;display:none" id="AutCognom1Check">* Missing data</label>';
                 echo '</div>';
