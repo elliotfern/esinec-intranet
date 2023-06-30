@@ -400,6 +400,18 @@ if ($payment == 1) {
   </div>';
 }
 
+$html .= '<div class="container">
+<h6>PROTECCIÓN DE DATOS: De conformidad con lo dispuesto en las normativas vigentes en protección de datos personales, el
+Reglamento (UE) 2016/679 de 27 de abril de 2016 (GDPR) y la Ley Orgánica (ES) 15/1999 de 13 de diciembre (LOPD), le
+informamos que sus datos, serán tratados bajo la responsabilidad de ESCUELA SUPERIOR DE INTELIGENCIA EMOCIONAL
+Y COACHING, S.L para la gestión de la relación comercial establecida y se conservarán mientras exista un interés mutuo para
+ello. Los datos no serán comunicados a terceros, salvo obligación legal. Le informamos que puede ejercer los derechos de
+acceso, rectificación, portabilidad y supresión de sus datos y los de limitación y oposición a su tratamiento enviando un
+mensaje al correo electrónico a info@esinec.com. Si considera que el tratamiento no se ajusta a la normativa vigente, podrá
+presentar una reclamación ante la autoridad de control en www.agpd.es.</h6>
+</div>';
+
+
 // Output the HTML as PDF content
 $pdf->writeHTML($html, true, false, true, false, '');
 
