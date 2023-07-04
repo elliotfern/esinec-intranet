@@ -1,19 +1,10 @@
 <?php
 
+$url_server = "https://" . $_SERVER['HTTP_HOST'];
+require_once(APP_ROOT. '/inc/php/functions.php');
+
 if(isset($params['id'])) {
     $id = $params['id'];
-}
-
-$url_server = "https://" . $_SERVER['HTTP_HOST'];
-
-function wc_price( $price ) {
-    $currency_symbol = '€'; // replace with your currency symbol
-    $decimal_separator = ','; // replace with your decimal separator
-    $thousands_separator = '.'; // replace with your thousands separator
-    
-    $price = number_format( $price, 2, $decimal_separator, $thousands_separator );
-    
-    return $price . $currency_symbol;
 }
 
 echo '<div class="container">';

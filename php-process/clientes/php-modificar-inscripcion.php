@@ -48,8 +48,10 @@ function data_input($data) {
       $hasError = true;
     } else {
         $importeTotal = data_input($_POST['importeTotal']);
-        // Remove comma and dot from the input
-        $importeTotal = str_replace(array(',', '.'), '', $importeTotal);
+        // Check decimal separator and convert to dot if necessary
+        if (strpos($importeTotal, ',') !== false && strpos($importeTotal, '.') === false) {
+          $importeTotal = str_replace(',', '.', $importeTotal);
+        }
         if (!is_numeric($importeTotal) || round($importeTotal, 2) != $importeTotal) {
             $hasError = true;
         }

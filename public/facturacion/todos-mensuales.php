@@ -2,15 +2,7 @@
 
 global $conn;
 
-function wc_price( $price ) {
-    $currency_symbol = '€'; // replace with your currency symbol
-    $decimal_separator = ','; // replace with your decimal separator
-    $thousands_separator = '.'; // replace with your thousands separator
-    
-    $price = number_format( $price, 2, $decimal_separator, $thousands_separator );
-    
-    return $price . $currency_symbol;
-}
+require_once(APP_ROOT. '/inc/php/functions.php');
 
 echo '<div class="container">';
 echo '<h1>Gestión facturación clientes</h1>';

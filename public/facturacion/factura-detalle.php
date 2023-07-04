@@ -8,21 +8,12 @@ $path = $result . "/pass/connection.php";
 require_once($path);
 
 require_once(APP_ROOT. '/vendor/autoload.php');
+require_once(APP_ROOT. '/inc/php/functions.php');
 
 use Automattic\WooCommerce\Client;
 
 if(isset($params['id'])) {
     $id = $params['id'];
-}
-
-function wc_price( $price ) {
-    $currency_symbol = '€'; // replace with your currency symbol
-    $decimal_separator = ','; // replace with your decimal separator
-    $thousands_separator = '.'; // replace with your thousands separator
-    
-    $price = number_format( $price, 2, $decimal_separator, $thousands_separator );
-    
-    return $price . $currency_symbol;
 }
 
 echo '<div class="container">';

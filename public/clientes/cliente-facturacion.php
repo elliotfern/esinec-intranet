@@ -8,21 +8,12 @@ $path = $result . "/pass/connection.php";
 
 require_once($path);
 require_once(APP_ROOT. '/vendor/autoload.php');
+require_once(APP_ROOT. '/inc/php/functions.php');
 
 use Automattic\WooCommerce\Client;
 
 if(isset($params['id'])) {
     $id = $params['id'];
-}
-
-function wc_price( $price ) {
-    $currency_symbol = '€'; // replace with your currency symbol
-    $decimal_separator = ','; // replace with your decimal separator
-    $thousands_separator = '.'; // replace with your thousands separator
-    
-    $price = number_format( $price, 2, $decimal_separator, $thousands_separator );
-    
-    return $price . $currency_symbol;
 }
 
 echo '<div class="container">';
@@ -649,7 +640,7 @@ Añadir nueva inscripción &rarr;
                                 }
                                 html += '<td> <button type="button" id="btnModificaInscripcion' + data[i].id +'" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalModificaInscripcion" onclick="updateInscripcion(' + data[i].id +')">Modificar datos</button></td>';
 
-                                html += '<td> <button type="button" id="btnEliminarInscripcion-' + data[i].id +'" class="btn btn-sm btn-danger" onclick="eliminarInscripcion(' + data[i].id +')">Eliminar</button></td>';
+                                html += '<td> <button type="button" id="btnEliminarInscripcion-importeTotal' + data[i].id +'" class="btn btn-sm btn-danger" onclick="eliminarInscripcion(' + data[i].id +')">Eliminar</button></td>';
 
                                 html += '</tr>';
                         }
