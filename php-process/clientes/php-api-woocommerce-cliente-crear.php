@@ -6,12 +6,7 @@ $result = str_replace($substring, "", $rootDirectory);
 $path = $result . "/pass/connection.php";
 require_once($path);
 
-function data_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-  }
+require_once( $rootDirectory . "/inc/php/functions.php");
 
 
   // insert data to db  

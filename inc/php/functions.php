@@ -31,34 +31,71 @@ function data_input($data) {
  * @param bool $isInt Flag to indicate if the field should be treated as an integer.
  * @return mixed The validated field value.
  */
-function validateFormField($fieldName, $isMoney = false, $isInt = false) {
+function validateFormField($fieldName, $isMoney = false, $isInt = false, $optional = false) {
     $hasError = false; // Flag to indicate if there is an error
-    
-    // Check if the field name is empty
+  
     if (empty($fieldName)) {
-        $hasError = true; // Empty field is considered an error
+      if (!$optional) {
+        $hasError = true; // Empty field is considered an error unless it is optional
+        $fieldValue = NULL;
+      }
     } else {
-        $fieldValue = data_input($fieldName); // Get the field value
-        
-        // Check if the field should be treated as money
-        if ($isMoney) {
-            // Check decimal separator and convert to dot if necessary
-            if (strpos($fieldValue, ',') !== false && strpos($fieldValue, '.') === false) {
-                $fieldValue = str_replace(',', '.', $fieldValue); // Replace comma with dot
-            }
-            
-            // Check if the field value is numeric and has two decimal places
-            if (!is_numeric($fieldValue) || round($fieldValue, 2) != $fieldValue) {
-                $hasError = true; // Invalid field value is considered an error
-            }
-        } elseif ($isInt) {
-            // Check if the field should be treated as an integer
-            if (!filter_var($fieldValue, FILTER_VALIDATE_INT)) {
-                $hasError = true; // Invalid field value is considered an error
-            }
+      $fieldValue = data_input($fieldName); // Get the field value
+  
+      if ($isMoney) {
+        // Check decimal separator and convert to dot if necessary
+        if (strpos($fieldValue, ',') !== false && strpos($fieldValue, '.') === false) {
+          $fieldValue = str_replace(',', '.', $fieldValue); // Replace comma with dot
         }
+  
+        // Check if the field value is numeric and has two decimal places
+        if (!is_numeric($fieldValue) || round($fieldValue, 2) != $fieldValue) {
+          $hasError = true; // Invalid field value is considered an error
+        }
+      } elseif ($isInt) {
+        // Check if the field value is a valid integer
+        if (!filter_var($fieldValue, FILTER_VALIDATE_INT)) {
+          $hasError = true; // Invalid field value is considered an error
+        }
+      }
     }
-    
-    return $fieldValue; // Return the validated field value
+
+    if ($hasError === true) {
+      return $hasError;
+    } else {
+      return $fieldValue;
+    }
+  
+  }
+
+  function generarPassword($longitud = 8) {
+    $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $password = '';
+
+    $max = strlen($caracteres) - 1;
+
+    for ($i = 0; $i < $longitud; $i++) {
+        $index = mt_rand(0, $max);
+        $password .= $caracteres[$index];
+    }
+
+    return $password;
+}
+
+function unirNombres($firstName, $lastName) {
+  // Eliminar espacios y caracteres especiales del first name
+  $firstName = preg_replace('/[^A-Za-z0-9]/', '', $firstName);
+  
+  // Eliminar espacios y caracteres especiales del last name
+  $lastName = preg_replace('/[^A-Za-z0-9]/', '', $lastName);
+  
+  // Convertir a minúsculas
+  $firstName = strtolower($firstName);
+  $lastName = strtolower($lastName);
+  
+  // Unir los nombres sin espacios
+  $nombreCompleto = $firstName . $lastName;
+  
+  return $nombreCompleto;
 }
 ?>

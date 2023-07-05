@@ -11,13 +11,8 @@
  $path = $result . "/pass/connection.php";
  require_once($path);
 
+ require_once( $rootDirectory . "/inc/php/functions.php");
 
-function data_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-  }
 
     // insert data to db
     if (empty($_POST["cliente"])) {

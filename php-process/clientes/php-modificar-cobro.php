@@ -13,17 +13,60 @@
 
  require_once( $rootDirectory . "/inc/php/functions.php");
 
-    // Recibir datos del formulario y validarlos
-    $cliente = validateFormField($_POST["cliente2"]);
-    $producto = validateFormField($_POST["producto2"]);
-    $tipoPago = validateFormField($_POST["tipoPago2"]);
-    $fecha = validateFormField($_POST["fecha2"]);
-    $estado = validateFormField($_POST["estado2"]);
 
-    $numPago = validateFormField($_POST["numPago2"], false, true);
-    $importe = validateFormField($_POST["importe2"], true);
+    // insert data to db
+    if (empty($_POST["cliente2"])) {
+      $hasError = true;
+    } else {
+      $cliente = data_input($_POST['cliente2']);
+    }
 
+    if (empty($_POST["producto2"])) {
+      $hasError = true;
+    } else {
+      $producto = data_input($_POST['producto2']);
+    }
 
+    if (empty($_POST["importe2"])) {
+        $hasError = true;
+    } else {
+        $importe = data_input($_POST['importe2']);
+        // Check decimal separator and convert to dot if necessary
+        if (strpos($importe, ',') !== false && strpos($importe, '.') === false) {
+          $importe = str_replace(',', '.', $importe);
+        }
+        if (!is_numeric($importe) || round($importe, 2) != $importe) {
+          $hasError = true;
+        }
+    }
+
+    if (empty($_POST["tipoPago2"])) {
+      $hasError = true;
+    } else {
+      $tipoPago = data_input($_POST['tipoPago2']);
+    }
+
+    if (empty($_POST["fecha2"])) {
+      $fecha = null;
+    } else {
+      $fecha = data_input($_POST['fecha2']);
+    }
+
+    if (empty($_POST["numPago2"])) {
+      $hasError = true;
+    } else {
+      $numPago = data_input($_POST['numPago2']);
+      if (!filter_var($numPago, FILTER_VALIDATE_INT, array("options" => array("min_range"=>1, "max_range"=>200)))) {
+        $hasError = true;
+      }
+    }
+    
+    if (empty($_POST["estado2"])) {
+      $hasError = true;
+    } else {
+      $estado = data_input($_POST['estado2']);
+    }
+        
     $id = filter_input(INPUT_POST, 'id2', FILTER_SANITIZE_NUMBER_INT);
     
     if ($id === false) {
