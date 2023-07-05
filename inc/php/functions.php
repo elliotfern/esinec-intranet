@@ -61,12 +61,17 @@ function validateFormField($fieldName, $isMoney = false, $isInt = false, $option
     }
 
     if ($hasError === true) {
-      return $hasError;
-    } else {
-      return $fieldValue;
-    }
-  
+      return array(
+          'value' => NULL,
+          'hasError' => true
+      );
+  } else {
+      return array(
+          'value' => $fieldValue,
+          'hasError' => false
+      );
   }
+}
 
   function generarPassword($longitud = 8) {
     $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
