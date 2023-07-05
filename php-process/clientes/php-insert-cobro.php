@@ -11,66 +11,18 @@
  $path = $result . "/pass/connection.php";
  require_once($path);
 
+ require_once( $rootDirectory . "/inc/php/functions.php");
 
-function data_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-  }
+    // Recibir datos del formulario y validarlos
+   $cliente = validateFormField($_POST["cliente"]);
+   $producto = validateFormField($_POST["producto"]);
+   $tipoPago = validateFormField($_POST["tipoPago"]);
+   $fecha = validateFormField($_POST["fecha"]);
+   $estado = validateFormField($_POST["estado"]);
 
-    // insert data to db
-    if (empty($_POST["cliente"])) {
-      $hasError = true;
-    } else {
-      $cliente = data_input($_POST['cliente']);
-    }
+   $numPago = validateFormField($_POST["numPago"], false, true);
+   $importe = validateFormField($_POST["importe"], true);
 
-    if (empty($_POST["producto"])) {
-      $hasError = true;
-    } else {
-      $producto = data_input($_POST['producto']);
-    }
-
-    if (empty($_POST["importe"])) {
-        $hasError = true;
-    } else {
-        $importe = data_input($_POST['importe']);
-        // Check decimal separator and convert to dot if necessary
-        if (strpos($importe, ',') !== false && strpos($importe, '.') === false) {
-          $importe = str_replace(',', '.', $importe);
-        }
-        if (!is_numeric($importe) || round($importe, 2) != $importe) {
-          $hasError = true;
-        }
-    }
-
-    if (empty($_POST["tipoPago"])) {
-      $hasError = true;
-    } else {
-      $tipoPago = data_input($_POST['tipoPago']);
-    }
-
-    if (empty($_POST["fecha"])) {
-      $fecha = null;
-    } else {
-      $fecha = data_input($_POST['fecha']);
-    }
-
-    if (empty($_POST["numPago"])) {
-      $hasError = true;
-    } else {
-      $numPago = data_input($_POST['numPago']);
-      if (!filter_var($numPago, FILTER_VALIDATE_INT, array("options" => array("min_range"=>1, "max_range"=>200)))) {
-        $hasError = true;
-      }
-    }
-    
-    if (empty($_POST["estado"])) {
-      $hasError = true;
-    } else {
-      $estado = data_input($_POST['estado']);
-    }
         
     if (!isset($hasError)) {
       $sql = "INSERT INTO txsxekgr_intranet.pagos_programados SET cliente=:cliente, producto=:producto, importe=:importe, tipoPago=:tipoPago, fecha=:fecha, estado=:estado, numPago=:numPago";
