@@ -1,5 +1,9 @@
 <?php
+session_start(); // Iniciar sesión (asegúrate de colocar esto al principio de tu archivo PHP si aún no se ha iniciado la sesión)
+
 $rootDirectory = $_SERVER['DOCUMENT_ROOT'];
+$root_server= $_SERVER['SERVER_NAME'];
+
 $substring = "/public_html/gestion";
 $result = str_replace($substring, "", $rootDirectory);
 $path = $result . "/pass/connection.php";
@@ -7,6 +11,13 @@ require_once($path);
 
 // JSON
 if ( (isset($_GET['type']) && $_GET['type'] == 'inscripcion-cursos') ) {
+
+    if (!isset($_SESSION['user'])) {
+        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
+        header('Location: '.$root_server. 'login.php');
+        exit(); // O simplemente salir del script sin mostrar nada.
+    }
+
     global $conn2;
     $data = array();
     $stmt = $conn2->prepare(
@@ -24,6 +35,12 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'inscripcion-cursos') ) {
     echo json_encode($data);
 
 }  elseif ( (isset($_GET['type']) && $_GET['type'] == 'inscripcion-curso') && (isset($_GET['id']) ) ) {
+
+    if (!isset($_SESSION['user'])) {
+        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
+        header('Location: '.$root_server. 'login.php');
+        exit(); // O simplemente salir del script sin mostrar nada.
+    }
     global $conn2;
     $id = $_GET['id'];
     $data = array();
@@ -46,6 +63,12 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'inscripcion-cursos') ) {
         }
         
 }  elseif ( (isset($_GET['type']) && $_GET['type'] == 'edicion-curso') && (isset($_GET['id']) ) ) {
+
+    if (!isset($_SESSION['user'])) {
+        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
+        header('Location: '.$root_server. 'login.php');
+        exit(); // O simplemente salir del script sin mostrar nada.
+    }
     global $conn2;
     $id = $_GET['id'];
     $data = array();
@@ -63,6 +86,12 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'inscripcion-cursos') ) {
         }
 
 }  elseif ( (isset($_GET['type']) && $_GET['type'] == 'curso') && (isset($_GET['id']) ) ) {
+
+    if (!isset($_SESSION['user'])) {
+        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
+        header('Location: '.$root_server. 'login.php');
+        exit(); // O simplemente salir del script sin mostrar nada.
+    }
     global $conn2;
     $id = $_GET['id'];
     $data = array();
