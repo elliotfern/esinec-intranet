@@ -12,12 +12,6 @@ require_once($path);
 // JSON
 if ( (isset($_GET['type']) && $_GET['type'] == 'facturas') ) {
 
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-
     global $conn2;
     $data = array();
     $stmt = $conn2->prepare("SELECT
@@ -66,13 +60,6 @@ ORDER BY post_date DESC");
 
 } elseif ( (isset($_GET['type']) && $_GET['type'] == 'pagos-programados') ) {
 
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-
-
     global $conn2;
     $data = array();
     $stmt = $conn2->prepare("SELECT p.cliente, SUM(importe) AS importe, m.meta_value as first_name, m2.meta_value as last_name
@@ -90,14 +77,6 @@ ORDER BY post_date DESC");
     echo json_encode($data);
 
 } elseif ( (isset($_GET['type']) && $_GET['type'] == 'pagos-programados-mensuales') ) {
-
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-
-
     global $conn2;
     $data = array();
     $stmt = $conn2->prepare("SELECT 
@@ -117,14 +96,6 @@ ORDER BY post_date DESC");
 
 
 }  elseif ( (isset($_GET['type']) && $_GET['type'] == 'pago-programado') && (isset($_GET['id']) ) ) {
-
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-
-
     global $conn2;
     $id = $_GET['id'];
     $data = array();
@@ -141,14 +112,6 @@ ORDER BY post_date DESC");
     echo json_encode($data);
 
 }  elseif ( (isset($_GET['type']) && $_GET['type'] == 'factura-intranet-cliente') && (isset($_GET['id']) ) ) {
-
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-
-
     global $conn;
     $id = $_GET['id'];
     $data = array();

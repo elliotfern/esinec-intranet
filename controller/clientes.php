@@ -11,13 +11,6 @@ require_once($path);
 
 // JSON
 if ( (isset($_GET['type']) && $_GET['type'] == 'clientes') ) {
-    // Verificar si el usuario está autenticado
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-
     // Resto de tu código para obtener los datos del JSON
     global $conn2;
     $data = array();
@@ -41,12 +34,6 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'clientes') ) {
     echo json_encode($data);
 
 } elseif ( (isset($_GET['type']) && $_GET['type'] == 'clientes') && (isset($_GET['id']) ) ) {
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-
     global $conn2;
     $id = $_GET['id'];
     $data = array();
@@ -65,13 +52,7 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'clientes') ) {
         }
     echo json_encode($data);
 
-} elseif ( (isset($_GET['type']) && $_GET['type'] == 'pagos-pendientes') && (isset($_GET['id']) ) ) {
-      if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-    
+} elseif ( (isset($_GET['type']) && $_GET['type'] == 'pagos-pendientes') && (isset($_GET['id']) ) ) {   
     global $conn;
     $id = $_GET['id'];
     $data = array();
@@ -90,12 +71,6 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'clientes') ) {
         }
 
 }  elseif ( (isset($_GET['type']) && $_GET['type'] == 'pago-total-cliente') && (isset($_GET['id']) ) ) {
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-
     global $conn;
     $id = $_GET['id'];
     $data = array();
@@ -125,13 +100,7 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'clientes') ) {
         }
 
 }  elseif ( (isset($_GET['type']) && $_GET['type'] == 'inscripcion-cliente') && (isset($_GET['id']) ) ) {
-      if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-    
-    global $conn;
+     global $conn;
         $id = $_GET['id'];
         $data = array();
         $stmt = $conn->prepare("SELECT 	
@@ -147,35 +116,30 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'clientes') ) {
                 }
                 echo json_encode($data);
             }
-} elseif ( (isset($_GET['type']) && $_GET['type'] == 'pago-cliente-json') && (isset($_GET['id']) ) ) {
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-
-    global $conn;
-    $id = $_GET['id'];
-    $data = array();
-    $stmt = $conn->prepare("SELECT p.importe, p.tipoPago, p.fecha, p.estado, p.numPago, p.id, p.cliente, p.producto
-    FROM txsxekgr_intranet.pagos_programados AS p
-    WHERE p.id = $id");
-        $stmt->execute();
-        if($stmt->rowCount() === 0) {
-            echo json_encode(array("message" => "No rows to show"));
-        } else {
-            while($users = $stmt->fetch(PDO::FETCH_ASSOC) ){
-                $data[] = $users;
+        } elseif (isset($_GET['type']) && $_GET['type'] == 'pago-cliente-json' && isset($_GET['id'])) {
+            global $conn;
+            $id = $_GET['id'];
+            $data = null;
+            $stmt = $conn->prepare("SELECT p.importe, p.tipoPago, p.fecha, p.estado, p.numPago, p.id, p.cliente, p.producto
+                                    FROM txsxekgr_intranet.pagos_programados AS p
+                                    WHERE p.id = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+        
+            if ($stmt->rowCount() === 1) {
+                $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            } elseif ($stmt->rowCount() > 1) {
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $data[] = $row;
+                }
+            } else {
+                echo json_encode(array("message" => "No rows to show"));
+                exit();
             }
+        
             echo json_encode($data);
-        }
-}  elseif ( (isset($_GET['type']) && $_GET['type'] == 'facturas-intranet') && (isset($_GET['id']) ) ) {
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-    
+
+}  elseif ( (isset($_GET['type']) && $_GET['type'] == 'facturas-intranet') && (isset($_GET['id']) ) ) {   
     global $conn;
     $id = $_GET['id'];
     $data = array();

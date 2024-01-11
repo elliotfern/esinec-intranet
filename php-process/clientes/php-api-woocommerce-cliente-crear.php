@@ -71,39 +71,8 @@ require_once( $rootDirectory . "/inc/php/functions.php");
     }
 
 
-// Definir la URL de la API de WooCommerce y las credenciales de autenticación
+// Definir la URL de la API de WooCommerce y las credenciales de autenticación 
 $url = 'https://esinec.com/wp-json/wc/v3/customers/';
-
-function generarPassword($longitud = 8) {
-    $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    $password = '';
-
-    $max = strlen($caracteres) - 1;
-
-    for ($i = 0; $i < $longitud; $i++) {
-        $index = mt_rand(0, $max);
-        $password .= $caracteres[$index];
-    }
-
-    return $password;
-}
-
-function unirNombres($firstName, $lastName) {
-    // Eliminar espacios y caracteres especiales del first name
-    $firstName = preg_replace('/[^A-Za-z0-9]/', '', $firstName);
-    
-    // Eliminar espacios y caracteres especiales del last name
-    $lastName = preg_replace('/[^A-Za-z0-9]/', '', $lastName);
-    
-    // Convertir a minúsculas
-    $firstName = strtolower($firstName);
-    $lastName = strtolower($lastName);
-    
-    // Unir los nombres sin espacios
-    $nombreCompleto = $firstName . $lastName;
-    
-    return $nombreCompleto;
-}
 
 $nombreCompleto = unirNombres($first_name, $last_name);
 

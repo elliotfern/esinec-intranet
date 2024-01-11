@@ -383,6 +383,13 @@ echo '<p><button type="button" id="btnGenerarFactura" class="btn btn-sm btn-prim
                                 var paymentMethod = "PayPal";
                             } else if (data[i].payment_method == 4) {
                                 var paymentMethod = "Cash";
+                            } else if (data[i].tipoPago == 5) {
+                                html += 'Financiado Frakmenta';     
+                            } else if (data[i].tipoPago == 6) {
+                                html += 'Financiado Banc Sabadell';
+                                        
+                            } else if (data[i].tipoPago == 7) {
+                                html += 'Domiciliado SEPA';
                             } else {
                                 var paymentMethod = "";
                             }
@@ -442,8 +449,8 @@ echo '<h4>Cobros programados:</h4>';
 
 echo '
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearCobro" data-variable="'.$customer_id.'">
-Añadir nuevo cobro &rarr;
+<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearCobro" data-variable="'.$customer_id.'" onclick="nuevoCobroCliente('.$customer_id.')">
+Añadir nuevo cobro &rarr; 
 </button>';
 
 ?>
@@ -505,6 +512,14 @@ Añadir nuevo cobro &rarr;
                                         html += 'PayPal';
                                     } else if (data[i].tipoPago == 3) {
                                         html += 'Tarjeta / Stripe';
+                                    } else if (data[i].tipoPago == 5) {
+                                            html += 'Financiado Frakmenta';
+                                        
+                                    } else if (data[i].tipoPago == 6) {
+                                            html += 'Financiado Banc Sabadell';
+                                        
+                                    } else if (data[i].tipoPago == 7) {
+                                            html += 'Domiciliado SEPA';
                                     }
                                 html += '</td>';
                                 
@@ -568,7 +583,7 @@ Añadir nuevo cobro &rarr;
 <h4>Inscripción curso:</h4>
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearInscripcion" data-variable="<?php echo $customer_id;?>">
+<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearInscripcion" data-variable="<?php echo $customer_id;?>" onclick="nuevoSubscripcionCliente(<?php echo $customer_id;?>)">
 Añadir nueva inscripción &rarr;
 </button>
 

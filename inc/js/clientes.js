@@ -845,3 +845,46 @@ function AvisoEmailCobroProgramado(idCobro) {
     },
   });
 }
+
+
+// ABRIR MODAL PARA INSERTAR DATOS DE COBRO DE UN CLIENTE
+function nuevoCobroCliente(idCliente) {
+  var idCliente = idCliente;
+  var server = window.location.hostname;
+  var urlAjax =
+    "https://" + server + "/php-forms/clientes/modal-nuevo-cobro.php";
+  $.ajax({
+    url: urlAjax, //the page containing php script
+    type: "post", //request type,
+    data: {
+      idCliente: idCliente,
+      registration: "yes",
+    },
+    success: function (response) {
+      // Add response in Modal body
+      $("#bodyModalAddNuevoCobro").html(response);
+      $("#bodyModalAddNuevoCobro").show();
+    },
+  });
+}
+
+// ABRIR MODAL PARA INSERTAR SUBSCRIPCION CLIENTE
+function nuevoSubscripcionCliente(idCliente) {
+  var idCliente = idCliente;
+  var server = window.location.hostname;
+  var urlAjax =
+    "https://" + server + "/php-forms/clientes/modal-nuevo-subscripcion.php";
+  $.ajax({
+    url: urlAjax, //the page containing php script
+    type: "post", //request type,
+    data: {
+      idCliente: idCliente,
+      registration: "yes",
+    },
+    success: function (response) {
+      // Add response in Modal body
+      $("#bodyModalAddNuevoSubscripcion").html(response);
+      $("#bodyModalAddNuevoSubscripcion").show();
+    },
+  });
+}

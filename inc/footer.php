@@ -3,7 +3,7 @@
 
 <hr>
 
-<h5>2023 - ESINEC</h5>
+<h5>2024 - ESINEC</h5>
 <h6>Versión 1.0 - Notas para desarrolladores</h6>
 </div>
 

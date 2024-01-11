@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 $url_root = $_SERVER['DOCUMENT_ROOT'];
 define("APP_ROOT", $url_root); 

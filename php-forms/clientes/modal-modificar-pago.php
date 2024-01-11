@@ -1,5 +1,4 @@
 <?php
-
 $url2 = $_SERVER['SERVER_NAME'];
 
 $rootDirectory = $_SERVER['DOCUMENT_ROOT'];
@@ -21,11 +20,18 @@ if (isset($_POST['idPago2'])) {
         //call api
         //read json file from url in php
         $url = "https://" . $url2 . "/controller/clientes.php?type=pago-cliente-json&id=" .$idPago2;
-        $input = file_get_contents($url);
-        $arr = json_decode($input, true);
-        $vault = $arr[0];
 
-            $id_old = $vault['id']; 
+       // Read the JSON data from the URL
+        $jsonData = file_get_contents($url);
+
+        // Decode the JSON data
+        $vault = json_decode($jsonData, true);
+
+        // Assuming there is only one result, use the first element
+
+
+            // The rest of your code here
+            $id_old = $vault['id'];
             $importe_old = $vault['importe'];
             $producto_old = $vault['producto'];
             $cliente_old = $vault['cliente'];
@@ -106,13 +112,11 @@ if (isset($_POST['idPago2'])) {
                         }
                   }
                 echo '</select>';
-                echo '<label style="color:#dc3545;display:none" id="countryCheck">* Missing data</label>';
                 echo '</div>';
     
                 echo '<div class="col-md-4">';
                 echo '<label>Importe total (sólo número)</label>';
                 echo '<input class="form-control" type="text" name="importe2" id="importe2"  value="'.$importe_old.'">';
-                echo '<label style="color:#dc3545;display:none" id="AutNomCheck">* Invalid data</label>';
                 echo '</div>';
     
                 echo '<div class="col-md-4">
@@ -120,36 +124,80 @@ if (isset($_POST['idPago2'])) {
                 <select class="form-select" name="tipoPago2" id="tipoPago2">';
                 if ($tipoPago_old == 1) {
                     echo '<option>Selecciona una opción</option>';
-                    echo "<option value='1' selected>Transferencia bancaria</option>";
-                    echo "<option value='2'>Cash</option>";
-                    echo "<option value='3'>Stripe - tarjeta</option>";
+                    echo "<option value='1' selected>1) Transferencia bancaria</option>";
+                    echo "<option value='2'>2) Cash</option>";
+                    echo "<option value='3'>3) Tarjeta/Stripe</option>";
+                    echo "<option value='4'>4) PayPal</option>";
+                    echo "<option value='5'>5) Financiado Frakmenta</option>";
+                    echo "<option value='6'>6) Financiado Banc Sabadell</option>";
+                    echo "<option value='7'>7) Domiciliado SEPA</option>";
                     echo '</select>';
                 } elseif ($tipoPago_old == 2) {
                     echo '<option>Selecciona una opción</option>';
-                    echo "<option value='1'>Transferencia bancaria</option>";
-                    echo "<option value='2' selected>Cash</option>";
-                    echo "<option value='3'>Stripe - tarjeta</option>";
+                    echo "<option value='1'>1) Transferencia bancaria</option>";
+                    echo "<option value='2' selected>2) Cash</option>";
+                    echo "<option value='3'>3) Tarjeta/Stripe</option>";
+                    echo "<option value='4'>4) PayPal</option>";
+                    echo "<option value='5'>5) Financiado Frakmenta</option>";
+                    echo "<option value='6'>6) Financiado Banc Sabadell</option>";
+                    echo "<option value='7'>7) Domiciliado SEPA</option>";
                     echo '</select>';
                 } elseif ($tipoPago_old == 3) {
-                    echo '<option>Selecciona una opción</option>';
-                    echo "<option value='1'>Transferencia bancaria</option>";
-                    echo "<option value='2'>Cash</option>";
-                    echo "<option value='3' selected>Stripe - tarjeta</option>";
+                    echo "<option value='1'>1) Transferencia bancaria</option>";
+                    echo "<option value='2'>2) Cash</option>";
+                    echo "<option value='3' selected>3) Tarjeta/Stripe</option>";
+                    echo "<option value='4'>4) PayPal</option>";
+                    echo "<option value='5'>5) Financiado Frakmenta</option>";
+                    echo "<option value='6'>6) Financiado Banc Sabadell</option>";
+                    echo "<option value='7'>7) Domiciliado SEPA</option>";
+                    echo '</select>';
+                } elseif ($tipoPago_old == 4) {
+                    echo "<option value='1'>1) Transferencia bancaria</option>";
+                    echo "<option value='2'>2) Cash</option>";
+                    echo "<option value='3'>3) Tarjeta/Stripe</option>";
+                    echo "<option value='4' selected>4) PayPal</option>";
+                    echo "<option value='5'>5) Financiado Frakmenta</option>";
+                    echo "<option value='6'>6) Financiado Banc Sabadell</option>";
+                    echo "<option value='7'>7) Domiciliado SEPA</option>";
+                    echo '</select>';
+                } elseif ($tipoPago_old == 5) {
+                    echo "<option value='1'>1) Transferencia bancaria</option>";
+                    echo "<option value='2'>2) Cash</option>";
+                    echo "<option value='3'>3) Tarjeta/Stripe</option>";
+                    echo "<option value='4'>4) PayPal</option>";
+                    echo "<option value='5' selected>5) Financiado Frakmenta</option>";
+                    echo "<option value='6'>6) Financiado Banc Sabadell</option>";
+                    echo "<option value='7'>7) Domiciliado SEPA</option>";
+                    echo '</select>';
+                } elseif ($tipoPago_old == 6) {
+                    echo "<option value='1'>1) Transferencia bancaria</option>";
+                    echo "<option value='2'>2) Cash</option>";
+                    echo "<option value='3'>3) Tarjeta/Stripe</option>";
+                    echo "<option value='4'>4) PayPal</option>";
+                    echo "<option value='5'>5) Financiado Frakmenta</option>";
+                    echo "<option value='6' selected>6) Financiado Banc Sabadell</option>";
+                    echo "<option value='7'>7) Domiciliado SEPA</option>";
+                    echo '</select>';
+                } elseif ($tipoPago_old == 7) {
+                    echo "<option value='1'>1) Transferencia bancaria</option>";
+                    echo "<option value='2'>2) Cash</option>";
+                    echo "<option value='3'>3) Tarjeta/Stripe</option>";
+                    echo "<option value='4'>4) PayPal</option>";
+                    echo "<option value='5'>5) Financiado Frakmenta</option>";
+                    echo "<option value='6'>6) Financiado Banc Sabadell</option>";
+                    echo "<option value='7' selected>7) Domiciliado SEPA</option>";
                     echo '</select>';
                 }
-                echo '<label style="color:#dc3545;display:none" id="countryCheck">* Missing data</label>';
                 echo '</div>';
-    
+
                 echo '<div class="col-md-4">';
                 echo '<label>Fecha del pago</label>';
                 echo '<input class="form-control" type="date" name="fecha2" id="fecha2"  value="'.$fecha_old.'">';
-                echo '<label style="color:#dc3545;display:none" id="AutCognom1Check">* Missing data</label>';
                 echo '</div>';
     
                 echo '<div class="col-md-4">';
                 echo '<label>Número del pago (sólo número entre 1-200)</label>';
                 echo '<input class="form-control" type="text" name="numPago2" id="numPago2"  value="'.$numPago_old.'">';
-                echo '<label style="color:#dc3545;display:none" id="AutCognom1Check">* Missing data</label>';
                 echo '</div>';
     
                 echo '<div class="col-md-4">

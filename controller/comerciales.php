@@ -11,11 +11,6 @@ require_once($path);
 
 // JSON
 if ( (isset($_GET['type']) && $_GET['type'] == 'comerciales') ) {
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
 
     global $conn;
     $data = array();
@@ -31,11 +26,6 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'comerciales') ) {
     echo json_encode($data);
 
 }  elseif ( (isset($_GET['type']) && $_GET['type'] == 'comercial-equipo') && (isset($_GET['id']) ) ) {
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
 
     global $conn;
     $id = $_GET['id'];
@@ -51,14 +41,6 @@ if ( (isset($_GET['type']) && $_GET['type'] == 'comerciales') ) {
         }
     echo json_encode($data);
 } elseif ( (isset($_GET['type']) && $_GET['type'] == 'comerciales-equipos') ) {
-
-    if (!isset($_SESSION['user'])) {
-        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión o mostrar un mensaje de error.
-        header('Location: '.$root_server. 'login.php');
-        exit(); // O simplemente salir del script sin mostrar nada.
-    }
-
-
     global $conn;
     $data = array();
     $stmt = $conn->prepare(
